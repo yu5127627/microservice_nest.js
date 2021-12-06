@@ -1,8 +1,8 @@
 {
   "name": "microservice",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "nestjs微服务",
+  "author": "ykn",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

@@ -13,7 +13,7 @@ export class ResponseInterceptors implements NestInterceptor {
     // 请求的内容
     const request = context.switchToHttp().getRequest();
     // 返回的内容
-    const response = context.switchToHttp().getResponse();
+    // const response = context.switchToHttp().getResponse();
     const now = Date.now();
 
     return next.handle().pipe(
