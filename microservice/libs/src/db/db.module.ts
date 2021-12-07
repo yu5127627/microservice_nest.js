@@ -16,7 +16,7 @@ import { User } from './entity/user.entity';
         database: 'microservice',
         entities: [User, Role, Manage],
         synchronize: true,
-        logger: 'debug',
+        logger: 'file',
         logging: true,
         timezone: 'Z',
       }),

@@ -3,9 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToOne,
+  Index,
 } from 'typeorm';
-import { Role } from './role.entity';
 
 @Entity('manage')
 export class Manage {
@@ -21,6 +20,7 @@ export class Manage {
   @CreateDateColumn({ type: 'datetime' })
   ctime: string;
 
-  @ManyToOne((type) => Role, (role) => role.manage)
-  role: Role;
+  @Column()
+  @Index()
+  roleId: number;
 }

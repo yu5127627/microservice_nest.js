@@ -12,8 +12,7 @@ async function bootstrap() {
   // 全局验证
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: true, // 关闭详细错误信息
-      whitelist: true, // 过滤多余属性
+      disableErrorMessages: false, // 关闭详细错误信息
       transform: true, // 类型转换
     }),
   );

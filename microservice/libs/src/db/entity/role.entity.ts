@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Manage } from './manage.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('role')
 export class Role {
@@ -14,7 +13,4 @@ export class Role {
 
   @Column({ nullable: true })
   description: string;
-
-  @OneToMany((type) => Manage, (manage) => manage.role)
-  manage: Manage[];
 }
