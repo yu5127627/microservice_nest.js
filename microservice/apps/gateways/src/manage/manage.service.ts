@@ -4,10 +4,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hashSync } from 'bcryptjs';
 import { Like, Repository } from 'typeorm';
-import { ManageCreateDto } from './dto/manageCreate.dto';
-import { ManagePagesDto } from './dto/managePages.dto';
-import { ManageUpdateDto } from './dto/manageUpdate.dto';
-import { ManagePageWhere } from './interface/managePageWhere.interface';
+import { ManageCreateDto } from './dto/ManageCreate.dto';
+import { ManagePagesDto } from './dto/ManagePages.dto';
+import { ManageUpdateDto } from './dto/ManageUpdate.dto';
+import { ManagePageWhere } from './interface/ManagePageWhere.interface';
+const DEFAULT_MODEL = 'manageModel';
 
 @Injectable()
 export class ManageService {
@@ -17,19 +18,19 @@ export class ManageService {
 
   async create(body: ManageCreateDto): Promise<Manage> {
     body.password = hashSync(body.password);
-    return await this.manageModel.save(body);
+    return await this[DEFAULT_MODEL].save(body);
   }
 
   async update(id: number, body: ManageUpdateDto): Promise<Manage> {
     if (body.password) {
       body.password = hashSync(body.password);
     }
-    await this.manageModel.update(id, body);
-    return await this.manageModel.findOne(id);
+    await this[DEFAULT_MODEL].update(id, body);
+    return await this[DEFAULT_MODEL].findOne(id);
   }
 
   async delete(ids: number[]): Promise<any> {
-    return await this.manageModel.delete(ids);
+    return await this[DEFAULT_MODEL].delete(ids);
   }
 
   async pages(query: ManagePagesDto): Promise<Pagination<Manage>> {
@@ -43,7 +44,7 @@ export class ManageService {
     if (username) managefilter.where.username = Like(`%${username}%`);
     if (roleId) managefilter.where.roleId = roleId;
 
-    const [rows, total] = await this.manageModel.findAndCount(managefilter);
+    const [rows, total] = await this[DEFAULT_MODEL].findAndCount(managefilter);
     return {
       rows,
       total,
