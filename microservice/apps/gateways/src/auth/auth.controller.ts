@@ -1,14 +1,18 @@
-import { Controller, Post, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { ManageLocalLoginDto } from './dto/ManageLocalLogin.dto';
 
 @Controller('auth')
+@ApiTags('认证')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard('ManageLocal'))
   @Post('login')
-  async login(@Request() req) {
+  @UseGuards(AuthGuard('ManageLocal'))
+  @ApiOperation({ summary: 'manager login' })
+  async login(@Body() body: ManageLocalLoginDto, @Request() req) {
     const token = await this.authService.createToken(req.user);
     return {
       code: 200,

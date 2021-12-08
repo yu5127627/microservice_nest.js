@@ -1,7 +1,7 @@
 import { HttpExceptionFilter } from '@app/libs/common/filters/http-exception.filter';
 import { ResponseInterceptors } from '@app/libs/common/interceptor/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
