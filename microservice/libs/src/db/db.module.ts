@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Manage } from './entity/manage.entity';
+import { Menu } from './entity/menu.entity';
 import { Role } from './entity/role.entity';
 import { User } from './entity/user.entity';
 
@@ -14,7 +15,7 @@ import { User } from './entity/user.entity';
         username: 'root',
         password: '123456',
         database: 'microservice',
-        entities: [User, Role, Manage],
+        entities: [User, Role, Manage, Menu],
         synchronize: true,
         logger: 'file',
         logging: true,

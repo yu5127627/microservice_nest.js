@@ -3,8 +3,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { ManageModule } from './manage/manage.module';
-import { RuleModule } from './rule/rule.module';
 import { DbModule } from '@app/libs/db/db.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -12,8 +12,8 @@ import { DbModule } from '@app/libs/db/db.module';
     UserModule,
     RoleModule,
     ManageModule,
-    RuleModule,
     DbModule,
+    MenuModule,
   ],
 })
 export class AppModule {}
