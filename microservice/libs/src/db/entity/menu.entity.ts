@@ -12,19 +12,16 @@ export class Menu {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, default: 1, comment: '0:目录 1:菜单' })
+  @Column({ nullable: false, default: 1, comment: '0:目录 1:菜单 2:外链' })
   type: number;
 
   @Column({ length: 30, nullable: false, default: '', comment: '图标' })
   icon: string;
 
-  @Column({ default: 0, comment: '外链菜单' })
-  islink: boolean;
-
-  @Column({ default: 0, comment: '菜单是否缓存' })
+  @Column({ default: 0, nullable: false, comment: '菜单是否缓存' })
   cache: boolean;
 
-  @Column({ default: 0, comment: '是否在菜单显示' })
+  @Column({ default: 0, nullable: false, comment: '是否在菜单显示' })
   hide: boolean;
 
   @Column({ length: 30, nullable: false, default: '', comment: '菜单名称' })
@@ -36,7 +33,7 @@ export class Menu {
   @Column({ length: 20, nullable: false, default: '', comment: '组件名称' })
   name: string;
 
-  @Column({ length: 50, nullable: false, default: '', comment: '操作规则' })
+  @Column({ length: 50, nullable: true, default: '', comment: '操作规则' })
   action: string;
 
   @Column({ nullable: false, default: 99, comment: '排序' })
