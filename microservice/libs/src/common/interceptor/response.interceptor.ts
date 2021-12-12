@@ -20,11 +20,11 @@ export class ResponseInterceptors implements NestInterceptor {
       map((data) => {
         const { message, code, result } = data;
         return {
-          code,
+          code: code || 200,
           path: request.url,
-          message,
+          message: message || '操作成功',
           responsetime: `${Date.now() - now}ms`,
-          result,
+          result: result || data,
         };
       }),
     );
