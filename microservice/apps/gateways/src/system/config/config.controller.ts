@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Result } from '@app/libs/common/interface/result.interface';
+import { Controller, Get, Param, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ConfigService } from './config.service';
 const DEFAULT_SERVICE = 'configService';
 
@@ -8,8 +9,17 @@ const DEFAULT_SERVICE = 'configService';
 export class ConfigController {
   constructor(private readonly configService: ConfigService) {}
 
-  @Get()
-  list() {
-    return this[DEFAULT_SERVICE].list();
+  @Get('/:mode')
+  @ApiOperation({ summary: '获取配置列表' })
+  list(@Param('mode') mode: string): Result {
+    const result = this[DEFAULT_SERVICE].list(mode);
+    return { result };
+  }
+
+  @Put('refresh')
+  @ApiOperation({ summary: '刷新配置列表' })
+  async refresh(): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].syncConfig();
+    return { result };
   }
 }
