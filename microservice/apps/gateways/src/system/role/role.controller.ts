@@ -39,12 +39,20 @@ export class RoleController {
     @Param('id') id: number,
     @Body() body: RoleUpdateDto,
   ): Promise<Result> {
-    console.log(body);
-
     const result = await this[DEFAULT_SERVICE].update(id, body);
     return {
       code: 200,
       message: '角色修改成功',
+      result,
+    };
+  }
+
+  @Put('rules/:id')
+  @ApiOperation({ summary: '修改角色权限' })
+  async setRules(@Param('id') id: number, @Body() body): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].setRules(id, body);
+    return {
+      message: '角色权限修改成功',
       result,
     };
   }

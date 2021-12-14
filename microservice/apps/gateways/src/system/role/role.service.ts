@@ -24,6 +24,10 @@ export class RoleService {
     return await this[DEFAULT_MODEL].findOne(id);
   }
 
+  async setRules(id: number, body) {
+    return {};
+  }
+
   async delete(ids: number[]): Promise<any> {
     return await this[DEFAULT_MODEL].delete(ids);
   }

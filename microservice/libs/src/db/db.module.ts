@@ -9,15 +9,24 @@ import { User } from './entity/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        ...configSetting._db,
-        type: 'mysql',
-        entities: [User, Role, Manage, Menu, Setting],
-        synchronize: true,
-        logger: 'file',
-        logging: true,
-        timezone: 'Z',
-      }),
+      useFactory: () => {
+        if (configSetting._db) {
+          Object.assign(process.env, configSetting._db);
+        }
+        return {
+          host: process.env.db_host,
+          port: Number(process.env.db_port),
+          username: process.env.db_username,
+          password: process.env.db_password,
+          database: process.env.db_database,
+          type: 'mysql',
+          entities: [User, Role, Manage, Menu, Setting],
+          synchronize: true,
+          logger: 'file',
+          logging: true,
+          timezone: 'Z',
+        };
+      },
     }),
   ],
 })

@@ -8,11 +8,11 @@ export default {
     gateways: 8000,
   },
   _db: {
-    host: '127.0.0.1',
-    port: 3306,
-    username: 'root',
-    password: '123456',
-    database: 'microservice',
+    db_host: '127.0.0.1',
+    db_port: 3306,
+    db_username: 'root',
+    db_password: '123456',
+    db_database: 'microservice',
   },
   title: 'nestjs后台管理模版',
 };
