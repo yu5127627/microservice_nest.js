@@ -71,4 +71,14 @@ export class ManageController {
       result,
     };
   }
+
+  @Get(':id')
+  @ApiOperation({ summary: '管理员详情' })
+  async detail(@Param('id') id: number): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].detail(id);
+    return {
+      message: '管理员信息查询成功',
+      result,
+    };
+  }
 }

@@ -33,6 +33,10 @@ export class ManageService {
     return await this[DEFAULT_MODEL].delete(ids);
   }
 
+  async detail(id: number): Promise<Manage> {
+    return await this[DEFAULT_MODEL].findOne(id);
+  }
+
   async pages(query: ManagePagesDto): Promise<Pagination<Manage>> {
     const { username, page, limit, roleId } = query;
     const managefilter: ManagePageWhere = {
