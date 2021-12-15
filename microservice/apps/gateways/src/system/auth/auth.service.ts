@@ -32,4 +32,9 @@ export class AuthService {
   createToken(payload) {
     return this.jwtService.sign(payload);
   }
+
+  // 解析 token
+  vertifyToken(token, secret) {
+    return this.jwtService.verify(token.slice(7), { secret });
+  }
 }

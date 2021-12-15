@@ -1,3 +1,6 @@
+import { Rules } from '@app/libs/common/decorator/rules.decorator';
+import { AuthGuard } from '@app/libs/common/guards/auth.guard';
+import { RulesGuard } from '@app/libs/common/guards/rules.guard';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -9,8 +12,10 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MenuCreateDto } from './dto/MenuCreate.dto';
 import { MenuListDto } from './dto/MenuList.dto';
 import { MenuUpdateDto } from './dto/MenuUpdate.dto';
@@ -63,6 +68,10 @@ export class MenuController {
 
   @Get('list')
   @ApiOperation({ summary: '列表查询' })
+  @Rules(['menu:create', 'menu:view'])
+  @UseGuards(RulesGuard)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   async list(
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<MenuListDto>,

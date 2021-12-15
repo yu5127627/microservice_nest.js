@@ -14,8 +14,6 @@ export class ManageLocalStrategy extends PassportStrategy(
 
   // passport 的验证方法
   async validate(username: string, password: string): Promise<any> {
-    console.log(username, password);
-
     const user = await this.authService.validateManage(username, password);
     if (!user) throw new UnauthorizedException();
     return user;
