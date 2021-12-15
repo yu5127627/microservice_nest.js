@@ -9,8 +9,7 @@ export class MenuCreateDto {
   })
   readonly type: number;
 
-  @ApiProperty({ required: true, default: 'icon', description: '图标' })
-  @IsNotEmpty({ message: 'icon必填' })
+  @ApiProperty({ required: false, default: 'icon', description: '图标' })
   readonly icon: string;
 
   @ApiProperty({ required: false, default: 0, description: '菜单是否缓存' })
@@ -23,12 +22,10 @@ export class MenuCreateDto {
   @IsNotEmpty({ message: '菜单名称必填' })
   readonly title: string;
 
-  @ApiProperty({ required: true, default: '/', description: '路由地址' })
-  @IsNotEmpty({ message: '路由地址必填' })
+  @ApiProperty({ required: false, default: '', description: '路由地址' })
   readonly url: string;
 
-  @ApiProperty({ required: true, default: '测试', description: '组件名称' })
-  @IsNotEmpty({ message: '组件名称必填' })
+  @ApiProperty({ required: false, default: '测试', description: '组件名称' })
   readonly name: string;
 
   @ApiProperty({
@@ -42,11 +39,10 @@ export class MenuCreateDto {
   readonly sort: number;
 
   @ApiProperty({
-    required: true,
+    required: false,
     default: '/temp/index.vue',
     description: '组件路径',
   })
-  @IsNotEmpty({ message: '组件路径必填' })
   readonly path: string;
 
   @ApiProperty({ required: true, default: 0, description: '父菜单ID 0:无' })

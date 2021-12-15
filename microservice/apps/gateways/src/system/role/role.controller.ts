@@ -14,6 +14,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RoleCreateDto } from './dto/RoleCreate.dto';
 import { RoleListDto } from './dto/RoleList.dto';
 import { RolePagesDto } from './dto/RolePages.dto';
+import { RoleRulesDto } from './dto/RoleRules.dto';
 import { RoleUpdateDto } from './dto/RoleUpdate.dto';
 import { RoleService } from './role.service';
 const DEFAULT_SERVICE = 'roleService';
@@ -49,7 +50,10 @@ export class RoleController {
 
   @Put('rules/:id')
   @ApiOperation({ summary: '修改角色权限' })
-  async setRules(@Param('id') id: number, @Body() body): Promise<Result> {
+  async setRules(
+    @Param('id') id: number,
+    @Body() body: RoleRulesDto,
+  ): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].setRules(id, body);
     return {
       message: '角色权限修改成功',

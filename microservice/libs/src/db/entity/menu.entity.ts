@@ -1,18 +1,15 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { Role } from './role.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('menu')
 export class Menu {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, default: 1, comment: '0:目录 1:菜单 2:外链' })
+  @Column({
+    nullable: false,
+    default: 1,
+    comment: '0:目录 1:菜单 2:外链 3:规则',
+  })
   type: number;
 
   @Column({ length: 30, nullable: false, default: '', comment: '图标' })
@@ -27,7 +24,7 @@ export class Menu {
   @Column({ length: 30, nullable: false, default: '', comment: '菜单名称' })
   title: string;
 
-  @Column({ length: 100, nullable: false, default: '/', comment: '路由地址' })
+  @Column({ length: 100, nullable: false, default: '', comment: '路由地址' })
   url: string;
 
   @Column({ length: 20, nullable: false, default: '', comment: '组件名称' })
@@ -45,6 +42,6 @@ export class Menu {
   @Column({ nullable: false, default: 0, comment: '父菜单ID 0:无' })
   pid: number;
 
-  @ManyToMany(() => Role, (role) => role.menu)
-  role: Role[];
+  // @ManyToMany(() => Role, (role) => role.menu)
+  // role: Role[];
 }

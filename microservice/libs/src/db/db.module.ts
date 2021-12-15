@@ -4,6 +4,7 @@ import configSetting from '../../../apps/gateways/src/system/config/config.setti
 import { Manage } from './entity/manage.entity';
 import { Menu } from './entity/menu.entity';
 import { Role } from './entity/role.entity';
+import { RoleMenu } from './entity/roleMenu.entity';
 import { Setting } from './entity/setting.entity';
 import { User } from './entity/user.entity';
 @Module({
@@ -20,7 +21,7 @@ import { User } from './entity/user.entity';
           password: process.env.db_password,
           database: process.env.db_database,
           type: 'mysql',
-          entities: [User, Role, Manage, Menu, Setting],
+          entities: [User, Role, Manage, Menu, Setting, RoleMenu],
           synchronize: true,
           logger: 'file',
           logging: true,

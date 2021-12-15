@@ -1,10 +1,12 @@
 import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { Role } from '@app/libs/db/entity/role.entity';
+import { RoleMenu } from '@app/libs/db/entity/roleMenu.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { RoleCreateDto } from './dto/RoleCreate.dto';
 import { RolePagesDto } from './dto/RolePages.dto';
+import { RoleRulesDto } from './dto/RoleRules.dto';
 import { RoleUpdateDto } from './dto/RoleUpdate.dto';
 import { RolePageWhere } from './interface/RolePageWhere.interface';
 const DEFAULT_MODEL = 'roleModel';
@@ -13,6 +15,8 @@ const DEFAULT_MODEL = 'roleModel';
 export class RoleService {
   constructor(
     @InjectRepository(Role) private readonly roleModel: Repository<Role>,
+    @InjectRepository(RoleMenu)
+    private readonly roleMenuModel: Repository<RoleMenu>,
   ) {}
 
   async create(body: RoleCreateDto): Promise<Role> {
@@ -24,8 +28,12 @@ export class RoleService {
     return await this[DEFAULT_MODEL].findOne(id);
   }
 
-  async setRules(id: number, body) {
-    return {};
+  async setRules(id: number, body: RoleRulesDto) {
+    await this.roleMenuModel.delete({ roleId: id });
+    const arr = body.menuIds.map((item) => {
+      return { roleId: id, menuId: item };
+    });
+    return await this.roleMenuModel.save(arr);
   }
 
   async delete(ids: number[]): Promise<any> {
