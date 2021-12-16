@@ -7,7 +7,7 @@ import {
 import { AuthService } from 'apps/gateways/src/system/auth/auth.service';
 import { Observable } from 'rxjs';
 
-// token 解析，可以解析管理员和用户的token
+// token 验证
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly authService: AuthService) {}

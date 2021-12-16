@@ -1,5 +1,5 @@
 import { Manage } from '@app/libs/db/entity/manage.entity';
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,8 +7,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ManageLocalStrategy } from './strategy/manageLocal.strategy';
 import setting from '../config/config.setting';
+import { AuthGuard } from '@app/libs/common/guards/auth.guard';
 
-@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([Manage]),
@@ -19,7 +19,7 @@ import setting from '../config/config.setting';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, ManageLocalStrategy],
+  providers: [AuthService, ManageLocalStrategy, AuthGuard],
   exports: [AuthService],
 })
 export class AuthModule {}

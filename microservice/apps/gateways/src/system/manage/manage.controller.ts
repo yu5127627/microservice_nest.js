@@ -1,3 +1,4 @@
+import { Auth } from '@app/libs/common/decorator/auth.decorator';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -24,6 +25,7 @@ export class ManageController {
 
   @Post()
   @ApiOperation({ summary: '创建管理员' })
+  @Auth(['manage:create'])
   async create(@Body() body: ManageCreateDto): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].create(body);
     return {
@@ -35,6 +37,7 @@ export class ManageController {
 
   @Put(':id')
   @ApiOperation({ summary: '修改管理员' })
+  @Auth(['manage:update'])
   async update(
     @Param('id') id: number,
     @Body() body: ManageUpdateDto,
@@ -49,6 +52,7 @@ export class ManageController {
 
   @Delete()
   @ApiOperation({ summary: '删除管理员' })
+  @Auth(['manage:delete'])
   async delete(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
@@ -63,6 +67,7 @@ export class ManageController {
 
   @Get()
   @ApiOperation({ summary: '分页查询' })
+  @Auth(['manage:view'])
   async pages(@Query() query: ManagePagesDto): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].pages(query);
     return {
@@ -74,6 +79,7 @@ export class ManageController {
 
   @Get(':id')
   @ApiOperation({ summary: '管理员详情' })
+  @Auth(['manage:view'])
   async detail(@Param('id') id: number): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].detail(id);
     return {

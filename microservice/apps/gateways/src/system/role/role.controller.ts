@@ -1,3 +1,4 @@
+import { Auth } from '@app/libs/common/decorator/auth.decorator';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -25,6 +26,7 @@ export class RoleController {
 
   @Post()
   @ApiOperation({ summary: '创建角色' })
+  @Auth(['role:create'])
   async create(@Body() body: RoleCreateDto): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].create(body);
     return {
@@ -36,6 +38,7 @@ export class RoleController {
 
   @Put(':id')
   @ApiOperation({ summary: '修改角色' })
+  @Auth(['role:update'])
   async update(
     @Param('id') id: number,
     @Body() body: RoleUpdateDto,
@@ -48,9 +51,10 @@ export class RoleController {
     };
   }
 
-  @Put('rules/:id')
+  @Put('action/:id')
   @ApiOperation({ summary: '修改角色权限' })
-  async setRules(
+  @Auth(['roleMenu:create', 'roleMenu:delete'])
+  async setAction(
     @Param('id') id: number,
     @Body() body: RoleRulesDto,
   ): Promise<Result> {
@@ -63,6 +67,7 @@ export class RoleController {
 
   @Delete()
   @ApiOperation({ summary: '删除角色' })
+  @Auth(['role:delete'])
   async delete(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
@@ -77,6 +82,7 @@ export class RoleController {
 
   @Get()
   @ApiOperation({ summary: '分页查询' })
+  @Auth(['role:view'])
   async pages(@Query() query: RolePagesDto): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].pages(query);
     return {
@@ -88,6 +94,7 @@ export class RoleController {
 
   @Get('list')
   @ApiOperation({ summary: '列表查询' })
+  @Auth(['role:view'])
   async list(
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<RoleListDto>,

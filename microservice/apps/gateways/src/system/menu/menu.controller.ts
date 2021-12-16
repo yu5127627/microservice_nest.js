@@ -1,6 +1,4 @@
-import { Rules } from '@app/libs/common/decorator/rules.decorator';
-import { AuthGuard } from '@app/libs/common/guards/auth.guard';
-import { RulesGuard } from '@app/libs/common/guards/rules.guard';
+import { Auth } from '@app/libs/common/decorator/auth.decorator';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -12,10 +10,8 @@ import {
   Post,
   Put,
   Query,
-  Req,
-  UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MenuCreateDto } from './dto/MenuCreate.dto';
 import { MenuListDto } from './dto/MenuList.dto';
 import { MenuUpdateDto } from './dto/MenuUpdate.dto';
@@ -29,10 +25,10 @@ export class MenuController {
 
   @Post()
   @ApiOperation({ summary: '创建菜单' })
+  @Auth(['menu:create'])
   async create(@Body() body: MenuCreateDto): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].create(body);
     return {
-      code: 200,
       message: '菜单创建成功',
       result,
     };
@@ -40,6 +36,7 @@ export class MenuController {
 
   @Put(':id')
   @ApiOperation({ summary: '修改菜单' })
+  @Auth(['menu:update'])
   async update(
     @Param('id') id: number,
     @Body() body: MenuUpdateDto,
@@ -54,6 +51,7 @@ export class MenuController {
 
   @Delete()
   @ApiOperation({ summary: '删除菜单' })
+  @Auth(['menu:delete'])
   async delete(
     @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
@@ -68,10 +66,7 @@ export class MenuController {
 
   @Get('list')
   @ApiOperation({ summary: '列表查询' })
-  @Rules(['menu:create', 'menu:view'])
-  @UseGuards(RulesGuard)
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
+  @Auth(['menu:view'])
   async list(
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<MenuListDto>,
