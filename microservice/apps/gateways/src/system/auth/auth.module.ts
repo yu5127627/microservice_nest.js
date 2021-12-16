@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ManageLocalStrategy } from './strategy/manageLocal.strategy';
-import setting from '../config/config.setting';
 import { AuthGuard } from '@app/libs/common/guards/auth.guard';
 
 @Module({
@@ -14,7 +13,7 @@ import { AuthGuard } from '@app/libs/common/guards/auth.guard';
     TypeOrmModule.forFeature([Manage]),
     PassportModule,
     JwtModule.register({
-      secret: setting._token_secret,
+      secret: process.env.TOKEN_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
   ],

@@ -2,6 +2,8 @@ import { Setting } from '@app/libs/db/entity/setting.entity';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import DEFAULT_SETTING from './config.setting';
+import DEFAULT_OPTION from './config.option';
 const DEFAULT_MODEL = 'settingModel';
 
 // 继承 onApplicationBootstrap，在初始化所有模块后调用，但在侦听连接之前调用。
@@ -22,13 +24,13 @@ export class ConfigService implements OnApplicationBootstrap {
     const setting = this.getConfig();
     // 做复制使用，保留初始化数据
     this.defaultSetting = JSON.parse(JSON.stringify(setting));
-    this.defaultOption = JSON.parse(JSON.stringify(global.app.config.option));
+    this.defaultOption = JSON.parse(JSON.stringify(DEFAULT_OPTION));
   }
 
   // 过滤不可更新的数据
   private getConfig() {
     const setting = {};
-    for (const [key, val] of Object.entries(global.app.config.setting)) {
+    for (const [key, val] of Object.entries(DEFAULT_SETTING)) {
       if (key.charAt(0) != '_') setting[key] = val;
     }
     return setting;
