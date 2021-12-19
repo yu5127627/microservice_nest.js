@@ -12,9 +12,13 @@ import { AuthGuard } from '@app/libs/common/guards/auth.guard';
   imports: [
     TypeOrmModule.forFeature([Manage]),
     PassportModule,
-    JwtModule.register({
-      secret: process.env.TOKEN_SECRET,
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      useFactory: async () => {
+        return {
+          secret: process.env.TOKEN_SECRET,
+          signOptions: { expiresIn: '1d' },
+        };
+      },
     }),
   ],
   controllers: [AuthController],

@@ -77,7 +77,7 @@ export default {
     return {
       mark, title,
       loginForm: {
-        username: "test",
+        username: "admin",
         password: "123456"
       },
       loginRules: {
@@ -141,7 +141,7 @@ export default {
                 message,
                 type: "success"
               });
-              this.SET_TOKEN(result.token);
+              this.SET_TOKEN(result);
               this.$router.push({ path: "/dashboard" });
             } else {
               this.$message.error(message);

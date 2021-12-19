@@ -17,7 +17,7 @@ export const logout = () => {
 
 export const getInfo = () => {
   return request({
-    url: "/manager/info",
+    url: "/auth/detail",
     method: "get"
   });
 };

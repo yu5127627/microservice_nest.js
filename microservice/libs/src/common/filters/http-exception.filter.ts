@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { isFunction } from 'util';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -19,10 +20,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.NOT_FOUND;
 
-    const exceptionResponse: any = exception.getResponse();
-    let message = exceptionResponse;
-    if (typeof exceptionResponse === 'object') {
-      message = exceptionResponse.message[0];
+    let exceptionResponse: any = null;
+    let message: any = null;
+    if (isFunction(exception.getResponse)) {
+      exceptionResponse = exception.getResponse();
+      message = exceptionResponse;
+      if (typeof exceptionResponse === 'object') {
+        message = exceptionResponse.message[0];
+      }
     }
 
     response.status(status).json({

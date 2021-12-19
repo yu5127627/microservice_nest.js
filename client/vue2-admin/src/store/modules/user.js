@@ -48,6 +48,7 @@ const actions = {
   async getInfo({ commit }) {
     const { code, result } = await getInfo();
     if (code === 200) {
+      debugger;
       result.menus.sort((a, b) => a.sort - b.sort);
       commit("SET_NAME", result.user.nickname);
       commit("SET_AVATAR", result.user.avatar);

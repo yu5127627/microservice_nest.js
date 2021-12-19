@@ -1,6 +1,6 @@
 import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { Manage } from '@app/libs/db/entity/manage.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hashSync } from 'bcryptjs';
 import { Like, Repository } from 'typeorm';
@@ -11,10 +11,24 @@ import { ManagePageWhere } from './interface/ManagePageWhere.interface';
 const DEFAULT_MODEL = 'manageModel';
 
 @Injectable()
-export class ManageService {
+export class ManageService implements OnModuleInit {
   constructor(
     @InjectRepository(Manage) private readonly manageModel: Repository<Manage>,
   ) {}
+
+  async onModuleInit() {
+    const row = await this[DEFAULT_MODEL].findOne({
+      where: { username: 'ykn' },
+    });
+    if (!row) {
+      await this[DEFAULT_MODEL].create({
+        username: 'ykn',
+        password: hashSync('123456'),
+        roleId: 1,
+      });
+      console.log('管理员创建成功！！！');
+    }
+  }
 
   async create(body: ManageCreateDto): Promise<Manage> {
     body.password = hashSync(body.password);

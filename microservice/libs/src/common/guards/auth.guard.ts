@@ -23,7 +23,10 @@ export class AuthGuard implements CanActivate {
       });
     }
     try {
-      const user = this.authService.vertifyToken(token, 'nestjs.admin');
+      const user = this.authService.vertifyToken(
+        token,
+        process.env.TOKEN_SECRET,
+      );
       request.user = user;
       return true;
     } catch (error) {

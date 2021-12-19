@@ -8,6 +8,13 @@ export const getList = (params) => {
   });
 };
 
+export const getOne = (id) => {
+  return request({
+    url: `/manager/${id}`,
+    method: "get"
+  });
+};
+
 export const create = (data) => {
   return request({
     url: "/manager",

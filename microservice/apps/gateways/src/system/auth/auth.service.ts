@@ -35,6 +35,14 @@ export class AuthService {
 
   // 解析 token
   vertifyToken(token, secret) {
-    return this.jwtService.verify(token.slice(7), { secret });
+    if (token.includes('Bearer')) {
+      token = token.slice(7);
+    }
+    return this.jwtService.verify(token, { secret });
+  }
+
+  // 获取用户信息
+  async detail(user) {
+    return await this.manageModel.findOne(user.id);
   }
 }

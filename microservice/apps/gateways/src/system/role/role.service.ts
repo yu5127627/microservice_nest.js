@@ -1,7 +1,7 @@
 import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { Role } from '@app/libs/db/entity/role.entity';
 import { RoleMenu } from '@app/libs/db/entity/roleMenu.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { RoleCreateDto } from './dto/RoleCreate.dto';
@@ -12,12 +12,25 @@ import { RolePageWhere } from './interface/RolePageWhere.interface';
 const DEFAULT_MODEL = 'roleModel';
 
 @Injectable()
-export class RoleService {
+export class RoleService implements OnModuleInit {
   constructor(
     @InjectRepository(Role) private readonly roleModel: Repository<Role>,
     @InjectRepository(RoleMenu)
     private readonly roleMenuModel: Repository<RoleMenu>,
   ) {}
+
+  async onModuleInit() {
+    const row = await this[DEFAULT_MODEL].findOne(1);
+    if (!row) {
+      await this[DEFAULT_MODEL].save({
+        id: 1,
+        name: '超级管理员',
+        level: 1,
+        description: '拥有一切权限的超级管理员',
+      });
+      console.log('超级管理员角色初始化成功！！！');
+    }
+  }
 
   async create(body: RoleCreateDto): Promise<Role> {
     return await this[DEFAULT_MODEL].save(body);

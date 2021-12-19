@@ -10,7 +10,7 @@ import { AuthAction } from './action.decorator';
  * @param action {Array} 操作数据
  * @returns
  */
-export function Auth(action: Array<string>) {
+export function Auth(action?: Array<string>) {
   return applyDecorators(
     AuthAction(action),
     UseGuards(AuthGuard, ActionGuard),
