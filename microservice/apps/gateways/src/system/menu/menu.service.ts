@@ -27,6 +27,8 @@ export class MenuService {
   }
 
   async list(attrs): Promise<Array<Menu>> {
+    console.log(attrs);
+
     if (attrs[0] === 'all') {
       return await this[DEFAULT_MODEL].find();
     }

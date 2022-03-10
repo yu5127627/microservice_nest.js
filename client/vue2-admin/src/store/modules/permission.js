@@ -1,6 +1,7 @@
 import router, { constantRoutes } from "@/router";
 import Layout from "@/layout";
 import { mergeMenu } from "@/utils";
+import { getList } from "@/api/menu";
 
 const mergeRoutes = (menu) => {
   // 过滤出目录菜单
@@ -8,7 +9,8 @@ const mergeRoutes = (menu) => {
   const child = [];
   menu.forEach(item => {
     if (item.pid === 0) {
-      if (item.islink) {
+      if (item.type === 2) {
+        console.log(item.url);
         pmenu.push({
           id: item.id,
           path: item.url,
@@ -23,7 +25,7 @@ const mergeRoutes = (menu) => {
           id: item.id,
           path: item.url,
           component: Layout,
-          hidden: !item.show,
+          hidden: item.hidden,
           alwaysShow: true,
           redirect: "noRedirect",
           meta: {
@@ -33,13 +35,13 @@ const mergeRoutes = (menu) => {
           }
         });
       }
-    } else if (item.type !== 2) {
+    } else {
       child.push({
         id: item.id,
         pid: item.pid,
         name: item.name,
         path: item.url,
-        hidden: !item.show,
+        hidden: item.hidden,
         component: resolve => require([`@/views${item.path}`], resolve),
         meta: {
           title: item.title,
@@ -83,7 +85,12 @@ const mutations = {
 };
 
 const actions = {
-
+  async getList({ commit }) {
+    const { result } = await getList();
+    result.sort((a, b) => a.sort - b.sort);
+    commit("SET_MENUS_LIST", result);
+    commit("SET_ROUTES", result);
+  }
 };
 
 export default {

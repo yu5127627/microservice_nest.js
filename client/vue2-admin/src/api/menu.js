@@ -1,10 +1,13 @@
 import request from "./config";
 const MODULE = "menu";
 
-export const getAllList = () => {
+export const getList = () => {
   return request({
     url: `/${MODULE}/list`,
-    method: "get"
+    method: "get",
+    params: {
+      attrs: "all"
+    }
   });
 };
 

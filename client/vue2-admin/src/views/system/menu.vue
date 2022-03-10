@@ -149,7 +149,7 @@
 import IconSelect from "@/components/IconSelect";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import { getAllList, create, update, remove } from "@/api/menu";
+import { getList, create, update, remove } from "@/api/menu";
 import { mergeMenu } from "@/utils";
 const defaultForm = JSON.stringify({
   type: 0, icon: "", islink: false, cache: false, show: true, title: "", name: "", rule: "",
@@ -213,7 +213,7 @@ export default {
     },
     async fetchData() {
       this.loading = true;
-      const { result } = await getAllList(this.listQuery);
+      const { result } = await getList(this.listQuery);
       this.mergeDirs(result);
       this.list = mergeMenu(0, result);
       this.loading = false;

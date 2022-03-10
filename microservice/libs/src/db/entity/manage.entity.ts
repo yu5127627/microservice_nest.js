@@ -11,11 +11,17 @@ export class Manage {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 10 })
+  @Column({ length: 64 })
   username: string;
 
-  @Column({ select: false, length: 60 })
+  @Column({ select: false, length: 128 })
   password: string;
+
+  @Column({ length: 64 })
+  nickname: string;
+
+  @Column()
+  avatar: string;
 
   @CreateDateColumn({ type: 'datetime' })
   ctime: string;

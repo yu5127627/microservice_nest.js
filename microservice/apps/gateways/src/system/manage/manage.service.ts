@@ -21,10 +21,13 @@ export class ManageService implements OnModuleInit {
       where: { username: 'ykn' },
     });
     if (!row) {
-      await this[DEFAULT_MODEL].create({
+      await this[DEFAULT_MODEL].save({
         username: 'ykn',
         password: hashSync('123456'),
         roleId: 1,
+        avatar:
+          'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erWiafXdE7AmAm4F90UJd6yungJRRZPibibTOgIFsF4vq7LSHLiaGWZmltIO2cLibia3L3UzWlSXI4Y6ofg/132',
+        nickname: '将梦拉到现实',
       });
       console.log('管理员创建成功！！！');
     }

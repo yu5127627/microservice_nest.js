@@ -32,9 +32,10 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
-          const menus = await store.dispatch("user/getInfo");
-          await store.commit("permission/SET_MENUS_LIST", menus);
-          await store.commit("permission/SET_ROUTES", menus);
+          await store.dispatch("user/getInfo");
+          await store.dispatch("permission/getList");
+          // await store.commit("permission/SET_MENUS_LIST", menus);
+          // await store.commit("permission/SET_ROUTES", menus);
           next({ ...to, replace: true });
         } catch (error) {
           // remove token and go to login page to re-login
