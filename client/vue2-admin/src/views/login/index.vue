@@ -114,9 +114,9 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.user.menus !== "") {
-      location.reload();
-    }
+    // if (this.$store.state.user.menus !== "") {
+    //   location.reload();
+    // }
   },
   methods: {
     ...mapMutations(["SET_TOKEN"]),

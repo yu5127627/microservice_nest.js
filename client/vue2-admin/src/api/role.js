@@ -4,7 +4,10 @@ const MODULE = "role";
 export const getAllList = () => {
   return request({
     url: `/${MODULE}/list`,
-    method: "get"
+    method: "get",
+    params: {
+      attrs: ["all"]
+    }
   });
 };
 

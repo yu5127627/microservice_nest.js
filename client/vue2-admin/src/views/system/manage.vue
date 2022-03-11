@@ -3,8 +3,8 @@
     <!-- 操作栏 -->
     <div class="main-operate">
       <div>
-        <el-button v-rule="'manager:create'" type="primary" icon="el-icon-circle-plus-outline" @click="openDialog">新增</el-button>
-        <el-button v-rule="'manager:delete'" type="danger" icon="el-icon-delete" @click="handleRemove">删除</el-button>
+        <el-button v-rule="'manage:create'" type="primary" icon="el-icon-circle-plus-outline" @click="openDialog">新增</el-button>
+        <el-button v-rule="'manage:delete'" type="danger" icon="el-icon-delete" @click="handleRemove">删除</el-button>
       </div>
       <div>
         <el-button type="primary" icon="el-icon-search" @click="fetchData">搜索</el-button>
@@ -50,7 +50,7 @@
           align="center"
         >
           <template slot-scope="scope">
-            <el-avatar size="medium" :src="host+scope.row.avatar" />
+            <el-avatar size="medium" :src="scope.row.avatar" />
           </template>
         </el-table-column>
         <el-table-column prop="nickname" label="昵称" align="center" />
@@ -67,8 +67,8 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button v-rule="'manager:update'" type="primary" size="mini" icon="el-icon-edit" @click="openDialog(scope.row)" />
-            <el-button v-rule="'manager:delete'" type="danger" size="mini" icon="el-icon-delete" @click="handleRemove(scope.row)" />
+            <el-button v-rule="'manage:update'" type="primary" size="mini" icon="el-icon-edit" @click="openDialog(scope.row)" />
+            <el-button v-rule="'manage:delete'" type="danger" size="mini" icon="el-icon-delete" @click="handleRemove(scope.row)" />
           </template>
         </el-table-column>
       </el-table>
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { getList, update, create, remove } from "@/api/manager";
+import { getList, update, create, remove } from "@/api/manage";
 import { getAllList } from "@/api/role";
 const defaultForm = JSON.stringify({
   username: "", password: "", roleId: ""

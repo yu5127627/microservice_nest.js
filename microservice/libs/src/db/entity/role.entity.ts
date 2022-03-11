@@ -8,7 +8,7 @@ export class Role {
   @Column({ length: 10 })
   name: string;
 
-  @Column({ select: false })
+  @Column()
   level: number;
 
   @Column({ nullable: true })

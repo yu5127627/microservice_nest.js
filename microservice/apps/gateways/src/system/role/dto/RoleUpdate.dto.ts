@@ -23,6 +23,5 @@ export class RoleUpdateDto {
     default: '我是角儿描述',
     description: '角色描述',
   })
-  @IsNotEmpty()
   readonly description: string;
 }

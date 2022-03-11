@@ -19,6 +19,5 @@ export class RoleCreateDto {
     default: '我是角儿描述',
     description: '角色描述',
   })
-  @IsNotEmpty({ message: '角色描述' })
   readonly description: string;
 }

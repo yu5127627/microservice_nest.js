@@ -18,7 +18,7 @@
         <el-table-column prop="id" label="ID" width="50px" align="center" />
         <el-table-column prop="name" label="名称" align="center" />
         <el-table-column prop="level" label="级别" align="center" />
-        <el-table-column prop="desc" label="描述" align="center" />
+        <el-table-column prop="description" label="描述" align="center" />
         <el-table-column fixed="right" label="资源配置" align="center">
           <template slot-scope="scope">
             <el-button v-rule="'role:update'" type="primary" size="mini" icon="el-icon-menu" @click="openDialogMenu(scope.row)">资源分配</el-button>
@@ -52,7 +52,7 @@
           <el-input-number v-model="dialogForm.level" :min="1" label="角色级别" />
         </el-form-item>
         <el-form-item label="角色描述" prop="">
-          <el-input v-model="dialogForm.desc" type="textarea" />
+          <el-input v-model="dialogForm.description" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

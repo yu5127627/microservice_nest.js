@@ -54,7 +54,7 @@ export class ManageController {
   @ApiOperation({ summary: '删除管理员' })
   @Auth(['manage:delete'])
   async delete(
-    @Query('id', new ParseArrayPipe({ items: Number, separator: ',' }))
+    @Body('ids', new ParseArrayPipe({ items: Number, separator: ',' }))
     ids: number[],
   ): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].delete(ids);
