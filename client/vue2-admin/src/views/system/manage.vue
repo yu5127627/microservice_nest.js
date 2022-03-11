@@ -118,7 +118,7 @@ const defaultForm = JSON.stringify({
   username: "", password: "", roleId: ""
 });
 export default {
-  name: "Manager",
+  name: "Manage",
   data() {
     return {
       dialogForm: JSON.parse(defaultForm),

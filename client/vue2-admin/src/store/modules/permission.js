@@ -8,9 +8,10 @@ const mergeRoutes = (menu) => {
   const pmenu = [];
   const child = [];
   menu.forEach(item => {
+    // 顶级目录
     if (item.pid === 0) {
+      // 外链
       if (item.type === 2) {
-        console.log(item.url);
         pmenu.push({
           id: item.id,
           path: item.url,
@@ -20,7 +21,8 @@ const mergeRoutes = (menu) => {
             icon: item.icon
           }
         });
-      } else {
+      } else if (item.type === 0) {
+        // 目录
         pmenu.push({
           id: item.id,
           path: item.url,
@@ -35,7 +37,8 @@ const mergeRoutes = (menu) => {
           }
         });
       }
-    } else {
+    } else if (item.type === 1) {
+      // 菜单
       child.push({
         id: item.id,
         pid: item.pid,
@@ -90,6 +93,7 @@ const actions = {
     result.sort((a, b) => a.sort - b.sort);
     commit("SET_MENUS_LIST", result);
     commit("SET_ROUTES", result);
+    return result;
   }
 };
 

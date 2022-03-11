@@ -33,8 +33,10 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           await store.dispatch("user/getInfo");
-          await store.dispatch("permission/getList");
-          // await store.commit("permission/SET_MENUS_LIST", menus);
+          const menu = await store.dispatch("permission/getList");
+          // 取出用户拥有的权限规则
+          const actions = menu.filter((item) => item.type === 3);
+          store.commit("user/SET_ACTIONS", actions);
           // await store.commit("permission/SET_ROUTES", menus);
           next({ ...to, replace: true });
         } catch (error) {

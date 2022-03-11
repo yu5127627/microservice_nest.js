@@ -28,7 +28,6 @@ export class MenuUpdateDto {
   readonly url?: string;
 
   @ApiProperty({ required: false, default: '测试', description: '组件名称' })
-  @IsNotEmpty({ message: '组件名称必填' })
   readonly name?: string;
 
   @ApiProperty({
@@ -46,7 +45,6 @@ export class MenuUpdateDto {
     default: '/temp/index.vue',
     description: '组件路径',
   })
-  @IsNotEmpty({ message: '组件路径必填' })
   readonly path?: string;
 
   @ApiProperty({ required: false, default: 0, description: '父菜单ID 0:无' })

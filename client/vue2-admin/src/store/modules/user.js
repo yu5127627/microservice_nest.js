@@ -5,8 +5,7 @@ import router from "@/router";
 const getDefaultState = () => {
   return {
     token: getToken(),
-    rules: "",
-    menus: "",
+    actions: [],
     role: "",
     name: "",
     avatar: ""
@@ -36,8 +35,8 @@ const mutations = {
   SET_MENUS: (state, menus) => {
     state.menus = menus;
   },
-  SET_RULES: (state, rules) => {
-    state.rules = rules;
+  SET_ACTIONS: (state, actions) => {
+    state.actions = actions;
   },
   SET_ROLE: (state, role) => {
     state.role = role;

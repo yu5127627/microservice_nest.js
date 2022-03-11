@@ -35,28 +35,24 @@
           </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" align="center" />
-        <el-table-column prop="rule" label="权限规则" align="center" />
+        <el-table-column prop="action" label="权限规则" align="center" />
         <el-table-column prop="path" label="组件路径" align="center" />
-        <el-table-column prop="islink" label="外链" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.islink?'是':'否' }}
-          </template>
-        </el-table-column>
         <el-table-column prop="cache" label="缓存" align="center">
           <template slot-scope="scope">
             {{ scope.row.cache==true?'是':'否' }}
           </template>
         </el-table-column>
-        <el-table-column prop="show" label="可见" align="center">
+        <el-table-column prop="show" label="菜单显示" align="center">
           <template slot-scope="scope">
-            {{ scope.row.show==true?'是':'否' }}
+            {{ scope.row.hide ? '否' : '是' }}
           </template>
         </el-table-column>
         <el-table-column prop="type" label="类型" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.type===0" type="success" effect="plain">目录</el-tag>
             <el-tag v-if="scope.row.type===1" effect="plain">菜单</el-tag>
-            <el-tag v-if="scope.row.type===2" type="info" effect="plain">规则</el-tag>
+            <el-tag v-if="scope.row.type===2" effect="plain">外链</el-tag>
+            <el-tag v-if="scope.row.type===3" type="info" effect="plain">规则</el-tag>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" align="center">
@@ -214,6 +210,7 @@ export default {
     async fetchData() {
       this.loading = true;
       const { result } = await getList(this.listQuery);
+      result.sort((a, b) => a.sort - b.sort);
       this.mergeDirs(result);
       this.list = mergeMenu(0, result);
       this.loading = false;
