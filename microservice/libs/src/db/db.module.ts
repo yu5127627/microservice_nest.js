@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoginLog } from './entity/loginLog.entity';
 import { Manage } from './entity/manage.entity';
 import { Menu } from './entity/menu.entity';
 import { Role } from './entity/role.entity';
@@ -16,7 +17,7 @@ import { User } from './entity/user.entity';
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABSE,
         type: 'mysql',
-        entities: [User, Role, Manage, Menu, Setting, RoleMenu],
+        entities: [User, Role, Manage, Menu, Setting, RoleMenu, LoginLog],
         synchronize: true,
         logger: 'file',
         logging: true,

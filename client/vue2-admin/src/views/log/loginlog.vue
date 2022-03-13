@@ -45,7 +45,7 @@
         <el-table-column prop="username" label="用户名" align="center" />
         <el-table-column prop="ip" label="登录IP" align="center" />
         <el-table-column prop="address" label="登录地址" align="center" />
-        <el-table-column prop="browser" label="登录平台" align="center" />
+        <el-table-column prop="ua" label="登录平台" align="center" />
         <el-table-column prop="login_time" label="登录时间" align="center">
           <template slot-scope="scope">
             {{ scope.row.login_time|moment('YYYY-MM-DD HH:mm:ss') }}
@@ -87,7 +87,7 @@ export default {
     async fetchData() {
       const { code, message, result } = await getList(this.listQuery);
       this.list = result.rows;
-      this.listQuery.count = result.count;
+      this.listQuery.count = result.total;
     },
     handleRemove(row) {
       const ids = row.id ? [row.id] : this.selectList;

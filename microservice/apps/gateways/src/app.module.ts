@@ -8,6 +8,7 @@ import { MenuModule } from './system/menu/menu.module';
 import { ConfigModule as SettingModel } from './system/config/config.module';
 import { LibsModule } from '@app/libs';
 import { ConfigModule } from '@nestjs/config';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     DbModule,
     MenuModule,
     SettingModel,
+    LogModule,
   ],
 })
 export class AppModule {}

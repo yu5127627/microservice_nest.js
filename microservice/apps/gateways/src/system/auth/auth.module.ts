@@ -1,5 +1,5 @@
 import { Manage } from '@app/libs/db/entity/manage.entity';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,9 +7,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ManageLocalStrategy } from './strategy/manageLocal.strategy';
 import { AuthGuard } from '@app/libs/common/guards/auth.guard';
+import { LogModule } from '../../log/log.module';
+import { LogService } from '../../log/log.service';
 
 @Module({
   imports: [
+    forwardRef(() => LogModule),
     TypeOrmModule.forFeature([Manage]),
     PassportModule,
     JwtModule.registerAsync({
