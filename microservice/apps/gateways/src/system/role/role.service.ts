@@ -32,6 +32,23 @@ export class RoleService implements OnModuleInit {
     }
   }
 
+  async setAction(id: number, body: RoleRulesDto) {
+    await this.roleMenuModel.delete({ roleId: id });
+    const arr = body.menuIds.map((item) => {
+      return { roleId: id, menuId: item };
+    });
+    return await this.roleMenuModel.save(arr);
+  }
+
+  async getActions(roleId): Promise<Array<number>> {
+    const menus = await this.roleMenuModel.find({
+      where: {
+        roleId,
+      },
+    });
+    return menus.map((item) => item.menuId);
+  }
+
   async create(body: RoleCreateDto): Promise<Role> {
     return await this[DEFAULT_MODEL].save(body);
   }
@@ -39,14 +56,6 @@ export class RoleService implements OnModuleInit {
   async update(id: number, body: RoleUpdateDto): Promise<Role> {
     await this[DEFAULT_MODEL].update(id, body);
     return await this[DEFAULT_MODEL].findOne(id);
-  }
-
-  async setRules(id: number, body: RoleRulesDto) {
-    await this.roleMenuModel.delete({ roleId: id });
-    const arr = body.menuIds.map((item) => {
-      return { roleId: id, menuId: item };
-    });
-    return await this.roleMenuModel.save(arr);
   }
 
   async delete(ids: number[]): Promise<any> {

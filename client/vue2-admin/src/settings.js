@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: "nest.js vue2.js后台管理模板",
+  title: "vue2.js后台管理模板",
 
   mark: "备案编号: 晋ICP备19004552号  ©2021 ykn",
 

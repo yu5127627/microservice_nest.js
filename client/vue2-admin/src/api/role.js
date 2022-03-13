@@ -43,17 +43,17 @@ export const remove = (data) => {
   });
 };
 
-export const setRules = (id, data) => {
+export const setActions = (id, data) => {
   return request({
-    url: `/${MODULE}/rule/${id}`,
-    method: "post",
+    url: `/${MODULE}/actions/${id}`,
+    method: "put",
     data
   });
 };
 
-export const getRules = (id) => {
+export const getActions = (id) => {
   return request({
-    url: `/${MODULE}/rule/${id}`,
+    url: `/${MODULE}/actions/${id}`,
     method: "get"
   });
 };

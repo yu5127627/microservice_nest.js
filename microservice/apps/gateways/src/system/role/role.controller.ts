@@ -1,4 +1,5 @@
 import { Auth } from '@app/libs/common/decorator/auth.decorator';
+import { Ip } from '@app/libs/common/decorator/ip.decorator';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -24,6 +25,36 @@ const DEFAULT_SERVICE = 'roleService';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @Get('/actions/:id')
+  @ApiOperation({ summary: '查询角色菜单' })
+  @Auth(['menu:view', 'roleMenu:view'])
+  async getActions(
+    @Ip() clinetIp: string,
+    @Param('id') id: number,
+  ): Promise<Result> {
+    console.log(clinetIp);
+    const result = await this[DEFAULT_SERVICE].getActions(id);
+    return {
+      code: 200,
+      message: '角色菜单查询成功',
+      result,
+    };
+  }
+
+  @Put('actions/:id')
+  @ApiOperation({ summary: '修改角色权限' })
+  @Auth(['roleMenu:create', 'roleMenu:delete'])
+  async setAction(
+    @Param('id') id: number,
+    @Body() body: RoleRulesDto,
+  ): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].setAction(id, body);
+    return {
+      message: '角色权限修改成功',
+      result,
+    };
+  }
+
   @Post()
   @ApiOperation({ summary: '创建角色' })
   @Auth(['role:create'])
@@ -47,20 +78,6 @@ export class RoleController {
     return {
       code: 200,
       message: '角色修改成功',
-      result,
-    };
-  }
-
-  @Put('action/:id')
-  @ApiOperation({ summary: '修改角色权限' })
-  @Auth(['roleMenu:create', 'roleMenu:delete'])
-  async setAction(
-    @Param('id') id: number,
-    @Body() body: RoleRulesDto,
-  ): Promise<Result> {
-    const result = await this[DEFAULT_SERVICE].setRules(id, body);
-    return {
-      message: '角色权限修改成功',
       result,
     };
   }

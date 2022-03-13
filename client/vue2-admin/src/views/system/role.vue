@@ -70,7 +70,7 @@
 
 <script>
 import MenuTree from "@/components/MenuTree";
-import { getList, update, create, remove, setRules, getRules } from "@/api/role";
+import { getList, update, create, remove, setActions, getActions } from "@/api/role";
 const defaultForm = JSON.stringify({ name: "", desc: "", level: "" });
 export default {
   name: "Role",
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     async changeCheck(list) {
-      const { code, message } = await setRules(this.dialogMenu.id, { menuIds: list });
+      const { code, message } = await setActions(this.dialogMenu.id, { menuIds: list });
       if (code === 200) {
         this.$message({ message, type: "success" });
         this.dialogMenu.show = false;
@@ -149,7 +149,7 @@ export default {
       });
     },
     async openDialogMenu(row) {
-      const { result } = await getRules(row.id);
+      const { result } = await getActions(row.id);
       this.dialogMenu.checkMenuIds = result;
       this.dialogMenu.id = row.id;
       this.dialogMenu.show = true;
