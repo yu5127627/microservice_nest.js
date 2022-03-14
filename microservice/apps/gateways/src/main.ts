@@ -26,6 +26,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   // 处理跨域
   app.enableCors();
+  console.log(process.env.$NODE_ENV);
 
   const config = new DocumentBuilder()
     .setTitle('Nestjs microservice!!!')
