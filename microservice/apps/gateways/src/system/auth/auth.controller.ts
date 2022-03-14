@@ -8,8 +8,6 @@ import {
   Request,
   Body,
   Get,
-  Inject,
-  forwardRef,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -32,11 +30,11 @@ export class AuthController {
   async login(
     @Body() body: ManageLocalLoginDto,
     @Request() req,
-    @Ip() clientIp: string,
+    @Ip() ip: string,
   ): Promise<Result> {
     const token = await this.authService.createToken(req.user);
-    req.user.ip = clientIp;
     const { ua } = UAParser(req.headers['user-agent']);
+    req.user.ip = ip;
     req.user.ua = ua;
     await this.logService.loginLogCreate(req.user);
     return {

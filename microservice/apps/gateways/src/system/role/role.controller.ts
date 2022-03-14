@@ -1,5 +1,4 @@
 import { Auth } from '@app/libs/common/decorator/auth.decorator';
-import { Ip } from '@app/libs/common/decorator/ip.decorator';
 import { Result } from '@app/libs/common/interface/result.interface';
 import {
   Body,
@@ -28,11 +27,7 @@ export class RoleController {
   @Get('/actions/:id')
   @ApiOperation({ summary: '查询角色菜单' })
   @Auth(['menu:view', 'roleMenu:view'])
-  async getActions(
-    @Ip() clinetIp: string,
-    @Param('id') id: number,
-  ): Promise<Result> {
-    console.log(clinetIp);
+  async getActions(@Param('id') id: number): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].getActions(id);
     return {
       code: 200,
