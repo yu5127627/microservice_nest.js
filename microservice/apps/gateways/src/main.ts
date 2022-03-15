@@ -3,6 +3,7 @@ import { HttpExceptionFilter } from '@app/libs/common/filters/http-exception.fil
 import { ResponseInterceptors } from '@app/libs/common/interceptor/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
@@ -10,6 +11,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn'],
   });
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: { retryAttempts: 5, retryDelay: 3000 },
+  });
+
+  await app.startAllMicroservices();
 
   // 全局验证
   app.useGlobalPipes(

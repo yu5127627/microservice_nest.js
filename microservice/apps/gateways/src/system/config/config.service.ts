@@ -86,7 +86,7 @@ export class ConfigService implements OnApplicationBootstrap {
       }
     }
     this.defaultSetting = setting;
-    console.log('环境变量刷新成功。。。');
+    // console.log('环境变量刷新成功。。。');
     return setting;
   }
 }

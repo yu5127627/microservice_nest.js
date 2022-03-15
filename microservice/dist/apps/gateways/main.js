@@ -790,7 +790,6 @@ let ConfigService = class ConfigService {
             }
         }
         this.defaultSetting = setting;
-        console.log('环境变量刷新成功。。。');
         return setting;
     }
 };
@@ -2510,6 +2509,207 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 /***/ }),
 
+/***/ "./libs/src/db/cms/category.entity.ts":
+/*!********************************************!*\
+  !*** ./libs/src/db/cms/category.entity.ts ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Category = void 0;
+const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
+const content_entity_1 = __webpack_require__(/*! ./content.entity */ "./libs/src/db/cms/content.entity.ts");
+let Category = class Category {
+};
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Category.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
+    __metadata("design:type", String)
+], Category.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '分组' }),
+    __metadata("design:type", String)
+], Category.prototype, "group", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '排序' }),
+    __metadata("design:type", Number)
+], Category.prototype, "sort", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '分类图' }),
+    __metadata("design:type", String)
+], Category.prototype, "simg", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '描述' }),
+    __metadata("design:type", String)
+], Category.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '父ID' }),
+    __metadata("design:type", Number)
+], Category.prototype, "pid", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({ type: 'datetime', comment: '创建时间' }),
+    __metadata("design:type", String)
+], Category.prototype, "ctime", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)((type) => content_entity_1.Content, (content) => content.categorys),
+    __metadata("design:type", Array)
+], Category.prototype, "content", void 0);
+Category = __decorate([
+    (0, typeorm_1.Entity)('category')
+], Category);
+exports.Category = Category;
+
+
+/***/ }),
+
+/***/ "./libs/src/db/cms/content.entity.ts":
+/*!*******************************************!*\
+  !*** ./libs/src/db/cms/content.entity.ts ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Content = void 0;
+const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
+const category_entity_1 = __webpack_require__(/*! ./category.entity */ "./libs/src/db/cms/category.entity.ts");
+const tag_entity_1 = __webpack_require__(/*! ./tag.entity */ "./libs/src/db/cms/tag.entity.ts");
+let Content = class Content {
+};
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Content.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '标题' }),
+    __metadata("design:type", String)
+], Content.prototype, "title", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '内容' }),
+    __metadata("design:type", String)
+], Content.prototype, "content", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '浏览数量' }),
+    __metadata("design:type", Number)
+], Content.prototype, "scan", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '推荐指数' }),
+    __metadata("design:type", Number)
+], Content.prototype, "recom", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '置顶' }),
+    __metadata("design:type", Boolean)
+], Content.prototype, "top", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '状态' }),
+    __metadata("design:type", String)
+], Content.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({ type: 'datetime', comment: '创建时间' }),
+    __metadata("design:type", String)
+], Content.prototype, "ctime", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({ type: 'datetime', comment: '更新时间' }),
+    __metadata("design:type", String)
+], Content.prototype, "utime", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)((type) => tag_entity_1.Tag, (tag) => tag.content),
+    (0, typeorm_1.JoinTable)({ name: 'content_tag' }),
+    __metadata("design:type", Array)
+], Content.prototype, "tags", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)((type) => category_entity_1.Category, (category) => category.content),
+    (0, typeorm_1.JoinTable)({ name: 'content_category' }),
+    __metadata("design:type", Array)
+], Content.prototype, "categorys", void 0);
+Content = __decorate([
+    (0, typeorm_1.Entity)('content')
+], Content);
+exports.Content = Content;
+
+
+/***/ }),
+
+/***/ "./libs/src/db/cms/tag.entity.ts":
+/*!***************************************!*\
+  !*** ./libs/src/db/cms/tag.entity.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Tag = void 0;
+const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
+const content_entity_1 = __webpack_require__(/*! ./content.entity */ "./libs/src/db/cms/content.entity.ts");
+let Tag = class Tag {
+};
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Tag.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
+    __metadata("design:type", String)
+], Tag.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '排序' }),
+    __metadata("design:type", Number)
+], Tag.prototype, "sort", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '分类图' }),
+    __metadata("design:type", String)
+], Tag.prototype, "simg", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ comment: '描述' }),
+    __metadata("design:type", String)
+], Tag.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({ type: 'datetime', comment: '创建时间' }),
+    __metadata("design:type", String)
+], Tag.prototype, "ctime", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)((type) => content_entity_1.Content, (content) => content.tags),
+    __metadata("design:type", Array)
+], Tag.prototype, "content", void 0);
+Tag = __decorate([
+    (0, typeorm_1.Entity)('tag')
+], Tag);
+exports.Tag = Tag;
+
+
+/***/ }),
+
 /***/ "./libs/src/db/db.module.ts":
 /*!**********************************!*\
   !*** ./libs/src/db/db.module.ts ***!
@@ -2533,7 +2733,9 @@ const menu_entity_1 = __webpack_require__(/*! ./entity/menu.entity */ "./libs/sr
 const role_entity_1 = __webpack_require__(/*! ./entity/role.entity */ "./libs/src/db/entity/role.entity.ts");
 const roleMenu_entity_1 = __webpack_require__(/*! ./entity/roleMenu.entity */ "./libs/src/db/entity/roleMenu.entity.ts");
 const setting_entity_1 = __webpack_require__(/*! ./entity/setting.entity */ "./libs/src/db/entity/setting.entity.ts");
-const user_entity_1 = __webpack_require__(/*! ./entity/user.entity */ "./libs/src/db/entity/user.entity.ts");
+const category_entity_1 = __webpack_require__(/*! ./cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
+const tag_entity_1 = __webpack_require__(/*! ./cms/tag.entity */ "./libs/src/db/cms/tag.entity.ts");
+const content_entity_1 = __webpack_require__(/*! ./cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
 let DbModule = class DbModule {
 };
 DbModule = __decorate([
@@ -2541,13 +2743,30 @@ DbModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: () => ({
+                    name: 'gateway',
                     host: process.env.DB_HOST,
                     port: Number(process.env.DB_PORT),
-                    username: process.env.DB_USERNAME,
-                    password: process.env.DB_PASSWORD,
-                    database: process.env.DB_DATABSE,
+                    username: process.env.GATEWAY_DB_USERNAME,
+                    password: process.env.GATEWAY_DB_PASSWORD,
+                    database: process.env.GATEWAY_DB_DATABSE,
                     type: 'mysql',
-                    entities: [user_entity_1.User, role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
+                    entities: [role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
+                    synchronize: true,
+                    logger: 'file',
+                    logging: true,
+                    timezone: 'Z',
+                }),
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                useFactory: () => ({
+                    name: 'blog',
+                    host: process.env.DB_HOST,
+                    port: Number(process.env.DB_PORT),
+                    username: process.env.BLOG_DB_USERNAME,
+                    password: process.env.BLOG_DB_PASSWORD,
+                    database: process.env.BLOG_DB_DATABSE,
+                    type: 'mysql',
+                    entities: [category_entity_1.Category, tag_entity_1.Tag, content_entity_1.Content],
                     synchronize: true,
                     logger: 'file',
                     logging: true,
@@ -2913,74 +3132,6 @@ exports.Setting = Setting;
 
 /***/ }),
 
-/***/ "./libs/src/db/entity/user.entity.ts":
-/*!*******************************************!*\
-  !*** ./libs/src/db/entity/user.entity.ts ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.User = void 0;
-const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
-const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
-let User = class User {
-};
-__decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], User.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ length: 10 }),
-    (0, swagger_1.ApiProperty)({ description: '用户名' }),
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    (0, swagger_1.ApiProperty)({ description: '认证平台' }),
-    __metadata("design:type", String)
-], User.prototype, "provider", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    (0, swagger_1.ApiProperty)({ description: '认证平台id' }),
-    __metadata("design:type", String)
-], User.prototype, "key", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ length: 10 }),
-    (0, swagger_1.ApiProperty)({ description: '用户昵称' }),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    (0, swagger_1.ApiProperty)({ description: '地址' }),
-    __metadata("design:type", String)
-], User.prototype, "location", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    (0, swagger_1.ApiProperty)({ description: '头像' }),
-    __metadata("design:type", String)
-], User.prototype, "avatar", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", String)
-], User.prototype, "ctime", void 0);
-User = __decorate([
-    (0, typeorm_1.Entity)('user')
-], User);
-exports.User = User;
-
-
-/***/ }),
-
 /***/ "./libs/src/index.ts":
 /*!***************************!*\
   !*** ./libs/src/index.ts ***!
@@ -3163,6 +3314,16 @@ module.exports = require("@nestjs/jwt");
 
 /***/ }),
 
+/***/ "@nestjs/microservices":
+/*!****************************************!*\
+  !*** external "@nestjs/microservices" ***!
+  \****************************************/
+/***/ ((module) => {
+
+module.exports = require("@nestjs/microservices");
+
+/***/ }),
+
 /***/ "@nestjs/passport":
 /*!***********************************!*\
   !*** external "@nestjs/passport" ***!
@@ -3323,12 +3484,18 @@ const http_exception_filter_1 = __webpack_require__(/*! @app/libs/common/filters
 const response_interceptor_1 = __webpack_require__(/*! @app/libs/common/interceptor/response.interceptor */ "./libs/src/common/interceptor/response.interceptor.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const app_module_1 = __webpack_require__(/*! ./app.module */ "./apps/gateways/src/app.module.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         logger: ['error', 'warn'],
     });
+    app.connectMicroservice({
+        transport: microservices_1.Transport.TCP,
+        options: { retryAttempts: 5, retryDelay: 3000 },
+    });
+    await app.startAllMicroservices();
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,
         transform: true,
