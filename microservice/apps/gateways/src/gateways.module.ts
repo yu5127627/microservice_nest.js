@@ -9,6 +9,10 @@ import { ConfigModule as SettingModel } from './system/config/config.module';
 import { LibsModule } from '@app/libs';
 import { ConfigModule } from '@nestjs/config';
 import { LogModule } from './log/log.module';
+import { TagModule } from './blog/tag/tag.module';
+import { ContentModule } from './blog/content/content.module';
+import { CategoryModule } from './blog/category/category.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -22,6 +26,7 @@ import { LogModule } from './log/log.module';
     MenuModule,
     SettingModel,
     LogModule,
+    BlogModule,
   ],
 })
 export class GatewaysModule {}

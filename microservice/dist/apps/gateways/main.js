@@ -2,6 +2,150 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./apps/gateways/src/blog/blog.module.ts":
+/*!***********************************************!*\
+  !*** ./apps/gateways/src/blog/blog.module.ts ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BlogModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const tag_module_1 = __webpack_require__(/*! ./tag/tag.module */ "./apps/gateways/src/blog/tag/tag.module.ts");
+let BlogModule = class BlogModule {
+};
+BlogModule = __decorate([
+    (0, common_1.Module)({
+        imports: [tag_module_1.TagModule],
+        providers: [
+            {
+                provide: 'BLOG_SERVICE',
+                useFactory: (configService) => {
+                    const blogPort = configService.get('BLOG_PORT');
+                    return microservices_1.ClientProxyFactory.create({
+                        transport: microservices_1.Transport.TCP,
+                        options: {
+                            port: blogPort || 8001,
+                        },
+                    });
+                },
+                inject: [config_1.ConfigService],
+            },
+        ],
+    })
+], BlogModule);
+exports.BlogModule = BlogModule;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/blog/tag/tag.controller.ts":
+/*!******************************************************!*\
+  !*** ./apps/gateways/src/blog/tag/tag.controller.ts ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TagController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+let TagController = class TagController {
+    constructor(client) {
+        this.client = client;
+    }
+    findArticleByHot() {
+        const pattern = { tag: 'list' };
+        return this.client.send(pattern, { body: 1 });
+    }
+};
+__decorate([
+    (0, common_1.Get)('/list'),
+    (0, swagger_1.ApiOperation)({ summary: '查询标签列表' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TagController.prototype, "findArticleByHot", null);
+TagController = __decorate([
+    (0, common_1.Controller)('tag'),
+    (0, swagger_1.ApiTags)('标签'),
+    __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
+    __metadata("design:paramtypes", [typeof (_a = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _a : Object])
+], TagController);
+exports.TagController = TagController;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/blog/tag/tag.module.ts":
+/*!**************************************************!*\
+  !*** ./apps/gateways/src/blog/tag/tag.module.ts ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TagModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const tag_controller_1 = __webpack_require__(/*! ./tag.controller */ "./apps/gateways/src/blog/tag/tag.controller.ts");
+let TagModule = class TagModule {
+};
+TagModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [tag_controller_1.TagController],
+        providers: [
+            {
+                provide: 'BLOG_SERVICE',
+                useFactory: (configService) => {
+                    const blogPort = configService.get('BLOG_PORT');
+                    return microservices_1.ClientProxyFactory.create({
+                        transport: microservices_1.Transport.TCP,
+                        options: {
+                            port: blogPort || 8001,
+                        },
+                    });
+                },
+                inject: [config_1.ConfigService],
+            },
+        ],
+    })
+], TagModule);
+exports.TagModule = TagModule;
+
+
+/***/ }),
+
 /***/ "./apps/gateways/src/gateways.module.ts":
 /*!**********************************************!*\
   !*** ./apps/gateways/src/gateways.module.ts ***!
@@ -28,6 +172,7 @@ const config_module_1 = __webpack_require__(/*! ./system/config/config.module */
 const libs_1 = __webpack_require__(/*! @app/libs */ "./libs/src/index.ts");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const log_module_1 = __webpack_require__(/*! ./log/log.module */ "./apps/gateways/src/log/log.module.ts");
+const blog_module_1 = __webpack_require__(/*! ./blog/blog.module */ "./apps/gateways/src/blog/blog.module.ts");
 let GatewaysModule = class GatewaysModule {
 };
 GatewaysModule = __decorate([
@@ -43,6 +188,7 @@ GatewaysModule = __decorate([
             menu_module_1.MenuModule,
             config_module_1.ConfigModule,
             log_module_1.LogModule,
+            blog_module_1.BlogModule,
         ],
     })
 ], GatewaysModule);
@@ -2703,7 +2849,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Tag.prototype, "content", void 0);
 Tag = __decorate([
-    (0, typeorm_1.Entity)('tag')
+    (0, typeorm_1.Entity)({ name: 'tag', database: 'test_blog' })
 ], Tag);
 exports.Tag = Tag;
 
@@ -2736,44 +2882,46 @@ const setting_entity_1 = __webpack_require__(/*! ./entity/setting.entity */ "./l
 const category_entity_1 = __webpack_require__(/*! ./cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const tag_entity_1 = __webpack_require__(/*! ./cms/tag.entity */ "./libs/src/db/cms/tag.entity.ts");
 const content_entity_1 = __webpack_require__(/*! ./cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
+    name: 'blog',
+    useFactory: () => ({
+        name: 'blog',
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT),
+        username: process.env.BLOG_DB_USERNAME,
+        password: process.env.BLOG_DB_PASSWORD,
+        database: process.env.BLOG_DB_DATABSE,
+        type: 'mysql',
+        entities: [category_entity_1.Category, tag_entity_1.Tag, content_entity_1.Content],
+        synchronize: true,
+        logger: 'file',
+        logging: true,
+        timezone: 'Z',
+    }),
+});
+const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
+    useFactory: async () => {
+        return {
+            name: 'gateway',
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
+            username: process.env.GATEWAY_DB_USERNAME,
+            password: process.env.GATEWAY_DB_PASSWORD,
+            database: process.env.GATEWAY_DB_DATABSE,
+            type: 'mysql',
+            entities: [role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
+            synchronize: true,
+            logger: 'file',
+            logging: true,
+            timezone: 'Z',
+        };
+    },
+});
 let DbModule = class DbModule {
 };
 DbModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: () => ({
-                    name: 'gateway',
-                    host: process.env.DB_HOST,
-                    port: Number(process.env.DB_PORT),
-                    username: process.env.GATEWAY_DB_USERNAME,
-                    password: process.env.GATEWAY_DB_PASSWORD,
-                    database: process.env.GATEWAY_DB_DATABSE,
-                    type: 'mysql',
-                    entities: [role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
-                    synchronize: true,
-                    logger: 'file',
-                    logging: true,
-                    timezone: 'Z',
-                }),
-            }),
-            typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: () => ({
-                    name: 'blog',
-                    host: process.env.DB_HOST,
-                    port: Number(process.env.DB_PORT),
-                    username: process.env.BLOG_DB_USERNAME,
-                    password: process.env.BLOG_DB_PASSWORD,
-                    database: process.env.BLOG_DB_DATABSE,
-                    type: 'mysql',
-                    entities: [category_entity_1.Category, tag_entity_1.Tag, content_entity_1.Content],
-                    synchronize: true,
-                    logger: 'file',
-                    logging: true,
-                    timezone: 'Z',
-                }),
-            }),
-        ],
+        imports: [gatewayDB, blogDB],
     })
 ], DbModule);
 exports.DbModule = DbModule;
@@ -3495,7 +3643,6 @@ async function bootstrap() {
         transport: microservices_1.Transport.TCP,
         options: { retryAttempts: 5, retryDelay: 3000 },
     });
-    console.log(micro1);
     await app.startAllMicroservices();
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,

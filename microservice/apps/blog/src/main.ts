@@ -1,7 +1,6 @@
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { BlogModule } from './blog.module';
-import { getConnection } from 'typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(

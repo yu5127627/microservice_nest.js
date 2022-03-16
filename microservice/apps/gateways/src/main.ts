@@ -16,7 +16,6 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: { retryAttempts: 5, retryDelay: 3000 },
   });
-  console.log(micro1);
 
   await app.startAllMicroservices();
 
