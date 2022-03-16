@@ -5,17 +5,18 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { GatewaysModule } from './gateways.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create(GatewaysModule, {
     logger: ['error', 'warn'],
   });
 
-  app.connectMicroservice<MicroserviceOptions>({
+  const micro1 = app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: { retryAttempts: 5, retryDelay: 3000 },
   });
+  console.log(micro1);
 
   await app.startAllMicroservices();
 

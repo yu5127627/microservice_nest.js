@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./apps/gateways/src/app.module.ts":
-/*!*****************************************!*\
-  !*** ./apps/gateways/src/app.module.ts ***!
-  \*****************************************/
+/***/ "./apps/gateways/src/gateways.module.ts":
+/*!**********************************************!*\
+  !*** ./apps/gateways/src/gateways.module.ts ***!
+  \**********************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -16,7 +16,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AppModule = void 0;
+exports.GatewaysModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const auth_module_1 = __webpack_require__(/*! ./system/auth/auth.module */ "./apps/gateways/src/system/auth/auth.module.ts");
 const user_module_1 = __webpack_require__(/*! ./user/user.module */ "./apps/gateways/src/user/user.module.ts");
@@ -28,9 +28,9 @@ const config_module_1 = __webpack_require__(/*! ./system/config/config.module */
 const libs_1 = __webpack_require__(/*! @app/libs */ "./libs/src/index.ts");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const log_module_1 = __webpack_require__(/*! ./log/log.module */ "./apps/gateways/src/log/log.module.ts");
-let AppModule = class AppModule {
+let GatewaysModule = class GatewaysModule {
 };
-AppModule = __decorate([
+GatewaysModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true, cache: true }),
@@ -45,8 +45,8 @@ AppModule = __decorate([
             log_module_1.LogModule,
         ],
     })
-], AppModule);
-exports.AppModule = AppModule;
+], GatewaysModule);
+exports.GatewaysModule = GatewaysModule;
 
 
 /***/ }),
@@ -2568,7 +2568,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Category.prototype, "content", void 0);
 Category = __decorate([
-    (0, typeorm_1.Entity)('category')
+    (0, typeorm_1.Entity)({ name: 'category', database: 'test_blog' })
 ], Category);
 exports.Category = Category;
 
@@ -3486,15 +3486,16 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
 const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
-const app_module_1 = __webpack_require__(/*! ./app.module */ "./apps/gateways/src/app.module.ts");
+const gateways_module_1 = __webpack_require__(/*! ./gateways.module */ "./apps/gateways/src/gateways.module.ts");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, {
+    const app = await core_1.NestFactory.create(gateways_module_1.GatewaysModule, {
         logger: ['error', 'warn'],
     });
-    app.connectMicroservice({
+    const micro1 = app.connectMicroservice({
         transport: microservices_1.Transport.TCP,
         options: { retryAttempts: 5, retryDelay: 3000 },
     });
+    console.log(micro1);
     await app.startAllMicroservices();
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,

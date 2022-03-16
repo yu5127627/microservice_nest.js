@@ -24,4 +24,4 @@ import { LogModule } from './log/log.module';
     LogModule,
   ],
 })
-export class AppModule {}
+export class GatewaysModule {}
