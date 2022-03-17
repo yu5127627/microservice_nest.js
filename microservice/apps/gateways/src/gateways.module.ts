@@ -12,7 +12,6 @@ import { LogModule } from './log/log.module';
 import { TagModule } from './blog/tag/tag.module';
 import { ContentModule } from './blog/content/content.module';
 import { CategoryModule } from './blog/category/category.module';
-import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -26,7 +25,7 @@ import { BlogModule } from './blog/blog.module';
     MenuModule,
     SettingModel,
     LogModule,
-    BlogModule,
+    TagModule,
   ],
 })
 export class GatewaysModule {}

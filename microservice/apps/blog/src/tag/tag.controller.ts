@@ -8,11 +8,8 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @MessagePattern({ tag: 'list' })
-  async list(
-    @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
-    attrs,
-  ): Promise<Result> {
-    const result = await this[DEFAULT_SERVICE].list(attrs);
+  async list(): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].list();
     return {
       code: 200,
       message: '菜单查询成功',

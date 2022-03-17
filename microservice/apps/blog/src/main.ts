@@ -8,6 +8,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
+        host: '127.0.0.1',
         port: Number(process.env.BLOG_PORT),
         retryAttempts: 5,
         retryDelay: 5000,

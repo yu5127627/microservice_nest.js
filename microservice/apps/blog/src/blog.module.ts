@@ -7,11 +7,11 @@ import { DbModule } from '@app/libs/db/db.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TagModule,
     DbModule,
     // CategoryModule,
-    TagModule,
     // ContentModule,
-    ConfigModule.forRoot({ isGlobal: true }),
   ],
 })
 export class BlogModule {}

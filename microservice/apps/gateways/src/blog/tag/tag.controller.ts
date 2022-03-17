@@ -11,6 +11,8 @@ export class TagController {
   @ApiOperation({ summary: '查询标签列表' })
   findArticleByHot() {
     const pattern = { tag: 'list' };
-    return this.client.send(pattern, { body: 1 });
+    console.log(111);
+
+    return this.client.send(pattern, { attrs: 'all' });
   }
 }

@@ -26,9 +26,9 @@ let BlogModule = class BlogModule {
 BlogModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            db_module_1.DbModule,
-            tag_module_1.TagModule,
             config_1.ConfigModule.forRoot({ isGlobal: true }),
+            tag_module_1.TagModule,
+            db_module_1.DbModule,
         ],
     })
 ], BlogModule);
@@ -53,9 +53,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TagController = void 0;
@@ -67,8 +64,8 @@ let TagController = class TagController {
     constructor(tagService) {
         this.tagService = tagService;
     }
-    async list(attrs) {
-        const result = await this[DEFAULT_SERVICE].list(attrs);
+    async list() {
+        const result = await this[DEFAULT_SERVICE].list();
         return {
             code: 200,
             message: '菜单查询成功',
@@ -78,9 +75,8 @@ let TagController = class TagController {
 };
 __decorate([
     (0, microservices_1.MessagePattern)({ tag: 'list' }),
-    __param(0, (0, common_1.Query)('attrs', new common_1.ParseArrayPipe({ items: String, separator: ',' }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
 ], TagController.prototype, "list", null);
 TagController = __decorate([
@@ -178,11 +174,8 @@ let TagService = class TagService {
     constructor(tagModel) {
         this.tagModel = tagModel;
     }
-    async list(attrs) {
-        if (attrs[0] === 'all') {
-            return await this[DEFAULT_MODEL].find();
-        }
-        return await this[DEFAULT_MODEL].find({ select: attrs });
+    async list() {
+        return await this[DEFAULT_MODEL].find();
     }
 };
 TagService = __decorate([
@@ -1756,6 +1749,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.createMicroservice(blog_module_1.BlogModule, {
         transport: microservices_1.Transport.TCP,
         options: {
+            host: '127.0.0.1',
             port: Number(process.env.BLOG_PORT),
             retryAttempts: 5,
             retryDelay: 5000,

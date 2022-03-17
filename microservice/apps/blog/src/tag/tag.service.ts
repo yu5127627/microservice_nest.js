@@ -12,10 +12,10 @@ export class TagService {
     @InjectRepository(Tag) private readonly tagModel: Repository<Tag>,
   ) {}
 
-  async list(attrs): Promise<Array<Tag>> {
-    if (attrs[0] === 'all') {
-      return await this[DEFAULT_MODEL].find();
-    }
-    return await this[DEFAULT_MODEL].find({ select: attrs });
+  async list(): Promise<Array<Tag>> {
+    // if (attrs[0] === 'all') {
+    //   return await this[DEFAULT_MODEL].find();
+    // }
+    return await this[DEFAULT_MODEL].find();
   }
 }
