@@ -18,16 +18,10 @@ import { TagService } from './tag.service';
           const blogDb = await new Promise((res) => {
             setTimeout(() => {
               res(null);
-            }, 300);
+            }, 1000);
           });
-          // console.log(blogDb.options.entities);
-
           // 获取某个数据库下某张表的连接
-          const tag = await getRepository('Tag', 'blog');
-          const list = await tag.find();
-          console.log(list);
-
-          return tag;
+          return await getRepository('Tag', 'blog');
         } catch (error) {
           console.log(error);
         }

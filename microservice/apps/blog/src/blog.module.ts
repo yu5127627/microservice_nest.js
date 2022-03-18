@@ -10,8 +10,8 @@ import { DbModule } from '@app/libs/db/db.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TagModule,
     DbModule,
-    // CategoryModule,
-    // ContentModule,
+    CategoryModule,
+    ContentModule,
   ],
 })
 export class BlogModule {}

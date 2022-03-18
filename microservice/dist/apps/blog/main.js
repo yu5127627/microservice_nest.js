@@ -18,7 +18,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BlogModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const category_module_1 = __webpack_require__(/*! ./category/category.module */ "./apps/blog/src/category/category.module.ts");
 const tag_module_1 = __webpack_require__(/*! ./tag/tag.module */ "./apps/blog/src/tag/tag.module.ts");
+const content_module_1 = __webpack_require__(/*! ./content/content.module */ "./apps/blog/src/content/content.module.ts");
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const db_module_1 = __webpack_require__(/*! @app/libs/db/db.module */ "./libs/src/db/db.module.ts");
 let BlogModule = class BlogModule {
@@ -29,10 +31,178 @@ BlogModule = __decorate([
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             tag_module_1.TagModule,
             db_module_1.DbModule,
+            category_module_1.CategoryModule,
+            content_module_1.ContentModule,
         ],
     })
 ], BlogModule);
 exports.BlogModule = BlogModule;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/category/category.controller.ts":
+/*!*******************************************************!*\
+  !*** ./apps/blog/src/category/category.controller.ts ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CategoryController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let CategoryController = class CategoryController {
+};
+CategoryController = __decorate([
+    (0, common_1.Controller)('category')
+], CategoryController);
+exports.CategoryController = CategoryController;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/category/category.module.ts":
+/*!***************************************************!*\
+  !*** ./apps/blog/src/category/category.module.ts ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CategoryModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const category_controller_1 = __webpack_require__(/*! ./category.controller */ "./apps/blog/src/category/category.controller.ts");
+const category_service_1 = __webpack_require__(/*! ./category.service */ "./apps/blog/src/category/category.service.ts");
+let CategoryModule = class CategoryModule {
+};
+CategoryModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [category_controller_1.CategoryController],
+        providers: [category_service_1.CategoryService]
+    })
+], CategoryModule);
+exports.CategoryModule = CategoryModule;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/category/category.service.ts":
+/*!****************************************************!*\
+  !*** ./apps/blog/src/category/category.service.ts ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CategoryService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let CategoryService = class CategoryService {
+};
+CategoryService = __decorate([
+    (0, common_1.Injectable)()
+], CategoryService);
+exports.CategoryService = CategoryService;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/content/content.controller.ts":
+/*!*****************************************************!*\
+  !*** ./apps/blog/src/content/content.controller.ts ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let ContentController = class ContentController {
+};
+ContentController = __decorate([
+    (0, common_1.Controller)('content')
+], ContentController);
+exports.ContentController = ContentController;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/content/content.module.ts":
+/*!*************************************************!*\
+  !*** ./apps/blog/src/content/content.module.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const content_controller_1 = __webpack_require__(/*! ./content.controller */ "./apps/blog/src/content/content.controller.ts");
+const content_service_1 = __webpack_require__(/*! ./content.service */ "./apps/blog/src/content/content.service.ts");
+let ContentModule = class ContentModule {
+};
+ContentModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [content_controller_1.ContentController],
+        providers: [content_service_1.ContentService]
+    })
+], ContentModule);
+exports.ContentModule = ContentModule;
+
+
+/***/ }),
+
+/***/ "./apps/blog/src/content/content.service.ts":
+/*!**************************************************!*\
+  !*** ./apps/blog/src/content/content.service.ts ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let ContentService = class ContentService {
+};
+ContentService = __decorate([
+    (0, common_1.Injectable)()
+], ContentService);
+exports.ContentService = ContentService;
 
 
 /***/ }),
@@ -53,7 +223,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a, _b;
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TagController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
@@ -64,11 +245,44 @@ let TagController = class TagController {
     constructor(tagService) {
         this.tagService = tagService;
     }
-    async list() {
-        const result = await this[DEFAULT_SERVICE].list();
+    async list(query) {
+        const result = await this[DEFAULT_SERVICE].list(query.attrs);
         return {
             code: 200,
-            message: '菜单查询成功',
+            message: '标签查询成功',
+            result,
+        };
+    }
+    async create(body) {
+        const result = await this[DEFAULT_SERVICE].create(body);
+        return {
+            code: 200,
+            message: '标签创建成功',
+            result,
+        };
+    }
+    async update(body) {
+        const { id } = body, rest = __rest(body, ["id"]);
+        const result = await this[DEFAULT_SERVICE].update(id, rest);
+        return {
+            code: 200,
+            message: '标签更新成功',
+            result,
+        };
+    }
+    async delete(body) {
+        const result = await this[DEFAULT_SERVICE].delete(body.ids);
+        return {
+            code: 200,
+            message: '标签删除成功',
+            result,
+        };
+    }
+    async detail(body) {
+        const result = await this[DEFAULT_SERVICE].detail(body.id);
+        return {
+            code: 200,
+            message: '标签查询成功',
             result,
         };
     }
@@ -76,12 +290,36 @@ let TagController = class TagController {
 __decorate([
     (0, microservices_1.MessagePattern)({ tag: 'list' }),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", typeof (_a = typeof Promise !== "undefined" && Promise) === "function" ? _a : Object)
 ], TagController.prototype, "list", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ tag: 'create' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+], TagController.prototype, "create", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ tag: 'update' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", typeof (_c = typeof Promise !== "undefined" && Promise) === "function" ? _c : Object)
+], TagController.prototype, "update", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ tag: 'delete' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", typeof (_d = typeof Promise !== "undefined" && Promise) === "function" ? _d : Object)
+], TagController.prototype, "delete", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ tag: 'detail' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", typeof (_e = typeof Promise !== "undefined" && Promise) === "function" ? _e : Object)
+], TagController.prototype, "detail", null);
 TagController = __decorate([
     (0, common_1.Controller)('tag'),
-    __metadata("design:paramtypes", [typeof (_b = typeof tag_service_1.TagService !== "undefined" && tag_service_1.TagService) === "function" ? _b : Object])
+    __metadata("design:paramtypes", [typeof (_f = typeof tag_service_1.TagService !== "undefined" && tag_service_1.TagService) === "function" ? _f : Object])
 ], TagController);
 exports.TagController = TagController;
 
@@ -122,12 +360,9 @@ TagModule = __decorate([
                         const blogDb = await new Promise((res) => {
                             setTimeout(() => {
                                 res(null);
-                            }, 300);
+                            }, 1000);
                         });
-                        const tag = await (0, typeorm_1.getRepository)('Tag', 'blog');
-                        const list = await tag.find();
-                        console.log(list);
-                        return tag;
+                        return await (0, typeorm_1.getRepository)('Tag', 'blog');
                     }
                     catch (error) {
                         console.log(error);
@@ -174,8 +409,24 @@ let TagService = class TagService {
     constructor(tagModel) {
         this.tagModel = tagModel;
     }
-    async list() {
-        return await this[DEFAULT_MODEL].find();
+    async list(attrs) {
+        if (attrs[0] === 'all') {
+            return await this[DEFAULT_MODEL].find();
+        }
+        return await this[DEFAULT_MODEL].find({ select: attrs });
+    }
+    async create(body) {
+        return await this[DEFAULT_MODEL].save(body);
+    }
+    async update(id, body) {
+        await this[DEFAULT_MODEL].update(id, body);
+        return await this[DEFAULT_MODEL].findOne(id);
+    }
+    async delete(ids) {
+        return await this[DEFAULT_MODEL].delete(ids);
+    }
+    async detail(id) {
+        return await this[DEFAULT_MODEL].findOne(id);
     }
 };
 TagService = __decorate([
@@ -846,30 +1097,35 @@ let ActionGuard = class ActionGuard {
         this.reflector = reflector;
     }
     async canActivate(context) {
-        const rules = this.reflector.get('rules', context.getHandler());
+        const rules = this.reflector.get('action', context.getHandler());
         if (rules && rules.length) {
-            const { user } = context.switchToHttp().getRequest();
-            const roleMenuModel = (0, typeorm_1.getRepository)(roleMenu_entity_1.RoleMenu);
-            const roleMenuList = await roleMenuModel.find({
-                where: { roleId: user.roleId },
-                select: ['menuId'],
-            });
-            const menuIds = roleMenuList.map((item) => item.menuId);
-            const menuModel = (0, typeorm_1.getRepository)(menu_entity_1.Menu);
-            const menulist = await menuModel.find({
-                where: { id: (0, typeorm_1.In)(menuIds), type: 3 },
-                select: ['action'],
-            });
-            const actionList = menulist.map((item) => item.action);
-            for (const rule of rules) {
-                if (!actionList.includes(rule)) {
-                    throw new common_1.UnauthorizedException({
-                        error: '403',
-                        message: '权限不足',
-                    });
+            try {
+                const { user } = context.switchToHttp().getRequest();
+                const roleMenuModel = (0, typeorm_1.getRepository)(roleMenu_entity_1.RoleMenu, 'gateway');
+                const roleMenuList = await roleMenuModel.find({
+                    where: { roleId: user.roleId },
+                    select: ['menuId'],
+                });
+                const menuIds = roleMenuList.map((item) => item.menuId);
+                const menuModel = (0, typeorm_1.getRepository)(menu_entity_1.Menu, 'gateway');
+                const menulist = await menuModel.find({
+                    where: { id: (0, typeorm_1.In)(menuIds), type: 3 },
+                    select: ['action'],
+                });
+                const actionList = menulist.map((item) => item.action);
+                console.log(actionList);
+                for (const rule of rules) {
+                    if (!actionList.includes(rule)) {
+                        throw new common_1.UnauthorizedException({
+                            error: '403',
+                            message: '权限不足',
+                        });
+                    }
                 }
+                return true;
             }
-            return true;
+            catch (error) {
+            }
         }
         else {
             return true;
@@ -1115,15 +1371,15 @@ __decorate([
     __metadata("design:type", String)
 ], Tag.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '排序' }),
+    (0, typeorm_1.Column)({ comment: '排序', default: 99 }),
     __metadata("design:type", Number)
 ], Tag.prototype, "sort", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '分类图' }),
+    (0, typeorm_1.Column)({ comment: '分类图', default: '' }),
     __metadata("design:type", String)
 ], Tag.prototype, "simg", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '描述' }),
+    (0, typeorm_1.Column)({ comment: '描述', default: '' }),
     __metadata("design:type", String)
 ], Tag.prototype, "description", void 0);
 __decorate([

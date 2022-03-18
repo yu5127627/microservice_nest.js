@@ -26,7 +26,7 @@ export class RoleController {
 
   @Get('/actions/:id')
   @ApiOperation({ summary: '查询角色菜单' })
-  @Auth(['menu:view', 'roleMenu:view'])
+  @Auth(['menu:view', 'role:view'])
   async getActions(@Param('id') id: number): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].getActions(id);
     return {
@@ -38,7 +38,7 @@ export class RoleController {
 
   @Put('actions/:id')
   @ApiOperation({ summary: '修改角色权限' })
-  @Auth(['roleMenu:create', 'roleMenu:delete'])
+  @Auth(['role:update', 'role:update'])
   async setAction(
     @Param('id') id: number,
     @Body() body: RoleRulesDto,

@@ -15,13 +15,13 @@ export class Tag {
   @Column({ length: 32, comment: '名称' })
   name: string;
 
-  @Column({ comment: '排序' })
+  @Column({ comment: '排序', default: 99 })
   sort: number;
 
-  @Column({ comment: '分类图' })
+  @Column({ comment: '分类图', default: '' })
   simg: string;
 
-  @Column({ comment: '描述' })
+  @Column({ comment: '描述', default: '' })
   description: string;
 
   @CreateDateColumn({ type: 'datetime', comment: '创建时间' })

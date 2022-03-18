@@ -5,10 +5,11 @@ import {
   ClientsModule,
   Transport,
 } from '@nestjs/microservices';
+import { AuthModule } from '../../system/auth/auth.module';
 import { TagController } from './tag.controller';
 
 @Module({
-  imports: [],
+  imports: [AuthModule],
   controllers: [TagController],
   providers: [
     {

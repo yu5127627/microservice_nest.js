@@ -23,16 +23,16 @@ async function bootstrap() {
   await app.startAllMicroservices();
 
   // 全局验证
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     disableErrorMessages: false, // 关闭详细错误信息
-  //     transform: true, // 类型转换
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: false, // 关闭详细错误信息
+      transform: true, // 类型转换
+    }),
+  );
   // 全局注册响应拦截器
-  // app.useGlobalInterceptors(new ResponseInterceptors());
+  app.useGlobalInterceptors(new ResponseInterceptors());
   // 全局异常过滤
-  // app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
   // 全局路径前缀;
   app.setGlobalPrefix('api/v1');
   // 处理跨域
