@@ -30,7 +30,7 @@ export class CategoryController {
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<CategoryListDto>,
   ): Observable<any> {
-    const pattern = { tag: 'list' };
+    const pattern = { category: 'list' };
     return this.client.send(pattern, { attrs });
   }
 
@@ -38,7 +38,7 @@ export class CategoryController {
   @ApiOperation({ summary: '创建分类' })
   @Auth(['tag:create'])
   create(@Body() body: CategoryCreateDto): Observable<any> {
-    const pattern = { tag: 'create' };
+    const pattern = { category: 'create' };
     return this.client.send(pattern, body);
   }
 
@@ -49,7 +49,7 @@ export class CategoryController {
     @Param('id') id: number,
     @Body() body: CategoryUpdateDto,
   ): Observable<any> {
-    const pattern = { tag: 'update' };
+    const pattern = { category: 'update' };
     return this.client.send(pattern, { id, ...body });
   }
 
@@ -57,7 +57,7 @@ export class CategoryController {
   @ApiOperation({ summary: '删除分类' })
   @Auth(['tag:delete'])
   delete(@Body('ids') ids: Array<number>): Observable<any> {
-    const pattern = { tag: 'delete' };
+    const pattern = { category: 'delete' };
     return this.client.send(pattern, { ids });
   }
 
@@ -65,7 +65,7 @@ export class CategoryController {
   @ApiOperation({ summary: '分类详情' })
   @Auth(['tag:view'])
   detail(@Param('id') id: number): Observable<any> {
-    const pattern = { tag: 'detail' };
+    const pattern = { category: 'detail' };
     return this.client.send(pattern, { id });
   }
 }

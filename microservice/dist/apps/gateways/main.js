@@ -36,23 +36,23 @@ let CategoryController = class CategoryController {
         this.client = client;
     }
     list(attrs) {
-        const pattern = { tag: 'list' };
+        const pattern = { category: 'list' };
         return this.client.send(pattern, { attrs });
     }
     create(body) {
-        const pattern = { tag: 'create' };
+        const pattern = { category: 'create' };
         return this.client.send(pattern, body);
     }
     update(id, body) {
-        const pattern = { tag: 'update' };
+        const pattern = { category: 'update' };
         return this.client.send(pattern, Object.assign({ id }, body));
     }
     delete(ids) {
-        const pattern = { tag: 'delete' };
+        const pattern = { category: 'delete' };
         return this.client.send(pattern, { ids });
     }
     detail(id) {
-        const pattern = { tag: 'detail' };
+        const pattern = { category: 'detail' };
         return this.client.send(pattern, { id });
     }
 };
@@ -166,13 +166,58 @@ exports.CategoryModule = CategoryModule;
 /*!*******************************************************************!*\
   !*** ./apps/gateways/src/blog/category/dto/CategoryCreate.dto.ts ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryCreateDto = void 0;
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class CategoryCreateDto {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分类', description: '名称' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分类名称必填' }),
+    __metadata("design:type", String)
+], CategoryCreateDto.prototype, "name", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分类分组必填' }),
+    __metadata("design:type", String)
+], CategoryCreateDto.prototype, "group", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 99, description: '排序' }),
+    __metadata("design:type", Number)
+], CategoryCreateDto.prototype, "sort", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        default: 'http://qapp-lm.oss-cn-hangzhou.aliyuncs.com/upload/lwyd/cover/1634138768954_1fht45hhr.jpg',
+        description: '封面图',
+    }),
+    __metadata("design:type", String)
+], CategoryCreateDto.prototype, "simg", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        default: '我是描述的内容',
+        description: '描述',
+    }),
+    __metadata("design:type", String)
+], CategoryCreateDto.prototype, "description", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: 0, description: '父级分类ID' }),
+    __metadata("design:type", Number)
+], CategoryCreateDto.prototype, "pid", void 0);
 exports.CategoryCreateDto = CategoryCreateDto;
 
 
@@ -182,13 +227,59 @@ exports.CategoryCreateDto = CategoryCreateDto;
 /*!*******************************************************************!*\
   !*** ./apps/gateways/src/blog/category/dto/CategoryUpdate.dto.ts ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryUpdateDto = void 0;
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class CategoryUpdateDto {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分类', description: '名称' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分类名称必填' }),
+    __metadata("design:type", String)
+], CategoryUpdateDto.prototype, "name", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分类分组必填' }),
+    __metadata("design:type", String)
+], CategoryUpdateDto.prototype, "group", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 99, description: '排序' }),
+    __metadata("design:type", Number)
+], CategoryUpdateDto.prototype, "sort", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        default: 'http://qapp-lm.oss-cn-hangzhou.aliyuncs.com/upload/lwyd/cover/1634138768954_1fht45hhr.jpg',
+        description: '封面图',
+    }),
+    __metadata("design:type", String)
+], CategoryUpdateDto.prototype, "simg", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        default: '我是描述的内容',
+        description: '描述',
+    }),
+    __metadata("design:type", String)
+], CategoryUpdateDto.prototype, "description", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: 0, description: '父级分类ID' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '父级分类必填' }),
+    __metadata("design:type", Number)
+], CategoryUpdateDto.prototype, "pid", void 0);
 exports.CategoryUpdateDto = CategoryUpdateDto;
 
 
