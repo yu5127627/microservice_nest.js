@@ -1,5 +1,5 @@
 import { Result } from '@app/libs/common/interface/result.interface';
-import { Controller, Get, ParseArrayPipe, Query } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { TagService } from './tag.service';
 const DEFAULT_SERVICE = 'tagService';

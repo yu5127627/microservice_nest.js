@@ -1,8 +1,7 @@
-import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { Menu } from '@app/libs/db/entity/menu.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { MenuCreateDto } from './dto/MenuCreate.dto';
 import { MenuUpdateDto } from './dto/MenuUpdate.dto';
 const DEFAULT_MODEL = 'menuModel';

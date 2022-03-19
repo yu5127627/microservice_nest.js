@@ -30,22 +30,20 @@ const blogDB = TypeOrmModule.forRootAsync({
 });
 
 const gatewayDB = TypeOrmModule.forRootAsync({
-  useFactory: async () => {
-    return {
-      name: 'gateway',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.GATEWAY_DB_USERNAME,
-      password: process.env.GATEWAY_DB_PASSWORD,
-      database: process.env.GATEWAY_DB_DATABSE,
-      type: 'mysql',
-      entities: [Role, Manage, Menu, Setting, RoleMenu, LoginLog],
-      synchronize: true,
-      logger: 'file',
-      logging: true,
-      timezone: 'Z',
-    };
-  },
+  useFactory: async () => ({
+    name: 'gateway',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    username: process.env.GATEWAY_DB_USERNAME,
+    password: process.env.GATEWAY_DB_PASSWORD,
+    database: process.env.GATEWAY_DB_DATABSE,
+    type: 'mysql',
+    entities: [Role, Manage, Menu, Setting, RoleMenu, LoginLog],
+    synchronize: true,
+    logger: 'file',
+    logging: true,
+    timezone: 'Z',
+  }),
 });
 @Module({
   imports: [gatewayDB, blogDB],

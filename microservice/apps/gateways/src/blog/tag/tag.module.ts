@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  ClientProxyFactory,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { AuthModule } from '../../system/auth/auth.module';
 import { TagController } from './tag.controller';
 
@@ -15,12 +11,12 @@ import { TagController } from './tag.controller';
     {
       provide: 'BLOG_SERVICE',
       useFactory: (configService: ConfigService) => {
-        const blogPort = configService.get('BLOG_PORT');
+        const port = configService.get('BLOG_PORT');
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
             host: '127.0.0.1',
-            port: blogPort || 8001,
+            port: port || 8001,
           },
         });
       },

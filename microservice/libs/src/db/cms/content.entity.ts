@@ -39,11 +39,11 @@ export class Content {
   @UpdateDateColumn({ type: 'datetime', comment: '更新时间' })
   utime: string;
 
-  @ManyToMany((type) => Tag, (tag) => tag.content)
+  @ManyToMany(() => Tag, (tag) => tag.content)
   @JoinTable({ name: 'content_tag' })
   tags: Tag[];
 
-  @ManyToMany((type) => Category, (category) => category.content)
+  @ManyToMany(() => Category, (category) => category.content)
   @JoinTable({ name: 'content_category' })
   categorys: Category[];
 }

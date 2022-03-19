@@ -26,6 +26,8 @@ import { CategoryModule } from './blog/category/category.module';
     SettingModel,
     LogModule,
     TagModule,
+    ContentModule,
+    CategoryModule,
   ],
 })
 export class GatewaysModule {}

@@ -27,6 +27,6 @@ export class Tag {
   @CreateDateColumn({ type: 'datetime', comment: '创建时间' })
   ctime: string;
 
-  @ManyToMany((type) => Content, (content) => content.tags)
+  @ManyToMany(() => Content, (content) => content.tags)
   content: Content[];
 }

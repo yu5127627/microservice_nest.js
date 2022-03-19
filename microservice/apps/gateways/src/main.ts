@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HttpExceptionFilter } from '@app/libs/common/filters/http-exception.filter';
 import { ResponseInterceptors } from '@app/libs/common/interceptor/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
@@ -13,7 +12,7 @@ async function bootstrap() {
     logger: ['error', 'warn'],
   });
 
-  const micro1 = app.connectMicroservice<MicroserviceOptions>({
+  app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: { retryAttempts: 5, retryDelay: 3000 },
   });

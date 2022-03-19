@@ -8,7 +8,6 @@ import { AuthService } from './auth.service';
 import { ManageLocalStrategy } from './strategy/manageLocal.strategy';
 import { AuthGuard } from '@app/libs/common/guards/auth.guard';
 import { LogModule } from '../../log/log.module';
-import { LogService } from '../../log/log.service';
 
 @Module({
   imports: [

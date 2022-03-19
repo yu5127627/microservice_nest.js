@@ -50,10 +50,10 @@ export class TagController {
     return this.client.send(pattern, { id, ...body });
   }
 
-  @Delete(':id')
+  @Delete()
   @ApiOperation({ summary: '删除标签' })
   @Auth(['tag:delete'])
-  delete(@Param('ids') ids: Array<number>): Observable<any> {
+  delete(@Body('ids') ids: Array<number>): Observable<any> {
     const pattern = { tag: 'delete' };
     return this.client.send(pattern, { ids });
   }

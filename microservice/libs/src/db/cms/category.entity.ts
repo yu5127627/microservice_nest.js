@@ -33,6 +33,6 @@ export class Category {
   @CreateDateColumn({ type: 'datetime', comment: '创建时间' })
   ctime: string;
 
-  @ManyToMany((type) => Content, (content) => content.categorys)
+  @ManyToMany(() => Content, (content) => content.categorys)
   content: Content[];
 }

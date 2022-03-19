@@ -36,7 +36,6 @@ export class ActionGuard implements CanActivate {
         });
         // 角色下拥有的所有权限
         const actionList = menulist.map((item) => item.action);
-        console.log(actionList);
 
         // 判断权限  不符合退出
         for (const rule of rules) {
