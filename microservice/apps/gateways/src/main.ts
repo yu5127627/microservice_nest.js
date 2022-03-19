@@ -17,8 +17,6 @@ async function bootstrap() {
     options: { retryAttempts: 5, retryDelay: 3000 },
   });
 
-  // console.log(micro1);
-
   await app.startAllMicroservices();
 
   // 全局验证

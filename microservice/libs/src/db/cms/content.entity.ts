@@ -18,19 +18,19 @@ export class Content {
   @Column({ comment: '标题' })
   title: string;
 
-  @Column({ comment: '内容' })
+  @Column({ type: 'longtext', comment: '内容' })
   content: string;
 
-  @Column({ comment: '浏览数量' })
+  @Column({ comment: '浏览数量', default: 0 })
   scan: number;
 
-  @Column({ comment: '推荐指数' })
+  @Column({ comment: '推荐指数', default: 0 })
   recom: number;
 
-  @Column({ comment: '置顶' })
+  @Column({ comment: '置顶', default: false })
   top: boolean;
 
-  @Column({ comment: '状态' })
+  @Column({ default: 'draft', comment: '状态' }) // draft:草稿  up_rack:上架  down_rack:下架
   status: string;
 
   @CreateDateColumn({ type: 'datetime', comment: '创建时间' })

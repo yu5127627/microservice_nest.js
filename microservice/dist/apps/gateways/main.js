@@ -304,79 +304,87 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentController = void 0;
-const auth_decorator_1 = __webpack_require__(/*! @app/libs/common/decorator/auth.decorator */ "./libs/src/common/decorator/auth.decorator.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const rxjs_1 = __webpack_require__(/*! rxjs */ "rxjs");
 const ContentCreate_dto_1 = __webpack_require__(/*! ./dto/ContentCreate.dto */ "./apps/gateways/src/blog/content/dto/ContentCreate.dto.ts");
+const ContentPages_dto_1 = __webpack_require__(/*! ./dto/ContentPages.dto */ "./apps/gateways/src/blog/content/dto/ContentPages.dto.ts");
 const ContentUpdate_dto_1 = __webpack_require__(/*! ./dto/ContentUpdate.dto */ "./apps/gateways/src/blog/content/dto/ContentUpdate.dto.ts");
 let ContentController = class ContentController {
     constructor(client) {
         this.client = client;
     }
+    contentPages(query) {
+        const pattern = { content: 'pages' };
+        return this.client.send(pattern, query);
+    }
     create(body) {
-        const pattern = { tag: 'create' };
+        const pattern = { content: 'create' };
         return this.client.send(pattern, body);
     }
     update(id, body) {
-        const pattern = { tag: 'update' };
+        const pattern = { content: 'update' };
         return this.client.send(pattern, Object.assign({ id }, body));
     }
     delete(ids) {
-        const pattern = { tag: 'delete' };
+        const pattern = { content: 'delete' };
         return this.client.send(pattern, { ids });
     }
     detail(id) {
-        const pattern = { tag: 'detail' };
+        const pattern = { content: 'detail' };
         return this.client.send(pattern, { id });
     }
 };
 __decorate([
+    (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: '内容分页查询' }),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_a = typeof ContentPages_dto_1.ContentPagesDto !== "undefined" && ContentPages_dto_1.ContentPagesDto) === "function" ? _a : Object]),
+    __metadata("design:returntype", typeof (_b = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _b : Object)
+], ContentController.prototype, "contentPages", null);
+__decorate([
     (0, common_1.Post)(),
     (0, swagger_1.ApiOperation)({ summary: '创建内容' }),
-    (0, auth_decorator_1.Auth)(['tag:create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof ContentCreate_dto_1.ContentCreateDto !== "undefined" && ContentCreate_dto_1.ContentCreateDto) === "function" ? _a : Object]),
-    __metadata("design:returntype", typeof (_b = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _b : Object)
+    __metadata("design:paramtypes", [typeof (_c = typeof ContentCreate_dto_1.ContentCreateDto !== "undefined" && ContentCreate_dto_1.ContentCreateDto) === "function" ? _c : Object]),
+    __metadata("design:returntype", typeof (_d = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _d : Object)
 ], ContentController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '编辑内容' }),
-    (0, auth_decorator_1.Auth)(['tag:update']),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, typeof (_c = typeof ContentUpdate_dto_1.ContentUpdateDto !== "undefined" && ContentUpdate_dto_1.ContentUpdateDto) === "function" ? _c : Object]),
-    __metadata("design:returntype", typeof (_d = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _d : Object)
+    __metadata("design:paramtypes", [Number, typeof (_e = typeof ContentUpdate_dto_1.ContentUpdateDto !== "undefined" && ContentUpdate_dto_1.ContentUpdateDto) === "function" ? _e : Object]),
+    __metadata("design:returntype", typeof (_f = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _f : Object)
 ], ContentController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(),
     (0, swagger_1.ApiOperation)({ summary: '删除内容' }),
-    (0, auth_decorator_1.Auth)(['tag:delete']),
     __param(0, (0, common_1.Body)('ids')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_e = typeof Array !== "undefined" && Array) === "function" ? _e : Object]),
-    __metadata("design:returntype", typeof (_f = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _f : Object)
+    __metadata("design:paramtypes", [typeof (_g = typeof Array !== "undefined" && Array) === "function" ? _g : Object]),
+    __metadata("design:returntype", typeof (_h = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _h : Object)
 ], ContentController.prototype, "delete", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '内容详情' }),
-    (0, auth_decorator_1.Auth)(['tag:view']),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", typeof (_g = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _g : Object)
+    __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
 ], ContentController.prototype, "detail", null);
 ContentController = __decorate([
     (0, common_1.Controller)('content'),
     (0, swagger_1.ApiTags)('内容'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
-    __metadata("design:paramtypes", [typeof (_h = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _h : Object])
+    __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
 ], ContentController);
 exports.ContentController = ContentController;
 
@@ -436,14 +444,90 @@ exports.ContentModule = ContentModule;
 /*!*****************************************************************!*\
   !*** ./apps/gateways/src/blog/content/dto/ContentCreate.dto.ts ***!
   \*****************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentCreateDto = void 0;
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class ContentCreateDto {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '默认标题', description: '文章标题' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '标题不得为空' }),
+    __metadata("design:type", String)
+], ContentCreateDto.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: true,
+        default: '我是文章的默认内容',
+        description: '文章内容',
+    }),
+    (0, class_validator_1.IsNotEmpty)({ message: '内容不得为空' }),
+    __metadata("design:type", String)
+], ContentCreateDto.prototype, "content", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 10, description: '推荐指数' }),
+    __metadata("design:type", Number)
+], ContentCreateDto.prototype, "recom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: true, description: '是否置顶' }),
+    __metadata("design:type", Boolean)
+], ContentCreateDto.prototype, "top", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '内容状态' }),
+    __metadata("design:type", String)
+], ContentCreateDto.prototype, "status", void 0);
 exports.ContentCreateDto = ContentCreateDto;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/blog/content/dto/ContentPages.dto.ts":
+/*!****************************************************************!*\
+  !*** ./apps/gateways/src/blog/content/dto/ContentPages.dto.ts ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentPagesDto = void 0;
+const pagination_dto_1 = __webpack_require__(/*! @app/libs/common/dto/pagination.dto */ "./libs/src/common/dto/pagination.dto.ts");
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+class ContentPagesDto extends pagination_dto_1.PaginationDto {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '测试', description: '文章标题' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: true, description: '是否置顶' }),
+    __metadata("design:type", Boolean)
+], ContentPagesDto.prototype, "top", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '文章状态' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "status", void 0);
+exports.ContentPagesDto = ContentPagesDto;
 
 
 /***/ }),
@@ -452,13 +536,54 @@ exports.ContentCreateDto = ContentCreateDto;
 /*!*****************************************************************!*\
   !*** ./apps/gateways/src/blog/content/dto/ContentUpdate.dto.ts ***!
   \*****************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentUpdateDto = void 0;
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class ContentUpdateDto {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '默认标题', description: '文章标题' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '标题不得为空' }),
+    __metadata("design:type", String)
+], ContentUpdateDto.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: true,
+        default: '我是文章的默认内容',
+        description: '文章内容',
+    }),
+    (0, class_validator_1.IsNotEmpty)({ message: '内容不得为空' }),
+    __metadata("design:type", String)
+], ContentUpdateDto.prototype, "content", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 0, description: '浏览量' }),
+    __metadata("design:type", Number)
+], ContentUpdateDto.prototype, "scan", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: 10, description: '推荐指数' }),
+    __metadata("design:type", Number)
+], ContentUpdateDto.prototype, "recom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: true, description: '是否置顶' }),
+    __metadata("design:type", Boolean)
+], ContentUpdateDto.prototype, "top", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '内容状态' }),
+    __metadata("design:type", String)
+], ContentUpdateDto.prototype, "status", void 0);
 exports.ContentUpdateDto = ContentUpdateDto;
 
 
@@ -3344,23 +3469,23 @@ __decorate([
     __metadata("design:type", String)
 ], Content.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '内容' }),
+    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容' }),
     __metadata("design:type", String)
 ], Content.prototype, "content", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '浏览数量' }),
+    (0, typeorm_1.Column)({ comment: '浏览数量', default: 0 }),
     __metadata("design:type", Number)
 ], Content.prototype, "scan", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '推荐指数' }),
+    (0, typeorm_1.Column)({ comment: '推荐指数', default: 0 }),
     __metadata("design:type", Number)
 ], Content.prototype, "recom", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '置顶' }),
+    (0, typeorm_1.Column)({ comment: '置顶', default: false }),
     __metadata("design:type", Boolean)
 ], Content.prototype, "top", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ comment: '状态' }),
+    (0, typeorm_1.Column)({ default: 'draft', comment: '状态' }),
     __metadata("design:type", String)
 ], Content.prototype, "status", void 0);
 __decorate([
