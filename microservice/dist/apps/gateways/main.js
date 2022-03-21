@@ -888,13 +888,13 @@ let GatewaysModule = class GatewaysModule {
 GatewaysModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            db_module_1.DbModule,
             config_1.ConfigModule.forRoot({ isGlobal: true, cache: true }),
             libs_1.LibsModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             role_module_1.RoleModule,
             manage_module_1.ManageModule,
-            db_module_1.DbModule,
             menu_module_1.MenuModule,
             config_module_1.ConfigModule,
             log_module_1.LogModule,
@@ -3430,7 +3430,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Category.prototype, "content", void 0);
 Category = __decorate([
-    (0, typeorm_1.Entity)({ name: 'category', database: 'test_blog' })
+    (0, typeorm_1.Entity)('category')
 ], Category);
 exports.Category = Category;
 
@@ -3565,7 +3565,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Tag.prototype, "content", void 0);
 Tag = __decorate([
-    (0, typeorm_1.Entity)({ name: 'tag', database: 'test_blog' })
+    (0, typeorm_1.Entity)('tag')
 ], Tag);
 exports.Tag = Tag;
 
@@ -3598,6 +3598,22 @@ const setting_entity_1 = __webpack_require__(/*! ./entity/setting.entity */ "./l
 const category_entity_1 = __webpack_require__(/*! ./cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const tag_entity_1 = __webpack_require__(/*! ./cms/tag.entity */ "./libs/src/db/cms/tag.entity.ts");
 const content_entity_1 = __webpack_require__(/*! ./cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
+    useFactory: async () => ({
+        name: 'gateway',
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT),
+        username: process.env.GATEWAY_DB_USERNAME,
+        password: process.env.GATEWAY_DB_PASSWORD,
+        database: process.env.GATEWAY_DB_DATABSE,
+        type: 'mysql',
+        entities: [role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
+        synchronize: true,
+        logger: 'file',
+        logging: true,
+        timezone: 'Z',
+    }),
+});
 const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
     name: 'blog',
     useFactory: () => ({
@@ -3609,22 +3625,6 @@ const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
         database: process.env.BLOG_DB_DATABSE,
         type: 'mysql',
         entities: [category_entity_1.Category, tag_entity_1.Tag, content_entity_1.Content],
-        synchronize: true,
-        logger: 'file',
-        logging: true,
-        timezone: 'Z',
-    }),
-});
-const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
-    useFactory: async () => ({
-        name: 'gateway',
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
-        username: process.env.GATEWAY_DB_USERNAME,
-        password: process.env.GATEWAY_DB_PASSWORD,
-        database: process.env.GATEWAY_DB_DATABSE,
-        type: 'mysql',
-        entities: [role_entity_1.Role, manage_entity_1.Manage, menu_entity_1.Menu, setting_entity_1.Setting, roleMenu_entity_1.RoleMenu, loginLog_entity_1.LoginLog],
         synchronize: true,
         logger: 'file',
         logging: true,

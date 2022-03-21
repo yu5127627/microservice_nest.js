@@ -15,13 +15,13 @@ import { CategoryModule } from './blog/category/category.module';
 
 @Module({
   imports: [
+    DbModule,
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
     LibsModule,
     AuthModule,
     UserModule,
     RoleModule,
     ManageModule,
-    DbModule,
     MenuModule,
     SettingModel,
     LogModule,

@@ -7,7 +7,7 @@ import { DbModule } from '@app/libs/db/db.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, cache: true }),
     TagModule,
     DbModule,
     CategoryModule,

@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Content } from './content.entity';
 
-@Entity({ name: 'tag', database: 'test_blog' })
+@Entity('tag')
 export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
