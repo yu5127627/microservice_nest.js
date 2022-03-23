@@ -1,36 +1,55 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import {
-  resultType,
   PureHttpError,
-  RequestMethods,
   PureHttpResoponse,
-  PureHttpRequestConfig
-} from "./types.d";
+  PureHttpRequestConfig,
+  Request
+} from "./types";
+import md5 from 'md5';
 import qs from "qs";
 import NProgress from "../progress";
-import { loadEnv } from "@build/index";
-import { getToken } from "/@/utils/auth";
-import { useUserStoreHook } from "/@/store/modules/user";
+import { getToken } from "@/utils/auth";
+import { loadEnv } from "@/build";
 
 // 加载环境变量 VITE_PROXY_DOMAIN（开发环境）  VITE_PROXY_DOMAIN_REAL（打包后的线上环境）
-const { VITE_PROXY_DOMAIN_REAL } = loadEnv();
+const { VITE_PROXY_DOMAIN, VITE_PROXY_DOMAIN_REAL } = loadEnv();
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
-  baseURL: VITE_PROXY_DOMAIN_REAL,
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? VITE_PROXY_DOMAIN_REAL
+      : VITE_PROXY_DOMAIN,
   // 当前使用mock模拟请求，将baseURL制空，如果你的环境用到了http请求，请删除下面的baseURL启用上面的baseURL，并将11行、16行代码注释取消
-  // baseURL: "",
   timeout: 10000,
   headers: {
     Accept: "application/json, text/plain, */*",
     "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest"
+    "X-Requested-With": "XMLHttpRequest",
   },
   // 数组格式参数序列化
-  paramsSerializer: params => qs.stringify(params, { indices: false })
+  paramsSerializer: params => qs.stringify(params, { indices: false }),
+  transformRequest: [
+    (data, config) => {
+      // @ts-ignore
+      switch (config["Content-Type"].toLowerCase()) {
+        case "application/x-www-form-urlencoded": {
+          return qs.stringify(data);
+        }
+        case "multipart/form-data;charset=utf-8": {
+          return data;
+        }
+        default: {
+          return JSON.stringify(data);
+        }
+      }
+    }
+  ]
 };
 
+
 class PureHttp {
+  private static caches: any = {};
   constructor() {
     this.httpInterceptorsRequest();
     this.httpInterceptorsResponse();
@@ -59,21 +78,8 @@ class PureHttp {
         }
         const token = getToken();
         if (token) {
-          const data = JSON.parse(token);
-          const now = new Date().getTime();
-          const expired = parseInt(data.expires) - now <= 0;
-          if (expired) {
-            // token过期刷新
-            useUserStoreHook()
-              .refreshToken(data)
-              .then((res: resultType) => {
-                config.headers["Authorization"] = "Bearer " + res.accessToken;
-                return $config;
-              });
-          } else {
-            config.headers["Authorization"] = "Bearer " + data.accessToken;
-            return $config;
-          }
+          // @ts-ignore
+          config.headers["Authorization"] = "Bearer " + token;
         } else {
           return $config;
         }
@@ -115,24 +121,36 @@ class PureHttp {
   }
 
   // 通用请求工具函数
-  public request<T>(
-    method: RequestMethods,
-    url: string,
-    param?: AxiosRequestConfig,
-    axiosConfig?: PureHttpRequestConfig
-  ): Promise<T> {
-    const config = {
-      method,
-      url,
-      ...param,
-      ...axiosConfig
-    } as PureHttpRequestConfig;
-
+  public request<T>({
+    method='GET',
+    url,
+    data={},
+    cache=false,
+    headers={} }:Request): Promise<T> {
+    let key: string;
+    let params: object = {};
+    if (cache) {
+      key = md5(params ? method + url + JSON.stringify(params) : method + url);
+      if(PureHttp.caches[key]) return PureHttp.caches[key];
+      PureHttp.caches[key] = null;
+    }
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        `method: ${method} / url: ${url} / body: ${JSON.stringify(
+          params
+        )} / headers: ${JSON.stringify(headers)}`
+      );
+    }
+    if (method.toLocaleUpperCase() === 'GET') {
+      params = data;
+      data = {};
+    }
     // 单独处理自定义请求/响应回掉
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
-        .request(config)
-        .then((response: undefined) => {
+        .request({ method, url, params, data, headers })
+        .then((response: any) => {
+          if(cache) PureHttp.caches[key] =response;
           resolve(response);
         })
         .catch(error => {
@@ -140,32 +158,13 @@ class PureHttp {
         });
     });
   }
-
-  // 单独抽离的post工具函数
-  public post<T>(
-    url: string,
-    params?: T,
-    config?: PureHttpRequestConfig
-  ): Promise<T> {
-    return this.request<T>("post", url, params, config);
-  }
-
-  // 单独抽离的get工具函数
-  public get<T>(
-    url: string,
-    params?: T,
-    config?: PureHttpRequestConfig
-  ): Promise<T> {
-    return this.request<T>("get", url, params, config);
-  }
 }
+
+const http = new PureHttp();
 
 export interface Response {
-  code: number;
-  messages: string;
-  path: string;
-  responsetime: string;
-  result?: any;
+  code: number,
+  data: any
 }
 
-export const http = new PureHttp();
+export const request = http.request;

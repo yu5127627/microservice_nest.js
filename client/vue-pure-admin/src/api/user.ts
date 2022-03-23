@@ -1,4 +1,4 @@
-import { http } from "../utils/http";
+import { http, Response } from "../utils/http";
 
 interface userType extends Promise<any> {
   svg?: string;
@@ -13,7 +13,7 @@ export const getVerify = (): userType => {
 
 // 登录
 export const getLogin = (data: object) => {
-  return http.request("post", "/login", { data });
+  return http.request<Response>("post", "/api/v1/auth/login", { data });
 };
 
 // 刷新token

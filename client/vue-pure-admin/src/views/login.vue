@@ -1,7 +1,115 @@
+<template>
+  <div>
+    <img :src="bg" class="wave" />
+    <div class="container">
+      <div class="img">
+        <component :is="currentWeek"></component>
+      </div>
+      <div class="login-box">
+        <div class="login-form">
+          <avatar class="avatar" />
+          <h2
+            v-motion
+            :initial="{
+              opacity: 0,
+              y: 100
+            }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: 100
+              }
+            }"
+          >
+            Pure Admin
+          </h2>
+          <div
+            class="input-group user focus"
+            v-motion
+            :initial="{
+              opacity: 0,
+              y: 100
+            }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: 200
+              }
+            }"
+          >
+            <div class="icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <div>
+              <h5>用户名</h5>
+              <input
+                type="text"
+                class="input"
+                v-model="username"
+                @focus="onUserFocus"
+                @blur="onUserBlur"
+              />
+            </div>
+          </div>
+          <div
+            class="input-group pwd focus"
+            v-motion
+            :initial="{
+              opacity: 0,
+              y: 100
+            }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: 300
+              }
+            }"
+          >
+            <div class="icon">
+              <i class="fa fa-lock"></i>
+            </div>
+            <div>
+              <h5>密码</h5>
+              <input
+                type="password"
+                class="input"
+                v-model="password"
+                @focus="onPwdFocus"
+                @blur="onPwdBlur"
+              />
+            </div>
+          </div>
+          <button
+            class="btn"
+            v-motion
+            :initial="{
+              opacity: 0,
+              y: 10
+            }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: 400
+              }
+            }"
+            @click="onLogin"
+          >
+            登录
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { initRouter } from "/@/router";
+import { initRouter } from "/@/router/index";
 import { storageSession } from "/@/utils/storage";
 import { addClass, removeClass } from "/@/utils/operate";
 import bg from "/@/assets/login/bg.png";
@@ -13,6 +121,7 @@ import illustration3 from "/@/assets/login/illustration3.svg";
 import illustration4 from "/@/assets/login/illustration4.svg";
 import illustration5 from "/@/assets/login/illustration5.svg";
 import illustration6 from "/@/assets/login/illustration6.svg";
+import { getLogin } from "../api/user";
 
 const router = useRouter();
 
@@ -38,16 +147,23 @@ const currentWeek = computed(() => {
   }
 });
 
-let user = ref("admin");
-let pwd = ref("123456");
+let username = ref("admin");
+let password = ref("123456");
 
-const onLogin = (): void => {
-  storageSession.setItem("info", {
-    username: "admin",
-    accessToken: "eyJhbGciOiJIUzUxMiJ9.test"
+const onLogin = async (): Promise<void> => {
+  const { code, result } = await getLogin({
+    username: username.value,
+    password: password.value
   });
-  initRouter("admin").then(() => {});
-  router.push("/");
+  debugger;
+  console.log(code, result);
+
+  // storageSession.setItem("info", {
+  //   username: "admin",
+  //   accessToken: "eyJhbGciOiJIUzUxMiJ9.test"
+  // });
+  // initRouter("admin").then(() => {});
+  // router.push("/");
 };
 
 function onUserFocus() {
@@ -68,112 +184,6 @@ function onPwdBlur() {
     removeClass(document.querySelector(".pwd"), "focus");
 }
 </script>
-
-<template>
-  <img :src="bg" class="wave" />
-  <div class="container">
-    <div class="img">
-      <component :is="currentWeek"></component>
-    </div>
-    <div class="login-box">
-      <div class="login-form">
-        <avatar class="avatar" />
-        <h2
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 100
-            }
-          }"
-        >
-          Pure Admin
-        </h2>
-        <div
-          class="input-group user focus"
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 200
-            }
-          }"
-        >
-          <div class="icon">
-            <i class="fa fa-user"></i>
-          </div>
-          <div>
-            <h5>用户名</h5>
-            <input
-              type="text"
-              class="input"
-              v-model="user"
-              @focus="onUserFocus"
-              @blur="onUserBlur"
-            />
-          </div>
-        </div>
-        <div
-          class="input-group pwd focus"
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 300
-            }
-          }"
-        >
-          <div class="icon">
-            <i class="fa fa-lock"></i>
-          </div>
-          <div>
-            <h5>密码</h5>
-            <input
-              type="password"
-              class="input"
-              v-model="pwd"
-              @focus="onPwdFocus"
-              @blur="onPwdBlur"
-            />
-          </div>
-        </div>
-        <button
-          class="btn"
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 10
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 400
-            }
-          }"
-          @click="onLogin"
-        >
-          登录
-        </button>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 @import url("/@/style/login.css");
