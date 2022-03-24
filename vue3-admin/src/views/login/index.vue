@@ -44,7 +44,7 @@ import { getLogin, getUserInfo } from '@/api/user';
 import { getMenu } from '@/api/menu';
 import { tipMsg } from '@/utils/message';
 import { filterMenu } from '@/utils';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'Login',
@@ -56,7 +56,10 @@ export default defineComponent({
     const userStore = useUserStore();
     const menuStore = useMenuStore();
     const router = useRouter();
+    const route = useRoute();
+    const targetPath: any = route.query.to;
     let formData = reactive<LoginPayload>({ username: 'admin', password: '123456' });
+    console.log(route.query);
 
     const handleSubmit = async () => {
       try {
@@ -65,13 +68,13 @@ export default defineComponent({
           tipMsg(message);
           userStore.setToken(result);
           const [userInfo, menuResult] = await Promise.all([getUserInfo(), getMenu({ attrs: 'all' })]);
-          if (userInfo.code === 200 && menuResult.code !== 200) {
+          if (userInfo.code === 200 && menuResult.code === 200) {
             userStore.$state.userInfo = userInfo.result;
             const { menu, actions } = filterMenu(menuResult.result);
             menuStore.setAsyncMenu(menu);
             menuStore.$state.originAsyncMenu = menu;
             console.log(menu, actions);
-            router.push('/');
+            router.push({ path: targetPath || '/' });
           }
         }
         console.log(code, result);

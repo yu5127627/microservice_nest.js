@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-export interface UseSettingStore{
-  isCollapse: boolean;
-}
-
 export const useSettingStore = defineStore('setting', () => {
   // 侧边栏菜单控制
   const isCollapse = ref<boolean>(false);
