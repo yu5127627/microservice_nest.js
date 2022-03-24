@@ -3,7 +3,6 @@ import { PureHttpError, PureHttpResoponse, PureHttpRequestConfig, Request } from
 import md5 from 'md5';
 import qs from 'qs';
 import NProgress from '../progress';
-import { getToken } from '@/utils/auth';
 import { loadEnv } from '@/build';
 
 // 加载环境变量 VITE_PROXY_DOMAIN（开发环境）  VITE_PROXY_DOMAIN_REAL（打包后的线上环境）
@@ -67,13 +66,13 @@ class PureHttp {
           PureHttp.initConfig.beforeRequestCallback($config);
           return $config;
         }
-        const token = getToken();
+        const token =sessionStorage.getItem('token');
         if (token) {
           // @ts-ignore
           config.headers['Authorization'] = 'Bearer ' + token;
-        } else {
           return $config;
         }
+        return $config;
       },
       (error) => {
         return Promise.reject(error);
@@ -156,7 +155,10 @@ const http = new PureHttp();
 
 export interface Response {
   code: number;
-  data: any;
+  message: string;
+  path: string;
+  responsetime: string;
+  result?: any;
 }
 
 export const request = http.request;

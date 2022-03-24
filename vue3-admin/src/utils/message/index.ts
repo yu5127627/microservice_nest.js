@@ -1,5 +1,14 @@
 import { ElMessage } from 'element-plus';
 
+const tipMsg = (message:string, type?:any, duration?:number, icon?: 'string') => {
+  return ElMessage({
+    message,
+    type: type || 'success',
+    duration: duration || 2000,
+    icon
+  });
+};
+
 // 消息
 const Message = (message: string): any => {
   return ElMessage({
@@ -35,4 +44,4 @@ const errorMessage = (message: string): any => {
   });
 };
 
-export { Message, successMessage, warnMessage, errorMessage };
+export { Message, successMessage, warnMessage, errorMessage, tipMsg };

@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useUserStoreHook } from '@/store/modules/user';
 
 const TokenKey = 'authorized-token';
 
@@ -26,8 +25,6 @@ export function setToken(data) {
     accessToken
   };
   const dataString = JSON.stringify(paramsMap);
-  useUserStoreHook().SET_TOKEN(accessToken);
-  useUserStoreHook().SET_NAME(name);
   expires > 0
     ? Cookies.set(TokenKey, dataString, {
       expires: expires / 86400000

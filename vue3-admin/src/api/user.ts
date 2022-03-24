@@ -1,40 +1,38 @@
 import { AxiosRequestHeaders } from 'axios';
 import { request, Response } from '../utils/http';
-
-interface userType extends Promise<any> {
-  svg?: string;
-  code?: number;
-  info?: object;
-}
+// interface userType extends Promise<any> {
+//   svg?: string;
+//   code?: number;
+//   info?: object;
+// }
 
 // 获取验证码
-export const getVerify = (): userType => {
-  return request({ url: '/captcha' });
-};
+// export const getVerify = (): userType => {
+//   return request({ url: '/captcha' });
+// };
 
 // 登录
-export const getLogin = (data: object) => {
-  return request({ method: 'POST', url: '/login', data });
-};
-
-// 刷新token
-export const refreshToken = (data: object) => {
-  return request({
+export const getLogin = (data: LoginPayload) => {
+  return request<Response>({
     method: 'POST',
-    url: '/refreshToken',
+    url: '/api/v1/auth/login',
     data
   });
 };
 
-export const getSetting = (data: any, headers?: AxiosRequestHeaders) => {
+// 获取用户信息
+export const getUserInfo = () => {
   return request<Response>({
     method: 'get',
-    url: 'http://qapp.lumakj.cn/api/admin/refreshsetting',
-    data,
-    headers
+    url: '/api/v1/auth/detail',
   });
 };
 
-// export const searchVague = (data: object) => {
-//   return request("post", "/searchVague", { data });
+// 刷新token
+// export const refreshToken = (data: object) => {
+//   return request({
+//     method: 'POST',
+//     url: '/refreshToken',
+//     data
+//   });
 // };
