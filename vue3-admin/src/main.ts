@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
-import { setupStore } from "@/store";
+import { setupStore } from '@/store';
 import App from './App.vue';
 import router from './router';
-import "normalize.css/normalize.css";
+import 'normalize.css/normalize.css';
 
 const app = createApp(App);
 setupStore(app);

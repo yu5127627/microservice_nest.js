@@ -1,42 +1,34 @@
-import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import {
-  PureHttpError,
-  PureHttpResoponse,
-  PureHttpRequestConfig,
-  Request
-} from "./types";
+import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { PureHttpError, PureHttpResoponse, PureHttpRequestConfig, Request } from './types';
 import md5 from 'md5';
-import qs from "qs";
-import NProgress from "../progress";
-import { getToken } from "@/utils/auth";
-import { loadEnv } from "@/build";
+import qs from 'qs';
+import NProgress from '../progress';
+import { getToken } from '@/utils/auth';
+import { loadEnv } from '@/build';
 
 // 加载环境变量 VITE_PROXY_DOMAIN（开发环境）  VITE_PROXY_DOMAIN_REAL（打包后的线上环境）
 const { VITE_PROXY_DOMAIN, VITE_PROXY_DOMAIN_REAL } = loadEnv();
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? VITE_PROXY_DOMAIN_REAL
-      : VITE_PROXY_DOMAIN,
+  baseURL: process.env.NODE_ENV === 'production' ? VITE_PROXY_DOMAIN_REAL : VITE_PROXY_DOMAIN,
   // 当前使用mock模拟请求，将baseURL制空，如果你的环境用到了http请求，请删除下面的baseURL启用上面的baseURL，并将11行、16行代码注释取消
   timeout: 10000,
   headers: {
-    Accept: "application/json, text/plain, */*",
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
+    Accept: 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
   },
   // 数组格式参数序列化
-  paramsSerializer: params => qs.stringify(params, { indices: false }),
+  paramsSerializer: (params) => qs.stringify(params, { indices: false }),
   transformRequest: [
     (data, config) => {
       // @ts-ignore
-      switch (config["Content-Type"].toLowerCase()) {
-        case "application/x-www-form-urlencoded": {
+      switch (config['Content-Type'].toLowerCase()) {
+        case 'application/x-www-form-urlencoded': {
           return qs.stringify(data);
         }
-        case "multipart/form-data;charset=utf-8": {
+        case 'multipart/form-data;charset=utf-8': {
           return data;
         }
         default: {
@@ -46,7 +38,6 @@ const defaultConfig: AxiosRequestConfig = {
     }
   ]
 };
-
 
 class PureHttp {
   private static caches: any = {};
@@ -68,7 +59,7 @@ class PureHttp {
         // 开启进度条动画
         NProgress.start();
         // 优先判断post/get等方法是否传入回掉，否则执行初始化设置等回掉
-        if (typeof config.beforeRequestCallback === "function") {
+        if (typeof config.beforeRequestCallback === 'function') {
           config.beforeRequestCallback($config);
           return $config;
         }
@@ -79,12 +70,12 @@ class PureHttp {
         const token = getToken();
         if (token) {
           // @ts-ignore
-          config.headers["Authorization"] = "Bearer " + token;
+          config.headers['Authorization'] = 'Bearer ' + token;
         } else {
           return $config;
         }
       },
-      error => {
+      (error) => {
         return Promise.reject(error);
       }
     );
@@ -99,7 +90,7 @@ class PureHttp {
         // 关闭进度条动画
         NProgress.done();
         // 优先判断post/get等方法是否传入回掉，否则执行初始化设置等回掉
-        if (typeof $config.beforeResponseCallback === "function") {
+        if (typeof $config.beforeResponseCallback === 'function') {
           $config.beforeResponseCallback(response);
           return response.data;
         }
@@ -122,19 +113,20 @@ class PureHttp {
 
   // 通用请求工具函数
   public request<T>({
-    method='GET',
+    method = 'GET',
     url,
-    data={},
-    cache=false,
-    headers={} }:Request): Promise<T> {
+    data = {},
+    cache = false,
+    headers = {}
+  }: Request): Promise<T> {
     let key: string;
     let params: object = {};
     if (cache) {
       key = md5(params ? method + url + JSON.stringify(params) : method + url);
-      if(PureHttp.caches[key]) return PureHttp.caches[key];
+      if (PureHttp.caches[key]) return PureHttp.caches[key];
       PureHttp.caches[key] = null;
     }
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
       console.log(
         `method: ${method} / url: ${url} / body: ${JSON.stringify(
           params
@@ -150,10 +142,10 @@ class PureHttp {
       PureHttp.axiosInstance
         .request({ method, url, params, data, headers })
         .then((response: any) => {
-          if(cache) PureHttp.caches[key] =response;
+          if (cache) PureHttp.caches[key] = response;
           resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -163,8 +155,8 @@ class PureHttp {
 const http = new PureHttp();
 
 export interface Response {
-  code: number,
-  data: any
+  code: number;
+  data: any;
 }
 
 export const request = http.request;

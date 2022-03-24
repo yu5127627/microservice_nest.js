@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export interface UseSettingStore {
-  isCollapse: boolean,
+  isCollapse: boolean;
 }
 
 export const useSettingStore = defineStore('setting', () => {

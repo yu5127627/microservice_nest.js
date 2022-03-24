@@ -1,6 +1,6 @@
 // 跨域代理重写
 const regExps = (value: string, reg: string): string => {
-  return value.replace(new RegExp(reg, "g"), "");
+  return value.replace(new RegExp(reg, 'g'), '');
 };
 
 // 环境变量

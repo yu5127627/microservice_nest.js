@@ -4,10 +4,18 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionBar: typeof import('./src/components/layout/components/actionBar.vue')['default']
+    Avatar: typeof import('./src/components/layout/components/avatar.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElCollapseTransition: typeof import('element-plus/es')['ElCollapseTransition']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
+    ElButton: typeof import('element-plus/es')['ElButton'];
+    ElCol: typeof import('element-plus/es')['ElCol']
+    ElCollapseTransition: typeof import('element-plus/es')['ElCollapseTransition'];
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElFooter: typeof import('element-plus/es')['ElFooter']
     ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -16,8 +24,9 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
-    ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
+    ElRadioButton: typeof import('element-plus/es')['ElRadioButton'];
+    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup'];
+    ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     Header: typeof import('./src/components/layout/components/header.vue')['default']
     Layout: typeof import('./src/components/layout/index.vue')['default']

@@ -4,7 +4,7 @@ import type {
   ComponentPublicInstance,
   FunctionalComponent,
   PropType as VuePropType
-} from "vue";
+} from 'vue';
 
 declare global {
   const __APP_INFO__: {

@@ -19,12 +19,12 @@
     "resolveJsonModule": true,
     "lib": ["esnext", "dom"],
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-    "types": ["node","vite/client"],
+    "types": ["node", "vite/client"],
     "typeRoots": ["./node_modules/@types/", "./src/types/"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","vite.config.ts"],
-  "exclude": ["node_modules","dist","**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"],
+  "exclude": ["node_modules", "dist", "**/*.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

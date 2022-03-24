@@ -1,6 +1,6 @@
 // 响应式storage
-import { App } from "vue";
-import Storage from "responsive-storage";
+import { App } from 'vue';
+import Storage from 'responsive-storage';
 
 export const injectResponsiveStorage = (app: App, config: ServerConfigs) => {
   const configObj = Object.assign(
@@ -8,21 +8,21 @@ export const injectResponsiveStorage = (app: App, config: ServerConfigs) => {
       // 国际化 默认中文zh
       locale: {
         type: Object,
-        default: Storage.getData(undefined, "locale") ?? {
-          locale: config.Locale ?? "zh"
+        default: Storage.getData(undefined, 'locale') ?? {
+          locale: config.Locale ?? 'zh'
         }
       },
       // layout模式以及主题
       layout: {
         type: Object,
-        default: Storage.getData(undefined, "layout") ?? {
-          layout: config.Layout ?? "vertical",
-          theme: config.Theme ?? "default"
+        default: Storage.getData(undefined, 'layout') ?? {
+          layout: config.Layout ?? 'vertical',
+          theme: config.Theme ?? 'default'
         }
       },
       sets: {
         type: Object,
-        default: Storage.getData(undefined, "sets") ?? {
+        default: Storage.getData(undefined, 'sets') ?? {
           grey: config.Grey ?? false,
           weak: config.Weak ?? false,
           hideTabs: config.HideTabs ?? false
@@ -34,14 +34,14 @@ export const injectResponsiveStorage = (app: App, config: ServerConfigs) => {
         // 默认显示首页tag
         tags: {
           type: Array,
-          default: Storage.getData(undefined, "tags") ?? [
+          default: Storage.getData(undefined, 'tags') ?? [
             {
-              path: "/welcome",
-              parentPath: "/",
+              path: '/welcome',
+              parentPath: '/',
               meta: {
-                title: "message.hshome",
+                title: 'message.hshome',
                 i18n: true,
-                icon: "HomeFilled",
+                icon: 'HomeFilled',
                 showLink: true
               }
             }

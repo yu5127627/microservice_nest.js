@@ -1,7 +1,7 @@
-import Cookies from "js-cookie";
-import { useUserStoreHook } from "@/store/modules/user";
+import Cookies from 'js-cookie';
+import { useUserStoreHook } from '@/store/modules/user';
 
-const TokenKey = "authorized-token";
+const TokenKey = 'authorized-token';
 
 type paramsMapType = {
   name: string;
@@ -12,7 +12,7 @@ type paramsMapType = {
 // 获取token
 export function getToken() {
   // 此处与TokenKey相同，此写法解决初始化时Cookies中不存在TokenKey报错
-  return Cookies.get("authorized-token");
+  return Cookies.get('authorized-token');
 }
 
 // 设置token以及过期时间（cookies、sessionStorage各一份）
