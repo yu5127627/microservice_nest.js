@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import sidebar from './components/sidebar.vue';
+import sidebar from './components/sidebar/sidebar.vue';
 import { defineComponent } from 'vue';
-import uheader from './components/header.vue';
+import uheader from './components/header/header.vue';
 export default defineComponent({
   name: 'Layout',
   components: {

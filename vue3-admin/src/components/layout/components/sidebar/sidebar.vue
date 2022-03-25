@@ -9,63 +9,53 @@
     </div>
 
     <el-menu
-      default-active="2"
+      :default-active="route.path"
       background-color="#304156"
       text-color="#fff"
       :collapse="settingStore.isCollapse"
+      unique-opened
+      :collapse-transition="false"
       @open="handleOpen"
       @close="handleClose"
     >
-      <template v-for="item in menu" :key="item.path">
-        <el-sub-menu v-if="item.type === 0" :index="item.url">
-          <template #title>
-            <el-icon>
-              <location />
-            </el-icon>
-            <span>{{ item.title }}</span>
-          </template>
-        </el-sub-menu>
-        <el-menu-item v-else-if="item.type === 2" :index="item.url">
-          <template #title>
-            <el-icon>
-              <location />
-            </el-icon>
-            <span>{{ item.title }}</span>
-          </template>
-        </el-menu-item>
-      </template>
+      <menu-item v-for="item in menu" :key="item.path" :item="item" />
     </el-menu>
   </el-aside>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Location } from '@element-plus/icons-vue';
 import { useSettingStore } from '@/store/modules/setting';
+import menuItem from './menuItem.vue';
 import { useMenuStore } from '@/store/modules/menu';
+import { useRoute } from 'vue-router';
+
 export default defineComponent({
   name: 'Sidebar',
   components: {
-    Location,
+    menuItem,
   },
   setup() {
-    const settingStore = useSettingStore();
     const menuStore = useMenuStore();
-    const menu: any = menuStore.allMenu;
+    const menu: Array<any> = menuStore.allMenu;
+    const settingStore = useSettingStore();
+    const route = useRoute();
+
     const handleOpen = (key: string, keyPath: string[]) => {
-      console.log(key);
+      // console.log(key, keyPath);
     };
 
     const handleClose = (key: string, keyPath: string[]) => {
-      console.log(key);
+      // console.log(key);
     };
-    console.log(menu);
+
 
     return {
       menu,
+      route,
       settingStore,
       handleOpen,
-      handleClose
+      handleClose,
     };
   }
 });

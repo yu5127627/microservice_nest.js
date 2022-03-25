@@ -12,25 +12,21 @@ const whiteList = ['/login'];
 router.beforeEach(async (to, form, next) => {
   const token = sessionStorage.getItem('token');
   if (token) {
+    if (to.path === '/login') return to.query.to?next(`${to.query.to}`):next('/');
     const asyncMenu = menuStore.asyncMenu;
-    if (asyncMenu.length) {
-      next();
-      return;
-    }
-    if (to.path === '/login') {
-      next('/');
-      return;
-    }
+    if (asyncMenu.length > 0) return next();
+
     try {
       const [userInfo, menuResult] = await Promise.all([getUserInfo(), getMenu({ attrs: 'all' })]);
       if (userInfo.code === 200 && menuResult.code === 200) {
         userStore.$state.userInfo = userInfo.result;
-        const { menu, actions } = filterMenu(menuResult.result);
-        menuStore.setAsyncMenu(menu);
-        const asyncMenu = menuStore.$state.originAsyncMenu = menu;
-        // @ts-ignore
-        router.addRoute(asyncMenu);
-        next();
+        const { topMenu, subMenu, actions } = filterMenu(menuResult.result);
+        menuStore.$state.originAsyncMenu = [...topMenu, ...subMenu];
+        const asyncMenu = menuStore.setAsyncMenu(topMenu, subMenu);
+        for (const menu of asyncMenu) {
+          router.addRoute(menu);
+        }
+        next({ ...to, replace:true });
       }
     } catch (error) {
       console.log(error);

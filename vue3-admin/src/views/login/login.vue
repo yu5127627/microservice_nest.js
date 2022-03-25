@@ -40,10 +40,8 @@ import { Avatar as AvatarIcon } from '@element-plus/icons-vue';
 import { useSettingStore } from '@/store/modules/setting';
 import { useUserStore } from '@/store/modules/user';
 import { useMenuStore } from '@/store/modules/menu';
-import { getLogin, getUserInfo } from '@/api/user';
-import { getMenu } from '@/api/menu';
+import { getLogin } from '@/api/user';
 import { tipMsg } from '@/utils/message';
-import { filterMenu } from '@/utils';
 import { useRouter, useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -59,7 +57,6 @@ export default defineComponent({
     const route = useRoute();
     const targetPath: any = route.query.to;
     let formData = reactive<LoginPayload>({ username: 'admin', password: '123456' });
-    console.log(route.query);
 
     const handleSubmit = async () => {
       try {
@@ -67,17 +64,8 @@ export default defineComponent({
         if (code === 200 && result) {
           tipMsg(message);
           userStore.setToken(result);
-          const [userInfo, menuResult] = await Promise.all([getUserInfo(), getMenu({ attrs: 'all' })]);
-          if (userInfo.code === 200 && menuResult.code === 200) {
-            userStore.$state.userInfo = userInfo.result;
-            const { menu, actions } = filterMenu(menuResult.result);
-            menuStore.setAsyncMenu(menu);
-            menuStore.$state.originAsyncMenu = menu;
-            console.log(menu, actions);
-            router.push({ path: targetPath || '/' });
-          }
+          router.push({ path: targetPath || '/' });
         }
-        console.log(code, result);
       } catch (error) {
         console.log(error);
       }

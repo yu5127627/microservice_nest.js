@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Expand, Fold } from '../../../../node_modules/@element-plus/icons-vue';
+import { Expand, Fold } from '@element-plus/icons-vue';
 import { useSettingStore } from '@/store/modules/setting';
 import avatar from './avatar.vue';
 import actionBar from './actionBar.vue';

@@ -4,8 +4,8 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ActionBar: typeof import('./src/components/layout/components/actionBar.vue')['default']
-    Avatar: typeof import('./src/components/layout/components/avatar.vue')['default']
+    ActionBar: typeof import('./src/components/layout/components/header/actionBar.vue')['default']
+    Avatar: typeof import('./src/components/layout/components/header/avatar.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -39,9 +39,10 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
-    Header: typeof import('./src/components/layout/components/header.vue')['default']
+    Header: typeof import('./src/components/layout/components/header/header.vue')['default']
     Layout: typeof import('./src/components/layout/index.vue')['default']
-    Sidebar: typeof import('./src/components/layout/components/sidebar.vue')['default']
+    MenuItem: typeof import('./src/components/layout/components/sidebar/menuItem.vue')['default']
+    Sidebar: typeof import('./src/components/layout/components/sidebar/sidebar.vue')['default']
   }
 }
 

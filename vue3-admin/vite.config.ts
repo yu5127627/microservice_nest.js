@@ -19,6 +19,7 @@ export default defineConfig({
     })
   ],
   build: {
+    sourcemap: true,
     outDir: 'dist', // 指定打包路径，默认为项目根目录下的 dist 目录
     terserOptions: {
       compress: {

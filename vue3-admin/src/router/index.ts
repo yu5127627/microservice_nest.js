@@ -4,7 +4,7 @@ import Layout from '@/components/layout/index.vue';
 export const routes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index.vue'),
+    component: () => import('@/views/login/login.vue'),
     hidden: true
   },
   {
@@ -16,12 +16,14 @@ export const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    title: '仪表盘',
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '仪表盘', icon: 'el-icon-monitor', affix: true }
+        title: '仪表盘',
+        component: () => import('@/views/dashboard/dashboard.vue'),
+        meta: { title: '仪表盘', icon: 'house', affix: true }
       }
     ]
   }
