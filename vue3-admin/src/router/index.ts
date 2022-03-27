@@ -16,14 +16,14 @@ export const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    meta: { title: '仪表盘', icon: 'house', affix: true },
+    meta: { title: '仪表盘', icon: 'icon-configure', affix: true },
     alwaysShow: true,
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/dashboard.vue'),
-        meta: { title: '仪表盘', icon: 'house', affix: true }
+        meta: { title: '仪表盘', icon: 'icon-configure', affix: true }
       },
     ]
   }

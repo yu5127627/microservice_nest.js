@@ -40,10 +40,12 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     Header: typeof import('./src/components/layout/components/header/header.vue')['default']
+    Icon: typeof import('./src/components/ReIcon/src/Icon.vue')['default']
     Layout: typeof import('./src/components/layout/index.vue')['default']
     MenuItem: typeof import('./src/components/layout/components/sidebar/menuItem.vue')['default']
+    NIcon: typeof import('./src/components/nIcon/index.vue')['default']
     Sidebar: typeof import('./src/components/layout/components/sidebar/sidebar.vue')['default']
   }
 }
 
-export { };
+export { }

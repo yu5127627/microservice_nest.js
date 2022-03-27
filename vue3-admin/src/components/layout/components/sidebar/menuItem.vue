@@ -3,7 +3,7 @@
     <el-sub-menu v-if="item.alwaysShow && item.children?.length" :index="item.path">
       <template #title>
         <el-icon v-if="item.meta?.icon">
-          <component :is="item.meta?.icon" />
+          <i :class="'iconfont ' + item.meta?.icon" />
         </el-icon>
         <span>{{ item.meta.title }}</span>
       </template>
@@ -20,7 +20,7 @@
     >
       <template #title>
         <el-icon v-if="item.children[0].meta?.icon">
-          <component :is="item.children[0].meta?.icon" />
+          <i :class="'iconfont ' + item.children[0].meta?.icon" />
         </el-icon>
         <span>{{ item.children[0].meta?.title }}</span>
       </template>
@@ -29,7 +29,7 @@
     <el-menu-item v-else :index="item.path" @click="handleMenuItem(item)">
       <template #title>
         <el-icon v-if="item.meta?.icon">
-          <component :is="item.meta.icon" />
+          <i :class="'iconfont ' + item.meta?.icon" />
         </el-icon>
         <span>{{ item.meta?.title }}</span>
       </template>
@@ -47,7 +47,6 @@ import { Location } from '@element-plus/icons-vue';
 export default defineComponent({
   name: 'MenuItem',
   components: {
-    location: Location,
     ...icons
   },
   props: {

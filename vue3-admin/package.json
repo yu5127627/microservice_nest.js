@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
     "@types/lodash-es": "^4.17.6",
     "axios": "^0.26.1",
     "element-plus": "2.1.6",
