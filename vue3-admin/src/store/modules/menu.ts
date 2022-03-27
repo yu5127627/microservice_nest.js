@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive, ref, shallowRef } from "vue";
 import { routes } from '@/router';
-import { RouteRecordRaw } from "vue-router";
+import { RouteRecordRaw, useRoute } from "vue-router";
 import Layout from '@/components/layout/index.vue';
 
 interface Action {
@@ -11,6 +11,10 @@ interface Action {
   sort: number;
   id: number;
 }
+interface tagView {
+  name: string;
+  path: string
+}
 
 export const useMenuStore = defineStore('menu', () => {
   // 原始异步菜单
@@ -19,6 +23,8 @@ export const useMenuStore = defineStore('menu', () => {
   const asyncMenu = reactive<Array<Menu>>([]);
   // 当前用户的所有菜单
   const allMenu = reactive<Array<Menu>>([...routes]);
+  // 固定的tag
+  const keepTags = ref<Array<any>>([{ name:'仪表盘', path:'/dashboard' }]);
 
   const setAsyncMenu = (topMenu:Array<Menu>, subMenu:Array<Menu>) => {
     for (const item of topMenu) {
@@ -97,6 +103,7 @@ export const useMenuStore = defineStore('menu', () => {
   return {
     filterMenu,
     resolveMenu,
+    keepTags,
     originAsyncMenu,
     asyncMenu,
     allMenu,

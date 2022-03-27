@@ -28,10 +28,11 @@ export default defineComponent({
 .app-container {
   width: 100%;
   height: 100%;
-  .el-main {
-    background-color: bisque;
-  }
+  // .el-main {
+  //   background-color: bisque;
+  // }
   .el-footer {
+    height: 20px;
     background-color: blueviolet;
   }
 }

@@ -40,9 +40,8 @@
 <script lang='ts'>
 import { useMenuStore } from '@/store/modules/menu';
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { icons } from './icons';
-import { Location } from '@element-plus/icons-vue';
 
 export default defineComponent({
   name: 'MenuItem',
