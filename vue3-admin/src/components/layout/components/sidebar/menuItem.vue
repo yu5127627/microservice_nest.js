@@ -1,11 +1,11 @@
 <template>
   <template v-if="!item.hidden">
-    <el-sub-menu v-if="item.children || item.type === 0" :index="item.path">
+    <el-sub-menu v-if="item.alwaysShow && item.children?.length" :index="item.path">
       <template #title>
-        <el-icon>
-          <location />
+        <el-icon v-if="item.meta?.icon">
+          <component :is="item.meta?.icon" />
         </el-icon>
-        <span>{{ item.title }}</span>
+        <span>{{ item.meta.title }}</span>
       </template>
       <!--  -->
       <template v-if="item.children.length">
@@ -13,12 +13,25 @@
       </template>
     </el-sub-menu>
 
+    <el-menu-item
+      v-else-if="!item.alwaysShow && item.children"
+      :index="item.children[0].path"
+      @click="handleMenuItem(item.children[0])"
+    >
+      <template #title>
+        <el-icon v-if="item.children[0].meta?.icon">
+          <component :is="item.children[0].meta?.icon" />
+        </el-icon>
+        <span>{{ item.children[0].meta?.title }}</span>
+      </template>
+    </el-menu-item>
+
     <el-menu-item v-else :index="item.path" @click="handleMenuItem(item)">
       <template #title>
-        <el-icon>
-          <location />
+        <el-icon v-if="item.meta?.icon">
+          <component :is="item.meta.icon" />
         </el-icon>
-        <span>{{ item.title }}</span>
+        <span>{{ item.meta?.title }}</span>
       </template>
     </el-menu-item>
   </template>
@@ -45,13 +58,12 @@ export default defineComponent({
   },
   setup(props) {
     const menuStore = useMenuStore();
-    const menu: Array<any> = menuStore.allMenu;
+    const menu: Array<Menu> = menuStore.allMenu;
     const router = useRouter();
 
     const handleMenuItem = (item: any) => {
       // 外链
-      if (item.type === 2) {
-        // @ts-check
+      if (item.meta?.type === 2) {
         window.open(item.path);
       } else {
         router.push({ path: item.path });

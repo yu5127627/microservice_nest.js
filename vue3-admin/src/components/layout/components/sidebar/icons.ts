@@ -1,9 +1,10 @@
-import { CollectionTag, List, House, Menu } from '@element-plus/icons-vue';
+import { CollectionTag, List, House, Menu, ChatRound } from '@element-plus/icons-vue';
 
 
 export const icons = {
   collectionTag:CollectionTag,
   list:List,
   house: House,
-  menu:Menu
+  menuIcon: Menu,
+  chatRound:ChatRound
 };

@@ -95,25 +95,6 @@ declare global {
     };
   }
 
-  declare interface Route extends RouteRecordRaw{
-    id: number;
-    title: string;
-    component: RawRouteComponent | (() => Promise<typeof import("*.vue")>);
-    type: number;
-    cache: number;
-    hide?: boolean;
-    pid: number
-    sort: number;
-    path: string;
-    icon?: string;
-    url: string;
-    name?: string;
-    action?: string;
-    children?: Array<RouterPayload>
-    redirect?: string;
-    hidden?: boolean;
-  }
-
   function parseInt(s: string | number, radix?: number): number;
 
   function parseFloat(string: string | number): number;

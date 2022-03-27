@@ -1,6 +1,7 @@
 <template>
   <el-aside :width="settingStore.isCollapse ? '64px' : '210px'">
     <div
+      v-if="settingStore.sidebarLog"
       :width="settingStore.isCollapse ? '64px' : '200px'"
       class="horizontal-collapse-transition sidebar-header"
     >
@@ -37,7 +38,7 @@ export default defineComponent({
   },
   setup() {
     const menuStore = useMenuStore();
-    const menu: Array<any> = menuStore.allMenu;
+    const menu: Array<Menu> = menuStore.allMenu;
     const settingStore = useSettingStore();
     const route = useRoute();
 

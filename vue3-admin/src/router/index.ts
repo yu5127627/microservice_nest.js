@@ -16,15 +16,15 @@ export const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    title: '仪表盘',
+    meta: { title: '仪表盘', icon: 'house', affix: true },
+    alwaysShow: true,
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        title: '仪表盘',
         component: () => import('@/views/dashboard/dashboard.vue'),
         meta: { title: '仪表盘', icon: 'house', affix: true }
-      }
+      },
     ]
   }
 ];

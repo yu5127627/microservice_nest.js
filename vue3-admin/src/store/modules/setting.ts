@@ -6,8 +6,11 @@ export const useSettingStore = defineStore('setting', () => {
   const isCollapse = ref<boolean>(false);
   // 全局标题
   const title = 'Nest.js 微服务后台管理模板';
+  // 侧边栏图标控制
+  const sidebarLog = ref<boolean>(false);
 
   return {
+    sidebarLog,
     title,
     isCollapse
   };
