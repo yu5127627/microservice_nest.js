@@ -1,30 +1,49 @@
 <template>
   <div class="action-bar">
-    <el-icon :size="25">
-      <full-screen />
-    </el-icon>
+    <div class="action-list">
+      <i class="iconfont icon-quanjushezhi_o" @click="openSetting" />
+      <i class="iconfont icon-quanping_o" />
+    </div>
+
+    <el-drawer v-model="drawerFlag" title="I am the title" size="24%">
+      <span>Hi, there!</span>
+    </el-drawer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { FullScreen } from '@element-plus/icons-vue';
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "ActionBar",
-  components: {
-    fullScreen: FullScreen
+  setup() {
+    let drawerFlag = ref<boolean>(false);
+
+    const openSetting = () => {
+      drawerFlag.value = true;
+    };
+
+    return {
+      openSetting,
+      drawerFlag
+    };
   }
 });
 </script>
 
 <style lang="less" scoped>
 .action-bar {
-  padding: 0 10px;
-  display: flex;
-  align-items: center;
-  .el-icon {
-    margin: 0 10px;
-    cursor: pointer;
+  .action-list {
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    .iconfont {
+      font-size: 28px;
+      cursor: pointer;
+      margin: 0 6px;
+    }
+    .iconfont:hover {
+      background-color: rgb(240, 240, 240);
+    }
   }
 }
 </style>

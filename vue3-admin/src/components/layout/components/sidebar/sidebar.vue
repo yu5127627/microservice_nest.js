@@ -16,8 +16,6 @@
       :collapse="settingStore.isCollapse"
       unique-opened
       :collapse-transition="false"
-      @open="handleOpen"
-      @close="handleClose"
     >
       <menu-item v-for="item in menu" :key="item.path" :item="item" />
     </el-menu>
@@ -42,21 +40,10 @@ export default defineComponent({
     const settingStore = useSettingStore();
     const route = useRoute();
 
-    const handleOpen = (key: string, keyPath: string[]) => {
-      // console.log(key, keyPath);
-    };
-
-    const handleClose = (key: string, keyPath: string[]) => {
-      // console.log(key);
-    };
-
-
     return {
       menu,
       route,
       settingStore,
-      handleOpen,
-      handleClose,
     };
   }
 });

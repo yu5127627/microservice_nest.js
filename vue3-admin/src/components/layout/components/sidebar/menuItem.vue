@@ -39,15 +39,11 @@
 
 <script lang='ts'>
 import { useMenuStore } from '@/store/modules/menu';
+import { useTagViewStore } from '@/store/modules/tagView';
 import { defineComponent, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { icons } from './icons';
 
 export default defineComponent({
   name: 'MenuItem',
-  components: {
-    ...icons
-  },
   props: {
     item: {
       type: Object,
@@ -56,15 +52,15 @@ export default defineComponent({
   },
   setup(props) {
     const menuStore = useMenuStore();
+    const tagViewStore = useTagViewStore();
     const menu: Array<Menu> = menuStore.allMenu;
-    const router = useRouter();
 
     const handleMenuItem = (item: any) => {
       // 外链
       if (item.meta?.type === 2) {
         window.open(item.path);
       } else {
-        router.push({ path: item.path });
+        tagViewStore.handleOpen({ path: item.path, title: item.meta.title, affix: item.meta.affix, active: true });
       }
     };
 

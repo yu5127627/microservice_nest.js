@@ -1079,7 +1079,8 @@ let LogService = class LogService {
     async loginLogCreate(body) {
         let city;
         try {
-            const { Country } = ipInterface.searchIP(body.ip);
+            const ip = body.ip.includes('ffff') ? body.ip.slice(7) : body.ip;
+            const { Country } = ipInterface.searchIP(ip);
             city = Country || '';
         }
         catch (error) {

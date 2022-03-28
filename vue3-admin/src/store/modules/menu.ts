@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref, shallowRef } from "vue";
 import { routes } from '@/router';
-import { RouteRecordRaw, useRoute } from "vue-router";
 import Layout from '@/components/layout/index.vue';
 
 interface Action {
@@ -11,10 +10,6 @@ interface Action {
   sort: number;
   id: number;
 }
-interface tagView {
-  name: string;
-  path: string
-}
 
 export const useMenuStore = defineStore('menu', () => {
   // 原始异步菜单
@@ -23,8 +18,7 @@ export const useMenuStore = defineStore('menu', () => {
   const asyncMenu = reactive<Array<Menu>>([]);
   // 当前用户的所有菜单
   const allMenu = reactive<Array<Menu>>([...routes]);
-  // 固定的tag
-  const keepTags = ref<Array<any>>([{ name:'仪表盘', path:'/dashboard' }]);
+
 
   const setAsyncMenu = (topMenu:Array<Menu>, subMenu:Array<Menu>) => {
     for (const item of topMenu) {
@@ -39,6 +33,7 @@ export const useMenuStore = defineStore('menu', () => {
         type: 1,
         cache: false,
         pid: 0,
+        affix: false
       },
       hidden: true,
       redirect: '/',
@@ -60,7 +55,7 @@ export const useMenuStore = defineStore('menu', () => {
       hidden: hide, // 不在侧边栏显示
       alwaysShow: true, //一直显示根路由
       name,
-      meta: { type, icon, cache, title, pid }, //你可以在根路由设置权限，这样它下面所有的子路由都继承了这个权限
+      meta: { type, icon, cache, title, pid, affix: false }, //你可以在根路由设置权限，这样它下面所有的子路由都继承了这个权限
     };
   };
 
@@ -103,7 +98,6 @@ export const useMenuStore = defineStore('menu', () => {
   return {
     filterMenu,
     resolveMenu,
-    keepTags,
     originAsyncMenu,
     asyncMenu,
     allMenu,

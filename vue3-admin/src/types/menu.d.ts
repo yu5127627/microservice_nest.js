@@ -6,7 +6,7 @@ declare interface Menu implements RouteRecordRaw{
   hidden?: boolean|undefined;
   alwaysShow?: boolean;
   name?: string;
-  meta?: MenuMeta;
+  meta?: MenuMeta | undefined;
   children?: Array<Menu>
 }
 
@@ -31,5 +31,6 @@ declare interface MenuMeta {
   type?: number;
   icon?: string;
   cache?: boolean;
-  title: string
+  title: string,
+  affix: boolean
 }

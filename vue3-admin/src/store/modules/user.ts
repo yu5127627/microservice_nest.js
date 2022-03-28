@@ -1,3 +1,4 @@
+import router from '@/router';
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 
@@ -22,10 +23,16 @@ export const useUserStore = defineStore('user', () => {
     userInfo = { avatar, ctime, id, nickname, roleId, username };
   };
 
+  const logout = () => {
+    sessionStorage.removeItem('token');
+    router.push({ path: '/login' });
+  };
+
   return {
     userInfo,
     token,
     setToken,
-    setUserInfo
+    setUserInfo,
+    logout
   };
 });

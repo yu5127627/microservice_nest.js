@@ -3,12 +3,14 @@ import { getUserInfo } from '@/api/user';
 import { store } from '@/store';
 import { useMenuStore } from '@/store/modules/menu';
 import { useUserStore } from '@/store/modules/user';
+import { useTagViewStore } from '@/store/modules/tagView';
 import router from './index';
 import NProgress from '@/utils/progress';
 
 
 const menuStore = useMenuStore(store);
 const userStore = useUserStore(store);
+const tagViewStore = useTagViewStore(store);
 const whiteList = ['/login'];
 router.beforeEach(async (to, form, next) => {
   // 开启进度条动画
@@ -17,7 +19,9 @@ router.beforeEach(async (to, form, next) => {
   if (token) {
     if (to.path === '/login') return to.query.to?next(`${to.query.to}`):next('/');
     const asyncMenu = menuStore.asyncMenu;
-    if (asyncMenu.length > 0) return next();
+    if (asyncMenu.length > 0) {
+      return next();
+    }
 
     try {
       const [userInfo, menuResult] = await Promise.all([getUserInfo(), getMenu({ attrs: 'all' })]);
@@ -30,7 +34,8 @@ router.beforeEach(async (to, form, next) => {
         }
         // 关闭进度条动画
         NProgress.done();
-        next({ ...to, replace:true });
+        // 再次进入路由
+        next({ ...to, replace: true });
       }
     } catch (error) {
       console.log(error);

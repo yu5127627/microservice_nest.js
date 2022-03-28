@@ -33,7 +33,7 @@ module.exports = {
     // https://eslint.org/docs/rules/arrow-parens
     'arrow-parens': 0,
     'vue/multi-word-component-names': 0,
-    "vue/multiline-html-element-content-newline":0,
+    "vue/multiline-html-element-content-newline": 0,
     // 模板每行属性的数量是否不超过定义的最大值,超过就换行
     'vue/max-attributes-per-line': [
       1,
@@ -63,6 +63,7 @@ module.exports = {
     'no-multiple-empty-lines': [1, { max: 2 }], //空行最多不能超过2行
     'no-multi-spaces': 1, //不能用多余的空格
     "indent": "off",
-    "@typescript-eslint/indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2],
+    "key-spacing": [1, { "beforeColon": false, "afterColon": true }], //对象字面量中冒号的前后空格
   }
 };

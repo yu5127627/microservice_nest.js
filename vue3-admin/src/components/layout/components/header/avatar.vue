@@ -13,7 +13,7 @@
         <el-dropdown-menu>
           <el-dropdown-item>文档</el-dropdown-item>
           <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <el-dropdown-item @click="userStore.logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -23,10 +23,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CaretBottom } from '@element-plus/icons-vue';
+import { useUserStore } from "@/store/modules/user";
+
 export default defineComponent({
   name: 'Avatar',
   components: {
     caretBottom: CaretBottom
+  },
+  setup() {
+    const userStore = useUserStore();
+
+    return {
+      userStore
+    };
   }
 });
 </script>
