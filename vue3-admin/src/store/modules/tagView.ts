@@ -2,29 +2,18 @@ import router from "@/router";
 import { defineStore } from "pinia";
 import { reactive, ref, toRefs } from "vue";
 
-export interface TagView {
-  title: string;
-  path: string;
-  affix: boolean;
-  active?: boolean;
-}
-
-export interface DownMenu {
-  label: string;
-  value: string;
-}
 
 export const useTagViewStore = defineStore('tagView', () => {
   // 固定的 tag
-  const keepTags = reactive<Array<TagView>>([{ title: '仪表盘', path: '/dashboard', affix: true, active: true }]);
+  const keepTags = reactive<Array<TagView.TagViewRow>>([{ title: '仪表盘', path: '/dashboard', affix: true, active: true }]);
   // 下拉菜单的操作
-  const downMenu = reactive<Array<DownMenu>>([
+  const downMenu = reactive<Array<TagView.DownMenu>>([
     { label: '刷   新', value: 'reload' },
     { label: '关闭其他', value: 'close-other' },
     { label: '关闭所有', value: 'close-all' },
   ]);
 
-  const handleClose = (tag: TagView) => {
+  const handleClose = (tag: TagView.TagViewRow) => {
     const index = keepTags.findIndex(item => item.title === tag.title);
     if (index && keepTags[index].active) {
       keepTags.splice(index, 1);
@@ -33,7 +22,7 @@ export const useTagViewStore = defineStore('tagView', () => {
     }
   };
 
-  const handleOpen = (tag: TagView) => {
+  const handleOpen = (tag: TagView.TagViewRow) => {
     let hasTag = false;
     for (const item of keepTags) {
       if (item.active) item.active = false;

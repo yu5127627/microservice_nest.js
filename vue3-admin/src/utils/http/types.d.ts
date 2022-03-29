@@ -1,8 +1,8 @@
 import { Method, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 
 export type RequestMethods = Extract<
-Method,
-'get' | 'post' | 'put' | 'delete' | 'patch' | 'option' | 'head'
+  Method,
+  'get' | 'post' | 'put' | 'delete' | 'patch' | 'option' | 'head'
 >;
 
 export interface PureHttpError extends AxiosError {
@@ -24,4 +24,11 @@ export interface Request {
   data?: object = null;
   headers?: AxiosRequestHeaders;
   cache?: boolean = false;
+}
+export interface Response {
+  code: number;
+  message: string;
+  path: string;
+  responsetime: string;
+  result?: any;
 }

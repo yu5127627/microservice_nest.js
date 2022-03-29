@@ -27,7 +27,9 @@ export const getBrowserInfo = () => {
   const re = /(msie|firefox|chrome|opera|version).*?([\d.]+)/;
   const m = ua.match(re);
   const Sys: BrowserInter = {
+    // @ts-ignore
     browser: m[1].replace(/version/, "'safari"),
+    // @ts-ignore
     version: m[2]
   };
 

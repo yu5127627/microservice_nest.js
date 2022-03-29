@@ -36,7 +36,7 @@ export default defineComponent({
   },
   setup() {
     const menuStore = useMenuStore();
-    const menu: Array<Menu> = menuStore.allMenu;
+    const menu: Array<Menu.Route> = menuStore.allMenu;
     const settingStore = useSettingStore();
     const route = useRoute();
 

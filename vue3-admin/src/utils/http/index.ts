@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { PureHttpError, PureHttpResoponse, PureHttpRequestConfig, Request } from './types';
+import { PureHttpError, PureHttpResoponse, PureHttpRequestConfig, Request, Response as res } from './types';
 import md5 from 'md5';
 import qs from 'qs';
 import { loadEnv } from '@/build';
@@ -63,7 +63,7 @@ class PureHttp {
           PureHttp.initConfig.beforeRequestCallback($config);
           return $config;
         }
-        const token =sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (token) {
           // @ts-ignore
           config.headers['Authorization'] = 'Bearer ' + token;
@@ -146,13 +146,5 @@ class PureHttp {
 }
 
 const http = new PureHttp();
-
-export interface Response {
-  code: number;
-  message: string;
-  path: string;
-  responsetime: string;
-  result?: any;
-}
-
 export const request = http.request;
+export type Response = res

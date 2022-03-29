@@ -1,16 +1,14 @@
 import { getMenu } from '@/api/menu';
-import { getUserInfo } from '@/api/user';
 import { store } from '@/store';
 import { useMenuStore } from '@/store/modules/menu';
 import { useUserStore } from '@/store/modules/user';
-import { useTagViewStore } from '@/store/modules/tagView';
 import router from './index';
 import NProgress from '@/utils/progress';
+import { getUserInfo } from '@/api/manage';
 
 
 const menuStore = useMenuStore(store);
 const userStore = useUserStore(store);
-const tagViewStore = useTagViewStore(store);
 const whiteList = ['/login'];
 router.beforeEach(async (to, form, next) => {
   // 开启进度条动画

@@ -53,6 +53,7 @@ module.exports = {
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/comma-spacing': 2,
     'comma-spacing': 2, // 逗号前后的空格
     'no-else-return': 2, // 如果if语句里面有return,后面不能跟else语句
     'no-extra-parens': 2, // 禁止非必要的括号
@@ -63,7 +64,6 @@ module.exports = {
     'no-multiple-empty-lines': [1, { max: 2 }], //空行最多不能超过2行
     'no-multi-spaces': 1, //不能用多余的空格
     "indent": "off",
-    "@typescript-eslint/indent": ["error", 2],
     "key-spacing": [1, { "beforeColon": false, "afterColon": true }], //对象字面量中冒号的前后空格
   }
 };

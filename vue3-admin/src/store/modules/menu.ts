@@ -3,24 +3,16 @@ import { reactive, ref, shallowRef } from "vue";
 import { routes } from '@/router';
 import Layout from '@/components/layout/index.vue';
 
-interface Action {
-  pid: number;
-  title: string;
-  action?: string;
-  sort: number;
-  id: number;
-}
-
 export const useMenuStore = defineStore('menu', () => {
   // 原始异步菜单
-  const originAsyncMenu = reactive<Array<requestMenu>>([]);
+  const originAsyncMenu = reactive<Array<Menu.MenuRow>>([]);
   // 整理过的异步菜单
-  const asyncMenu = reactive<Array<Menu>>([]);
+  const asyncMenu = reactive<Array<Menu.Route>>([]);
   // 当前用户的所有菜单
-  const allMenu = reactive<Array<Menu>>([...routes]);
+  const allMenu = reactive<Array<Menu.Route>>([...routes]);
 
-
-  const setAsyncMenu = (topMenu:Array<Menu>, subMenu:Array<Menu>) => {
+  // 设置异步菜单
+  const setAsyncMenu = (topMenu: Array<Menu.Route>, subMenu: Array<Menu.Route>) => {
     for (const item of topMenu) {
       mergeMenu(item, subMenu);
     }
@@ -44,8 +36,8 @@ export const useMenuStore = defineStore('menu', () => {
     return asyncMenu;
   };
 
-  // 解析菜单路由
-  const resolveMenu = (menu: requestMenu) => {
+  // 将异步菜单转化为复合规则的路由
+  const resolveMenu = (menu: Menu.MenuRow) => {
     const { id, type, icon, cache, hide, title, url, name, action, sort, path, pid, redirect } = menu;
     return {
       id,
@@ -59,12 +51,12 @@ export const useMenuStore = defineStore('menu', () => {
     };
   };
 
-  //
-  const filterMenu = (list: Array<requestMenu>) => {
-    const topMenu: Array<Menu> = [];
-    const subMenu: Array<Menu> = [];
-    const actions: Array<Action> = [];
-    list.sort((a, b) => a.sort-b.sort);
+  // 筛选菜单 目录 外链  规则
+  const filterMenu = (list: Array<Menu.MenuRow>) => {
+    const topMenu: Array<Menu.Route> = [];
+    const subMenu: Array<Menu.Route> = [];
+    const actions: Array<Menu.ActionRow> = [];
+    list.sort((a, b) => a.sort - b.sort);
     for (const item of list) {
       const { id, title, action, sort, pid } = item;
       if (item.type === 3) {
@@ -84,7 +76,8 @@ export const useMenuStore = defineStore('menu', () => {
     return { topMenu, subMenu, actions };
   };
 
-  const mergeMenu = (topDir: Menu, list: Array<Menu>) => {
+  // 合并父子路由
+  const mergeMenu = (topDir: Menu.Route, list: Array<Menu.Route>) => {
     const childMenu = [];
     for (const item of list) {
       if (item.meta?.pid === topDir.id) {
@@ -92,7 +85,7 @@ export const useMenuStore = defineStore('menu', () => {
         childMenu.push(item);
       }
     }
-    if(childMenu.length)topDir.children = childMenu;
+    if (childMenu.length) topDir.children = childMenu;
   };
 
   return {

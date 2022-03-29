@@ -15,9 +15,12 @@ const getConfig = (key?: string): ServerConfigs => {
     if (arr && arr.length) {
       let data = config;
       arr.forEach((v) => {
+        // @ts-ignore
         if (data && typeof data[v] !== 'undefined') {
+          // @ts-ignore
           data = data[v];
         } else {
+          // @ts-ignore
           data = null;
         }
       });

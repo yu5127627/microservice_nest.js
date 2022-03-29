@@ -39,10 +39,9 @@ import { defineComponent, reactive, ref } from 'vue';
 import { Avatar as AvatarIcon } from '@element-plus/icons-vue';
 import { useSettingStore } from '@/store/modules/setting';
 import { useUserStore } from '@/store/modules/user';
-import { useMenuStore } from '@/store/modules/menu';
-import { getLogin } from '@/api/user';
-import { tipMsg } from '@/utils/message';
+import { toast } from '@/utils/message';
 import { useRouter, useRoute } from 'vue-router';
+import { login } from '@/api/manage';
 
 export default defineComponent({
   name: 'Login',
@@ -52,17 +51,16 @@ export default defineComponent({
   setup() {
     const settingStore = useSettingStore();
     const userStore = useUserStore();
-    const menuStore = useMenuStore();
     const router = useRouter();
     const route = useRoute();
-    const targetPath: any = route.query.to;
-    let formData = reactive<LoginPayload>({ username: 'admin', password: '123456' });
+    const targetPath: any = route.query.to; // 退出登录时的地址
+    let formData = reactive<Manage.LoginDto>({ username: 'admin', password: '123456' });
 
     const handleSubmit = async () => {
       try {
-        const { code, result, message } = await getLogin({ username: formData.username, password: formData.password });
+        const { code, result, message } = await login({ username: formData.username, password: formData.password });
         if (code === 200 && result) {
-          tipMsg(message);
+          toast(message);
           userStore.setToken(result);
           router.push({ path: targetPath || '/' });
         }

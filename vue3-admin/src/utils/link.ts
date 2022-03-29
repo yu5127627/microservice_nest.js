@@ -5,8 +5,8 @@ export const openLink = (link: string) => {
   $a.setAttribute('rel', 'noreferrer noopener');
   $a.setAttribute('id', 'external');
   document.getElementById('external') &&
-    document.body.removeChild(document.getElementById('external'));
-  document.body.appendChild($a);
+    // document.body.removeChild(document.getElementById('external'));
+    document.body.appendChild($a);
   $a.click();
   $a.remove();
 };

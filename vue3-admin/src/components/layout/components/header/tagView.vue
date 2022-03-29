@@ -23,7 +23,7 @@
 
 <script lang='ts'>
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
-import { useTagViewStore, TagView } from '@/store/modules/tagView';
+import { useTagViewStore } from '@/store/modules/tagView';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -33,7 +33,7 @@ export default defineComponent({
     let downFlag = ref<boolean>(false);
     let position = reactive({ top: '0px', left: '0px' });
     const tagStore = useTagViewStore();
-    const tags: TagView[] = tagStore.keepTags;
+    const tags: TagView.TagViewRow[] = tagStore.keepTags;
     const downMenu = tagStore.downMenu;
 
     // 页面刷新填充
@@ -45,7 +45,7 @@ export default defineComponent({
       downFlag.value ? document.querySelector('#app')?.addEventListener('click', closeDownMenu) : document.querySelector('#app')?.removeEventListener('click', closeDownMenu);
     });
 
-    const openDownMenu = (tag: TagView, event: any) => {
+    const openDownMenu = (tag: TagView.TagViewRow, event: any) => {
       position.left = event.layerX + 'px';
       position.top = event.layerY + 'px';
       downFlag.value = true;

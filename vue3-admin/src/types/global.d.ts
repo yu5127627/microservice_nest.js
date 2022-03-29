@@ -114,4 +114,27 @@ declare global {
       [elem: string]: any;
     }
   }
+
+  declare interface DialogData<T> {
+    visible?: boolean;
+    title?: string;
+    data?: T
+  }
+
+  interface TableListQuery {
+    page: number;
+    limit: number;
+    total: number;
+    [propName:string]: any;
+  }
+
+  declare interface TableList<T> {
+    data: Array<T>;
+    load: boolean;
+    query: TableListQuery
+  }
+
+  declare interface Attrs {
+    attrs: string;
+  }
 }

@@ -38,7 +38,6 @@
 </template>
 
 <script lang='ts'>
-import { useMenuStore } from '@/store/modules/menu';
 import { useTagViewStore } from '@/store/modules/tagView';
 import { defineComponent, ref } from 'vue';
 
@@ -51,9 +50,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const menuStore = useMenuStore();
     const tagViewStore = useTagViewStore();
-    const menu: Array<Menu> = menuStore.allMenu;
 
     const handleMenuItem = (item: any) => {
       // 外链
@@ -65,7 +62,6 @@ export default defineComponent({
     };
 
     return {
-      menu,
       handleMenuItem
     };
   }

@@ -4,7 +4,7 @@ import { reactive, ref } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
   const token = ref<string | null>(null);
-  let userInfo = reactive<UserInfo>({
+  let userInfo = reactive<Manage.ManageRow>({
     avatar: '',
     ctime: '',
     id: null,
@@ -13,12 +13,12 @@ export const useUserStore = defineStore('user', () => {
     username: '',
   });
 
-  const setToken = (str:string) => {
+  const setToken = (str: string) => {
     token.value = str;
     sessionStorage.setItem('token', str);
   };
 
-  const setUserInfo = (user:UserInfo) => {
+  const setUserInfo = (user: Manage.ManageRow) => {
     const { avatar, ctime, id, nickname, roleId, username } = user;
     userInfo = { avatar, ctime, id, nickname, roleId, username };
   };

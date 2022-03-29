@@ -1,7 +1,7 @@
 import { App, defineComponent } from "vue";
 import icon from "./src/Icon.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { icons } from "@/components/layout/components/sidebar/icons";
+// import { icons } from "@/components/layout/components/sidebar/icons";
 
 /**
  * find icon component
@@ -51,11 +51,11 @@ export function findIcon(icon: String, type = "EL", property?: string) {
       template: `<i class="${icon}" />`
     });
   } else if (type === "EL") {
-    const components = Object.keys(icons).filter(component => component === icon
-    );
-    if (components.length > 0) {
-      return components[0];
-    }
+    // const components = Object.keys(icons).filter(component => component === icon
+    // );
+    // if (components.length > 0) {
+    //   return components[0];
+    // }
     return null;
 
   } else if (type === "SVG") {
