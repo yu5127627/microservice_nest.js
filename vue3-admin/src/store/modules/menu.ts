@@ -42,7 +42,7 @@ export const useMenuStore = defineStore('menu', () => {
     return {
       id,
       path: url,
-      component: path ? () => import(`/views${path}`) : shallowRef(Layout),
+      component: path ? () => import(/* @vite-ignore */`../../views${path}`) : shallowRef(Layout),
       redirect, //重定向地址，在面包屑中点击会重定向去的地址
       hidden: hide, // 不在侧边栏显示
       alwaysShow: true, //一直显示根路由
