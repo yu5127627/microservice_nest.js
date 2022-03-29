@@ -1,6 +1,6 @@
 <template>
   <div class="app-view">
-    <el-config-provider size="default" :button="btnConfig" :locale="locale">
+    <el-config-provider :button="btnConfig" :locale="locale">
       <router-view />
     </el-config-provider>
   </div>

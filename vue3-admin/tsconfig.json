@@ -21,10 +21,16 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "element-plus/global"],
     "typeRoots": ["./node_modules/@types/", "./src/types/"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "vite.config.ts"
+  ],
   "exclude": ["node_modules", "dist", "**/*.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

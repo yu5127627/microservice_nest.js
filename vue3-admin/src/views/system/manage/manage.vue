@@ -46,7 +46,7 @@
         v-model:currentPage="list.query.page"
         v-model:page-size="list.query.limit"
         :page-sizes="[15, 20, 50, 100]"
-        small="size"
+        small
         layout="total, sizes, prev, pager, next, jumper"
         :total="list.query.total"
         @size-change="getList"
