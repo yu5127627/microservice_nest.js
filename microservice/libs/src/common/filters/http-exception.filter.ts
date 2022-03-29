@@ -26,7 +26,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       exceptionResponse = exception.getResponse();
       message = exceptionResponse;
       if (typeof exceptionResponse === 'object') {
-        message = exceptionResponse.message[0];
+        message =
+          typeof exceptionResponse.message === 'string'
+            ? exceptionResponse.message
+            : exceptionResponse.message[0];
       }
     }
 
@@ -36,6 +39,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       path: request.url,
       message,
       error,
+      ...exceptionResponse,
     });
   }
 }

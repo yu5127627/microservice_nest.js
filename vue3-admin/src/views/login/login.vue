@@ -65,7 +65,8 @@ export default defineComponent({
           router.push({ path: targetPath || '/' });
         }
       } catch (error) {
-        console.log(error);
+        // @ts-ignore
+        toast(error.message, 'error');
       }
     };
 

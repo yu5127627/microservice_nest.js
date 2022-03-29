@@ -1,5 +1,5 @@
 import { Manage } from '@app/libs/db/entity/manage.entity';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync } from 'bcryptjs';
@@ -24,7 +24,7 @@ export class AuthService {
       const { password, ...result } = manage;
       return result;
     } else {
-      throw new BadRequestException('账号密码错误');
+      throw new Error('账号密码错误');
     }
   }
 

@@ -39,7 +39,7 @@ export default defineConfig({
       '@': pathResolve('./src') // 设置 `@` 指向 `src` 目录
     }
   },
-  base: './', // 设置公共基础路径
+  base: '/', // 设置公共基础路径
   server: {
     port: 8000, // 设置服务启动端口号
     open: true, // 设置服务启动时是否自动打开浏览器

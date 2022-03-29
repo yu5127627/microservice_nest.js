@@ -1323,7 +1323,7 @@ let AuthService = class AuthService {
             return result;
         }
         else {
-            throw new common_1.BadRequestException('账号密码错误');
+            throw new Error('账号密码错误');
         }
     }
     createToken(payload) {
@@ -1416,9 +1416,9 @@ let ManageLocalStrategy = class ManageLocalStrategy extends (0, passport_1.Passp
     }
     async validate(username, password) {
         const user = await this.authService.validateManage(username, password);
-        if (!user)
-            throw new common_1.UnauthorizedException();
-        return user;
+        if (user)
+            return user;
+        throw new common_1.BadRequestException('账号密码错误');
     }
 };
 ManageLocalStrategy = __decorate([
@@ -3171,16 +3171,14 @@ let HttpExceptionFilter = class HttpExceptionFilter {
             exceptionResponse = exception.getResponse();
             message = exceptionResponse;
             if (typeof exceptionResponse === 'object') {
-                message = exceptionResponse.message[0];
+                message =
+                    typeof exceptionResponse.message === 'string'
+                        ? exceptionResponse.message
+                        : exceptionResponse.message[0];
             }
         }
-        response.status(status).json({
-            statusCode: status,
-            timestamp: new Date().toISOString(),
-            path: request.url,
-            message,
-            error,
-        });
+        response.status(status).json(Object.assign({ statusCode: status, timestamp: new Date().toISOString(), path: request.url, message,
+            error }, exceptionResponse));
     }
 };
 HttpExceptionFilter = __decorate([
