@@ -59,7 +59,7 @@
 </template>
 
 <script lang='ts'>
-import { getManageList } from '@/api/manage';
+import { requestPages } from '@/api/manage';
 import { defineComponent, reactive, ref } from 'vue';
 import { openDialog, handleDelete } from '@/api/base';
 import ManageDialog from './components/manageDialog.vue';
@@ -90,16 +90,20 @@ export default defineComponent({
     });
 
     const getList = async () => {
-      list.load = true;
-      const { code, result } = await getManageList(list.query);
-      list.data = result.rows;
-      list.query.total = result.total;
-      list.load = false;
+      try {
+        list.load = true;
+        const { code, result } = await requestPages(list.query);
+        list.data = result.rows;
+        list.query.total = result.total;
+        list.load = false;
+      } catch (error) {
+        list.load = false;
+      }
     };
     getList();
 
-    emitter.on('list-reload', () => {
-      getList();
+    emitter.on('list-reload', (module) => {
+      if (module === 'role') getList();
     });
 
     return {

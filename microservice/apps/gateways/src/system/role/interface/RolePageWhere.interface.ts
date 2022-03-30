@@ -4,5 +4,6 @@ import { FindOperator } from 'typeorm';
 export interface RolePageWhere extends PageFilter {
   where?: {
     name?: FindOperator<string>;
+    level?: number;
   };
 }

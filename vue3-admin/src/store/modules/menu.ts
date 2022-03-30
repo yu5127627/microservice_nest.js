@@ -36,24 +36,36 @@ export const useMenuStore = defineStore('menu', () => {
     return asyncMenu;
   };
 
-// 1.先识别所有的views/文件夹name/*.vue文件
-// 这里限制性很高，只有路径为/views/文件夹name/*.vue，的文件才能背识别，如果不在这个结构，自己增加吧，然后再合并
-const modules = import.meta.glob('../../views/**/**.vue');
+  // 1.先识别所有的views/文件夹name/*.vue文件
+  // 这里限制性很高，只有路径为/views/文件夹name/*.vue，的文件才能背识别，如果不在这个结构，自己增加吧，然后再合并
+  const modules = import.meta.glob('../../views/**/**.vue');
+  // 上面的结果是一个对象，相当于
+  // const modules ={
+  //     "../views/daily/index.vue": () => import("/src/views/daily/index.vue")
+  // };
 
-// 上面的结果是一个对象，相当于
-// const modules ={
-//     "../views/daily/index.vue": () => import("/src/views/daily/index.vue")
-// };
+  /**
+    基本语法
+    星号 ( *) — 匹配除斜杠（路径分隔符）、隐藏文件（以 开头的名称.）之外的所有内容。
+    双星或 globstar ( **) — 匹配零个或多个目录。
+    问号 ( ?) – 匹配除斜杠（路径分隔符）以外的任何单个字符。
+    序列 ( [seq]) — 匹配序列中的任何字符。
+    📖关于基本匹配行为的几句话。
+
+    一些例子：
+
+    // src/**//*.js  匹配目录中所有具有扩展名的文件src（任何级别的嵌套） 。.js
+    // src/*.??— 匹配src目录中具有两个字符扩展名的所有文件（仅第一级嵌套）。
+    // file-[01].js— 匹配文件：file-0.js, file-1.js.
+  **/
 
   // 将异步菜单转化为复合规则的路由
   const resolveMenu = (menu: Menu.MenuRow) => {
     const { id, type, icon, cache, hide, title, url, name, action, sort, path, pid, redirect } = menu;
-
     return {
       id,
       path: url,
       component: path? modules[`../../views${path}`] : shallowRef(Layout),
-      // component: path ? () => import(/* @vite-ignore */`../../views${path}`) : shallowRef(Layout),
       redirect, //重定向地址，在面包屑中点击会重定向去的地址
       hidden: hide, // 不在侧边栏显示
       alwaysShow: true, //一直显示根路由
@@ -81,7 +93,6 @@ const modules = import.meta.glob('../../views/**/**.vue');
         } else {
           subMenu.push(resolveMenu(item));
         }
-
       }
     }
     return { topMenu, subMenu, actions };

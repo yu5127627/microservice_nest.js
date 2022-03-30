@@ -37,7 +37,7 @@ export class ManageController {
 
   @Put(':id')
   @ApiOperation({ summary: '修改管理员' })
-  @Auth()
+  @Auth(['manange:update'])
   async update(
     @Param('id') id: number,
     @Body() body: ManageUpdateDto,

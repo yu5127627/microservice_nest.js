@@ -11,7 +11,7 @@ export class LogController {
   constructor(private readonly logService: LogService) {}
 
   @Get('/login')
-  @Auth(['login_log:view'])
+  @Auth(['log_login:view'])
   @ApiOperation({ summary: '登录日志查询' })
   async loginLogPages(@Query() query: LoginLogPagesDto): Promise<Result> {
     const result = await this.logService.loginLogPages(query);

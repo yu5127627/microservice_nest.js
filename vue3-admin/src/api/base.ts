@@ -33,6 +33,7 @@ export const handleDelete = (ids: number[], module: string) => {
       const { code, message } = await request<Response>({ method: 'DELETE', url: `${baseUrl}${module}`, data: { ids } });
       if (code === 200) {
         toast(message);
+        emitter.emit('list-reload', module);
       } else {
         toast(message, 'error');
       }
@@ -52,5 +53,5 @@ export const handleSubmit = async (dialogData: DialogData<RowData>, module: stri
     url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
     data: dialogData.data
   });
-  emitter.emit('list-reload', {});
+  emitter.emit('list-reload', module);
 };

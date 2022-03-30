@@ -18,7 +18,7 @@ export const getUserInfo = () => {
 };
 
 // 获取管理员列表
-export const getManageList = (data:TableListQuery) => {
+export const requestPages = (data:TableListQuery) => {
   return request<Response>({
     method: 'get',
     url: '/api/v1/manage',

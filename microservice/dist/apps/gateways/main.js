@@ -990,7 +990,7 @@ let LogController = class LogController {
 };
 __decorate([
     (0, common_1.Get)('/login'),
-    (0, auth_decorator_1.Auth)(['login_log:view']),
+    (0, auth_decorator_1.Auth)(['log_login:view']),
     (0, swagger_1.ApiOperation)({ summary: '登录日志查询' }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -1750,6 +1750,14 @@ __decorate([
     __metadata("design:type", String)
 ], ManagePagesDto.prototype, "username", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        default: '将梦拉到现实',
+        description: '昵称',
+    }),
+    __metadata("design:type", String)
+], ManagePagesDto.prototype, "nickname", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 1, description: '角色ID' }),
     __metadata("design:type", Number)
 ], ManagePagesDto.prototype, "roleId", void 0);
@@ -1886,7 +1894,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '修改管理员' }),
-    (0, auth_decorator_1.Auth)(),
+    (0, auth_decorator_1.Auth)(['manange:update']),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -2030,7 +2038,7 @@ let ManageService = class ManageService {
         return await this[DEFAULT_MODEL].findOne(id);
     }
     async pages(query) {
-        const { username, page, limit, roleId } = query;
+        const { username, page, limit, roleId, nickname } = query;
         const managefilter = {
             skip: (page - 1) * limit,
             take: limit,
@@ -2038,6 +2046,8 @@ let ManageService = class ManageService {
         };
         if (username)
             managefilter.where.username = (0, typeorm_2.Like)(`%${username}%`);
+        if (nickname)
+            managefilter.where.nickname = (0, typeorm_2.Like)(`%${nickname}%`);
         if (roleId)
             managefilter.where.roleId = roleId;
         const [rows, total] = await this[DEFAULT_MODEL].findAndCount(managefilter);
@@ -2511,9 +2521,13 @@ const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 class RolePagesDto extends pagination_dto_1.PaginationDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false, default: '管理员', description: '角色名称' }),
+    (0, swagger_1.ApiProperty)({ required: false, default: '管理员', description: '名称' }),
     __metadata("design:type", String)
 ], RolePagesDto.prototype, "name", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 1, description: '级别' }),
+    __metadata("design:type", Number)
+], RolePagesDto.prototype, "level", void 0);
 exports.RolePagesDto = RolePagesDto;
 
 
@@ -2882,7 +2896,7 @@ let RoleService = class RoleService {
         return await this[DEFAULT_MODEL].delete(ids);
     }
     async pages(query) {
-        const { name, page, limit } = query;
+        const { level, name, page, limit } = query;
         const managefilter = {
             skip: (page - 1) * limit,
             take: limit,
@@ -2890,6 +2904,8 @@ let RoleService = class RoleService {
         };
         if (name)
             managefilter.where.name = (0, typeorm_2.Like)(`%${name}%`);
+        if (level)
+            managefilter.where.level = level;
         const [rows, total] = await this[DEFAULT_MODEL].findAndCount(managefilter);
         return {
             rows,
@@ -3169,6 +3185,7 @@ let HttpExceptionFilter = class HttpExceptionFilter {
         let message = null;
         if ((0, util_1.isFunction)(exception.getResponse)) {
             exceptionResponse = exception.getResponse();
+            console.log(exceptionResponse);
             message = exceptionResponse;
             if (typeof exceptionResponse === 'object') {
                 message =
@@ -3237,7 +3254,7 @@ let ActionGuard = class ActionGuard {
                 for (const rule of rules) {
                     if (!actionList.includes(rule)) {
                         throw new common_1.UnauthorizedException({
-                            error: '403',
+                            error: '401',
                             message: '权限不足',
                         });
                     }

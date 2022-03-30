@@ -41,7 +41,7 @@ export class ActionGuard implements CanActivate {
         for (const rule of rules) {
           if (!actionList.includes(rule)) {
             throw new UnauthorizedException({
-              error: '403',
+              error: '401',
               message: '权限不足',
             });
           }

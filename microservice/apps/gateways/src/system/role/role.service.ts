@@ -63,7 +63,7 @@ export class RoleService implements OnModuleInit {
   }
 
   async pages(query: RolePagesDto): Promise<Pagination<Role>> {
-    const { name, page, limit } = query;
+    const { level, name, page, limit } = query;
     const managefilter: RolePageWhere = {
       skip: (page - 1) * limit,
       take: limit,
@@ -71,6 +71,7 @@ export class RoleService implements OnModuleInit {
     };
 
     if (name) managefilter.where.name = Like(`%${name}%`);
+    if (level) managefilter.where.level = level;
 
     const [rows, total] = await this[DEFAULT_MODEL].findAndCount(managefilter);
     return {

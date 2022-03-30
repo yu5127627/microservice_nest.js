@@ -75,6 +75,27 @@ namespace TagView {
   }
 }
 
+namespace Role {
+  export interface RoleRow {
+    id: number;
+    description: string;
+    name: string;
+    level: number;
+  }
+}
+
+namespace Log {
+  export interface LoginRow {
+    id: number;
+    ip: string;
+    login_time: string;
+    manageId: number;
+    ua: string;
+    username: string;
+    address: string;
+  }
+}
+
 namespace User {
   declare interface UserInfo {
     avatar: string,

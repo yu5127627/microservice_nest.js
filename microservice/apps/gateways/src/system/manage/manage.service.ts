@@ -55,7 +55,7 @@ export class ManageService implements OnModuleInit {
   }
 
   async pages(query: ManagePagesDto): Promise<Pagination<Manage>> {
-    const { username, page, limit, roleId } = query;
+    const { username, page, limit, roleId, nickname } = query;
     const managefilter: ManagePageWhere = {
       skip: (page - 1) * limit,
       take: limit,
@@ -63,6 +63,7 @@ export class ManageService implements OnModuleInit {
     };
 
     if (username) managefilter.where.username = Like(`%${username}%`);
+    if (nickname) managefilter.where.nickname = Like(`%${nickname}%`);
     if (roleId) managefilter.where.roleId = roleId;
 
     const [rows, total] = await this[DEFAULT_MODEL].findAndCount(managefilter);
