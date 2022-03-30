@@ -115,7 +115,7 @@ class PureHttp {
     let key: string;
     let params: object = {};
     if (cache) {
-      key = md5(params ? method + url + JSON.stringify(params) : method + url);
+      key = md5(data ? method + url + JSON.stringify(data) : method + url);
       if (PureHttp.caches[key]) return PureHttp.caches[key];
       PureHttp.caches[key] = null;
     }

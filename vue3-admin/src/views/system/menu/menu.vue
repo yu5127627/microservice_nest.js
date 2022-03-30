@@ -69,7 +69,7 @@
       </el-table-column>
     </el-table>
 
-    <menu-dialog :dialog-data="dialogData" />
+    <menu-dialog v-if="dialogData.visible" :dialog-data="dialogData" />
   </div>
 </template>
 
@@ -90,7 +90,19 @@ export default defineComponent({
     let dialogData = reactive<DialogData<Role.RoleRow | {}>>({
       visible: false,
       title: "",
-      data: {}
+      data: {
+        type: 0,
+        icon: '',
+        cache: false,
+        show: true,
+        title: '',
+        action: '',
+        url: '',
+        sort: 99,
+        name: '',
+        path: '',
+        pid: 0, // 默认选中的节点
+      }
     });
     let list = reactive<TableList<any>>({
       data: [],
@@ -105,6 +117,7 @@ export default defineComponent({
       }
     });
     let selectList = reactive<Array<number>>([]);
+
     const getList = async () => {
       try {
         list.load = true;
@@ -114,12 +127,12 @@ export default defineComponent({
         for (const item of topMenus) menuStore.deepMergeMenu(item, result);
         list.data = topMenus;
         list.load = false;
-      }
-      catch (error) {
+      } catch (error) {
         list.load = false;
       }
     };
     getList();
+
     emitter.on("list-reload", (module) => {
       if (module === "menu")
         getList();

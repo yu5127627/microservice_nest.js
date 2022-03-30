@@ -20,7 +20,8 @@
     "pinia": "^2.0.11",
     "qs": "^6.10.3",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vue3-treeselect": "^0.1.10"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
@@ -44,6 +45,7 @@
     "unplugin-vue-components": "^0.18.3",
     "vite": "^2.8.0",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.0",
     "vue-tsc": "^0.29.8"
   },
   "husky": {

@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import viteCompression from 'vite-plugin-compression';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 const pathResolve = (dir: string) => resolve(__dirname, dir);
 
@@ -20,6 +21,18 @@ export default defineConfig({
     Components({
       dts: 'src/components.d.ts',
       resolvers: [ElementPlusResolver()]
+    }),
+    createHtmlPlugin({
+      minify: true,
+      /**
+       * 需要注入 index.html ejs 模版的数据
+       */
+      inject: {
+        data: {
+          title: 'Nest.js 微服务后台管理模板',
+          // injectScript: `<script src="./inject.js"></script>`,
+        },
+      },
     }),
   ],
   build: {

@@ -34,6 +34,7 @@ namespace Menu {
     path: string;
     pid: number;
     redirect: string;
+    children?: Array[MenuRow];
   }
 
   declare interface ActionRow {

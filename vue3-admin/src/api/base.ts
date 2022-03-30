@@ -9,7 +9,7 @@ type RowData = Manage.ManageRow | Menu.MenuRow;
 export const openDialog = (dialogData: DialogData<any>, title: string, row?: RowData) => {
   dialogData.visible = true;
   dialogData.title = title;
-  dialogData.data = row || {};
+  dialogData.data = row || dialogData.data;
   return;
 };
 
@@ -47,11 +47,13 @@ export const handleDelete = (ids: number[], module: string) => {
 };
 
 export const handleSubmit = async (dialogData: DialogData<RowData>, module: string) => {
-  dialogData.visible = false;
-  const { code, message, result } = await request<Response>({
-    method: dialogData.data?.id ? 'PUT' : 'POST',
-    url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
-    data: dialogData.data
-  });
-  emitter.emit('list-reload', module);
+  console.log(JSON.stringify(dialogData.data));
+
+  // dialogData.visible = false;
+  // const { code, message, result } = await request<Response>({
+  //   method: dialogData.data?.id ? 'PUT' : 'POST',
+  //   url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
+  //   data: dialogData.data
+  // });
+  // emitter.emit('list-reload', module);
 };

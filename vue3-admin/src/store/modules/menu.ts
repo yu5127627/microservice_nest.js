@@ -13,9 +13,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   // 设置异步菜单
   const setAsyncMenu = (topMenu: Array<Menu.Route>, subMenu: Array<Menu.Route>) => {
-    for (const item of topMenu) {
-      mergeMenu(item, subMenu);
-    }
+    for (const item of topMenu) deepmergeRoutes(item, subMenu);
     asyncMenu.push(...topMenu, {
       id: 9999,
       path: '/:pathMatch(.*)*',
@@ -99,7 +97,7 @@ export const useMenuStore = defineStore('menu', () => {
   };
 
   // 合并父子路由
-  const mergeMenu = (topDir: Menu.Route, list: Array<Menu.Route>) => {
+  const deepmergeRoutes = (topDir: Menu.Route, list: Array<Menu.Route>) => {
     const childMenu = [];
     for (const item of list) {
       if (item.meta?.pid === topDir.id) {
@@ -110,7 +108,21 @@ export const useMenuStore = defineStore('menu', () => {
     if (childMenu.length) topDir.children = childMenu;
   };
 
+  const deepMergeMenu = (menu:Menu.MenuRow, menus:Array<Menu.MenuRow>) => {
+    const arr:Array<Menu.MenuRow> = [];
+    for (const item of menus) {
+      if (item.pid === menu.id) {
+        const children = deepMergeMenu(item, menus);
+        if(children.length) item.children = children;
+        arr.push(item);
+      }
+    }
+    if (arr.length) menu.children = arr;
+    return arr;
+  };
+
   return {
+    deepMergeMenu,
     filterMenu,
     resolveMenu,
     originAsyncMenu,
