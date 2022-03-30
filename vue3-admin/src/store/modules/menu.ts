@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref, shallowRef } from "vue";
+import { defineAsyncComponent, reactive, ref, shallowRef } from "vue";
 import { routes } from '@/router';
 import Layout from '@/components/layout/index.vue';
 
@@ -36,13 +36,24 @@ export const useMenuStore = defineStore('menu', () => {
     return asyncMenu;
   };
 
+// 1.先识别所有的views/文件夹name/*.vue文件
+// 这里限制性很高，只有路径为/views/文件夹name/*.vue，的文件才能背识别，如果不在这个结构，自己增加吧，然后再合并
+const modules = import.meta.glob('../../views/**/**.vue');
+
+// 上面的结果是一个对象，相当于
+// const modules ={
+//     "../views/daily/index.vue": () => import("/src/views/daily/index.vue")
+// };
+
   // 将异步菜单转化为复合规则的路由
   const resolveMenu = (menu: Menu.MenuRow) => {
     const { id, type, icon, cache, hide, title, url, name, action, sort, path, pid, redirect } = menu;
+
     return {
       id,
       path: url,
-      component: path ? () => import(/* @vite-ignore */`../../views${path}`) : shallowRef(Layout),
+      component: path? modules[`../../views${path}`] : shallowRef(Layout),
+      // component: path ? () => import(/* @vite-ignore */`../../views${path}`) : shallowRef(Layout),
       redirect, //重定向地址，在面包屑中点击会重定向去的地址
       hidden: hide, // 不在侧边栏显示
       alwaysShow: true, //一直显示根路由
