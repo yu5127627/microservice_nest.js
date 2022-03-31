@@ -1,10 +1,10 @@
 import { request, Response } from "@/utils/http";
 
 // 获取标签列表
-export const getTagList = (data: TableListQuery) => {
+export const requestList = (data: TableListQuery) => {
   return request<Response>({
     method: 'get',
-    url: '/api/v1/tag',
+    url: '/api/v1/blog/tag/list',
     data
   });
 };

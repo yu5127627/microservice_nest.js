@@ -955,6 +955,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Tag.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '分组' }),
+    __metadata("design:type", String)
+], Tag.prototype, "group", void 0);
+__decorate([
     (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
     __metadata("design:type", String)
 ], Tag.prototype, "name", void 0);

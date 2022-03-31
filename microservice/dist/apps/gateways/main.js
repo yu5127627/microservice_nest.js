@@ -612,6 +612,11 @@ const class_validator_1 = __webpack_require__(/*! class-validator */ "class-vali
 class TagCreate {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分组名称必填' }),
+    __metadata("design:type", String)
+], TagCreate.prototype, "group", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ required: true, default: '测试标签', description: '名称' }),
     (0, class_validator_1.IsNotEmpty)({ message: '标签名称必填' }),
     __metadata("design:type", String)
@@ -663,6 +668,11 @@ const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class TagUpdate {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分组名称必填' }),
+    __metadata("design:type", String)
+], TagUpdate.prototype, "group", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: true, default: '测试标签', description: '名称' }),
     (0, class_validator_1.IsNotEmpty)({ message: '标签名称必填' }),
@@ -795,7 +805,7 @@ __decorate([
     __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
 ], TagController.prototype, "detail", null);
 TagController = __decorate([
-    (0, common_1.Controller)('tag'),
+    (0, common_1.Controller)('blog/tag'),
     (0, swagger_1.ApiTags)('标签'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
     __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
@@ -3555,6 +3565,10 @@ __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Tag.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '分组' }),
+    __metadata("design:type", String)
+], Tag.prototype, "group", void 0);
 __decorate([
     (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
     __metadata("design:type", String)
