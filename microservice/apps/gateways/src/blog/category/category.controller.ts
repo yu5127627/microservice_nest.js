@@ -18,7 +18,7 @@ import { CategoryCreateDto } from './dto/CategoryCreate.dto';
 import { CategoryListDto } from './dto/CategoryList.dto';
 import { CategoryUpdateDto } from './dto/CategoryUpdate.dto';
 
-@Controller('category')
+@Controller('blog/category')
 @ApiTags('分类')
 export class CategoryController {
   constructor(@Inject('BLOG_SERVICE') private readonly client: ClientProxy) {}

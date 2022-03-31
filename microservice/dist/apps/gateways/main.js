@@ -103,7 +103,7 @@ __decorate([
     __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
 ], CategoryController.prototype, "detail", null);
 CategoryController = __decorate([
-    (0, common_1.Controller)('category'),
+    (0, common_1.Controller)('blog/category'),
     (0, swagger_1.ApiTags)('分类'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
     __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
@@ -4140,7 +4140,6 @@ let CronService = CronService_1 = class CronService {
         await this.configService.syncConfig();
     }
     handleCron() {
-        console.log('11111');
         this.logger.debug('Called when the current second is 45');
     }
 };

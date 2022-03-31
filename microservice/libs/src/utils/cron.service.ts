@@ -23,7 +23,6 @@ export class CronService {
   // 每天 23.01 执行一次
   @Cron('0 1 23 * * *')
   handleCron() {
-    console.log('11111');
     this.logger.debug('Called when the current second is 45');
   }
 }

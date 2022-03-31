@@ -100,7 +100,7 @@ export default defineComponent({
       height: 50px;
       line-height: 50px;
     }
-    ::v-deep {
+    :deep {
       .el-input__inner {
         height: 50px;
       }
