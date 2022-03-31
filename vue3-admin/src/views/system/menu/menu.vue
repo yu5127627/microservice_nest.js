@@ -4,7 +4,11 @@
       <div class="operate-btns">
         <el-button type="primary" @click="openDialog(dialogData, '新增菜单')">新增</el-button>
       </div>
-      <el-button type="primary" icon="Refresh" @click="() => { form.resetFields(); getList() }" />
+      <el-button
+        type="primary"
+        icon="Refresh"
+        @click="() => { form.resetFields(); getList(false) }"
+      />
     </div>
 
     <div class="filter-box">
@@ -19,7 +23,7 @@
           <el-input v-model="list.query.type" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getList">搜索</el-button>
+          <el-button type="primary" @click="getList(true)">搜索</el-button>
           <el-button type="primary" @click="() => { form.resetFields(); }">重置</el-button>
         </el-form-item>
       </el-form>
@@ -50,8 +54,8 @@
       <el-table-column prop="cache" label="缓存" align="center">
         <template #default="scope">{{ scope.row.cache == true ? '是' : '否' }}</template>
       </el-table-column>
-      <el-table-column prop="hide" label="菜单显示" align="center">
-        <template #default="scope">{{ scope.row.hide ? '否' : '是' }}</template>
+      <el-table-column prop="hide" label="菜单隐藏" align="center">
+        <template #default="scope">{{ scope.row.hide ? '是' : '否' }}</template>
       </el-table-column>
       <el-table-column prop="type" label="类型" align="center">
         <template #default="scope">
@@ -80,6 +84,7 @@ import { openDialog, handleDelete } from '@/api/base';
 import { emitter } from '@/utils/mitt';
 import { useMenuStore } from '@/store/modules/menu';
 import MenuDialog from './components/menuDialog.vue';
+import { toast } from '@/utils/message';
 
 export default defineComponent({
   name: "Menu",
@@ -94,7 +99,7 @@ export default defineComponent({
         type: 0,
         icon: '',
         cache: false,
-        show: true,
+        hide: false,
         title: '',
         action: '',
         url: '',
@@ -113,15 +118,16 @@ export default defineComponent({
         total: 0,
         title: "",
         action: "",
-        type: ""
+        type: "",
+        attrs: 'all'
       }
     });
     let selectList = reactive<Array<number>>([]);
 
-    const getList = async () => {
+    const getList = async (cache: boolean) => {
       try {
         list.load = true;
-        let { code, result } = await getMenu();
+        let { code, result } = await getMenu(list.query, cache);
         result.sort((a: Menu.MenuRow, b: Menu.MenuRow) => a.sort - b.sort);
         let topMenus = result.filter((item: Menu.MenuRow) => item.pid === 0);
         for (const item of topMenus) menuStore.deepMergeMenu(item, result);
@@ -131,11 +137,11 @@ export default defineComponent({
         list.load = false;
       }
     };
-    getList();
+    getList(true);
 
     emitter.on("list-reload", (module) => {
       if (module === "menu")
-        getList();
+        getList(false);
     });
     return {
       selectList,

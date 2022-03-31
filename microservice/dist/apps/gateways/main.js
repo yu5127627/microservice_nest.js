@@ -2182,7 +2182,7 @@ class MenuUpdateDto {
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
-        required: false,
+        required: true,
         default: 1,
         description: '0:目录 1:菜单 2:外链',
     }),
@@ -2190,7 +2190,6 @@ __decorate([
 ], MenuUpdateDto.prototype, "type", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'icon', description: '图标' }),
-    (0, class_validator_1.IsNotEmpty)({ message: 'icon必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "icon", void 0);
 __decorate([
@@ -2202,13 +2201,12 @@ __decorate([
     __metadata("design:type", Boolean)
 ], MenuUpdateDto.prototype, "hide", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false, default: '测试', description: '菜单名称' }),
-    (0, class_validator_1.IsNotEmpty)({ message: '菜单名称必填' }),
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试', description: '菜单名称' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '名称必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "title", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: '/', description: '路由地址' }),
-    (0, class_validator_1.IsNotEmpty)({ message: '路由地址必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "url", void 0);
 __decorate([
@@ -2236,7 +2234,8 @@ __decorate([
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "path", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false, default: 0, description: '父菜单ID 0:无' }),
+    (0, swagger_1.ApiProperty)({ required: true, default: 0, description: '父菜单ID 0:无' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '父级ID必填' }),
     __metadata("design:type", Number)
 ], MenuUpdateDto.prototype, "pid", void 0);
 exports.MenuUpdateDto = MenuUpdateDto;

@@ -3,14 +3,13 @@ import { IsNotEmpty } from 'class-validator';
 
 export class MenuUpdateDto {
   @ApiProperty({
-    required: false,
+    required: true,
     default: 1,
     description: '0:目录 1:菜单 2:外链',
   })
-  readonly type?: number;
+  readonly type: number;
 
   @ApiProperty({ required: false, default: 'icon', description: '图标' })
-  @IsNotEmpty({ message: 'icon必填' })
   readonly icon?: string;
 
   @ApiProperty({ required: false, default: 0, description: '菜单是否缓存' })
@@ -19,12 +18,11 @@ export class MenuUpdateDto {
   @ApiProperty({ required: false, default: 0, description: '是否在菜单显示' })
   readonly hide?: boolean;
 
-  @ApiProperty({ required: false, default: '测试', description: '菜单名称' })
-  @IsNotEmpty({ message: '菜单名称必填' })
-  readonly title?: string;
+  @ApiProperty({ required: true, default: '测试', description: '菜单名称' })
+  @IsNotEmpty({ message: '名称必填' })
+  readonly title: string;
 
   @ApiProperty({ required: false, default: '/', description: '路由地址' })
-  @IsNotEmpty({ message: '路由地址必填' })
   readonly url?: string;
 
   @ApiProperty({ required: false, default: '测试', description: '组件名称' })
@@ -47,6 +45,7 @@ export class MenuUpdateDto {
   })
   readonly path?: string;
 
-  @ApiProperty({ required: false, default: 0, description: '父菜单ID 0:无' })
-  readonly pid?: number;
+  @ApiProperty({ required: true, default: 0, description: '父菜单ID 0:无' })
+  @IsNotEmpty({ message: '父级ID必填' })
+  readonly pid: number;
 }

@@ -118,6 +118,7 @@ declare global {
   declare interface DialogData<T> {
     visible?: boolean;
     title?: string;
+    type?: string;
     data?: T
   }
 
@@ -125,7 +126,7 @@ declare global {
     page: number;
     limit: number;
     total: number;
-    [propName:string]: any;
+    [x :string]: any;
   }
 
   declare interface TableList<T> {
