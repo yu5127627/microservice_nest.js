@@ -35,7 +35,7 @@
       border
       size="small"
       row-key="id"
-      :default-expand-all="true"
+      :expand-row-keys="expandList"
       lazy
       style="width: 100%"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
@@ -92,6 +92,7 @@ export default defineComponent({
   setup() {
     const menuStore = useMenuStore();
     let form = ref();
+    let expandList = reactive<string[]>([]);
     let dialogData = reactive<DialogData<Role.RoleRow | {}>>({
       visible: false,
       title: "",
@@ -129,6 +130,8 @@ export default defineComponent({
         list.load = true;
         let { code, result } = await getMenu(list.query, cache);
         result.sort((a: Menu.MenuRow, b: Menu.MenuRow) => a.sort - b.sort);
+        // 只有目录可以展开
+        expandList.push(...result.map((item: Menu.MenuRow) => { if (item.type === 0) return String(item.id); }));
         let topMenus = result.filter((item: Menu.MenuRow) => item.pid === 0);
         for (const item of topMenus) menuStore.deepMergeMenu(item, result);
         list.data = topMenus;
@@ -144,6 +147,7 @@ export default defineComponent({
         getList(false);
     });
     return {
+      expandList,
       selectList,
       list,
       form,

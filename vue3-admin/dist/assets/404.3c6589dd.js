@@ -1,2 +1,0 @@
-import{_ as e}from"./index.12bed09f.js";import{b as r,o}from"./vendor.b7bcae02.js";const c={};function t(n,_){return o(),r("div",null,"404")}var f=e(c,[["render",t]]);export{f as default};
-//# sourceMappingURL=404.3c6589dd.js.map

@@ -71,6 +71,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryController = void 0;
+const rpc_exception_filter_1 = __webpack_require__(/*! @app/libs/common/filters/rpc-exception.filter */ "./libs/src/common/filters/rpc-exception.filter.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const category_service_1 = __webpack_require__(/*! ./category.service */ "./apps/blog/src/category/category.service.ts");
@@ -122,6 +123,7 @@ let CategoryController = class CategoryController {
     }
 };
 __decorate([
+    (0, common_1.UseFilters)(new rpc_exception_filter_1.ExceptionFilter()),
     (0, microservices_1.MessagePattern)({ category: 'list' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -216,6 +218,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryService = void 0;
 const category_entity_1 = __webpack_require__(/*! @app/libs/db/cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const DEFAULT_MODEL = 'categoryModel';
@@ -224,10 +227,15 @@ let CategoryService = class CategoryService {
         this.categoryModel = categoryModel;
     }
     async list(attrs) {
-        if (attrs[0] === 'all') {
-            return await this[DEFAULT_MODEL].find();
+        try {
+            if (attrs[0] === 'all') {
+                return await this[DEFAULT_MODEL].find();
+            }
+            return await this[DEFAULT_MODEL].find({ select: attrs });
         }
-        return await this[DEFAULT_MODEL].find({ select: attrs });
+        catch (error) {
+            throw new microservices_1.RpcException(error);
+        }
     }
     async create(body) {
         return await this[DEFAULT_MODEL].save(body);
@@ -785,6 +793,37 @@ exports.PaginationDto = PaginationDto;
 
 /***/ }),
 
+/***/ "./libs/src/common/filters/rpc-exception.filter.ts":
+/*!*********************************************************!*\
+  !*** ./libs/src/common/filters/rpc-exception.filter.ts ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ExceptionFilter = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const rxjs_1 = __webpack_require__(/*! rxjs */ "rxjs");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+let ExceptionFilter = class ExceptionFilter {
+    catch(exception, host) {
+        return (0, rxjs_1.throwError)(exception.getError().toString());
+    }
+};
+ExceptionFilter = __decorate([
+    (0, common_1.Catch)(microservices_1.RpcException)
+], ExceptionFilter);
+exports.ExceptionFilter = ExceptionFilter;
+
+
+/***/ }),
+
 /***/ "./libs/src/db/cms/category.entity.ts":
 /*!********************************************!*\
   !*** ./libs/src/db/cms/category.entity.ts ***!
@@ -883,7 +922,7 @@ __decorate([
     __metadata("design:type", String)
 ], Content.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容' }),
+    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容', select: false }),
     __metadata("design:type", String)
 ], Content.prototype, "content", void 0);
 __decorate([
@@ -1506,6 +1545,16 @@ module.exports = require("@nestjs/swagger");
 /***/ ((module) => {
 
 module.exports = require("@nestjs/typeorm");
+
+/***/ }),
+
+/***/ "rxjs":
+/*!***********************!*\
+  !*** external "rxjs" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("rxjs");
 
 /***/ }),
 

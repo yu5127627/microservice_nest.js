@@ -1,5 +1,6 @@
+import { ExceptionFilter } from '@app/libs/common/filters/rpc-exception.filter';
 import { Result } from '@app/libs/common/interface/result.interface';
-import { Controller } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CategoryService } from './category.service';
 const DEFAULT_SERVICE = 'categoryService';
@@ -7,6 +8,7 @@ const DEFAULT_SERVICE = 'categoryService';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @UseFilters(new ExceptionFilter())
   @MessagePattern({ category: 'list' })
   async list(query): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].list(query.attrs);

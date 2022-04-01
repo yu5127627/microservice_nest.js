@@ -4,7 +4,7 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { getRepository, In } from 'typeorm';
@@ -40,19 +40,18 @@ export class ActionGuard implements CanActivate {
         // 判断权限  不符合退出
         for (const rule of rules) {
           if (!actionList.includes(rule)) {
-            throw new UnauthorizedException({
-              error: '401',
+            throw new ForbiddenException({
+              statusCode: '403',
               message: '权限不足',
             });
           }
         }
         return true;
       } catch (error) {
-        // console.log(error);
-        // throw new UnauthorizedException({
-        //   error: error,
-        //   message: error.message || error,
-        // });
+        throw new ForbiddenException({
+          error: error.status,
+          message: error.message,
+        });
       }
     } else {
       return true;

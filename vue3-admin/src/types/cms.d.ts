@@ -21,3 +21,16 @@ namespace Category{
     simg?: string;
   }
 }
+
+namespace Content {
+  interface ContentRow {
+    id: number;
+    title: string;
+    top: boolean;
+    scan: number;
+    recom: number;
+    content?: string;
+    ctime: string;
+    utime: string;
+  }
+}

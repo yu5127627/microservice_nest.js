@@ -5,43 +5,47 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { isFunction } from 'util';
+import { Response } from 'express';
+import * as util from 'util';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
-    const error = exception.message;
+
+    let message = null;
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
-        : HttpStatus.NOT_FOUND;
-
+        : HttpStatus.BAD_REQUEST;
     let exceptionResponse: any = null;
-    let message: any = null;
-    if (isFunction(exception.getResponse)) {
-      exceptionResponse = exception.getResponse();
-      console.log(exceptionResponse);
-
-      message = exceptionResponse;
-      if (typeof exceptionResponse === 'object') {
-        message =
-          typeof exceptionResponse.message === 'string'
-            ? exceptionResponse.message
-            : exceptionResponse.message[0];
+    if (typeof exception === 'string') {
+      message = exception;
+    } else {
+      if (exception.message) {
+        message = exception.message;
+      } else if (util.isFunction(exception.getResponse)) {
+        exceptionResponse = exception.getResponse();
+        console.log(exceptionResponse);
+        if (typeof exceptionResponse === 'object') {
+          message =
+            typeof exceptionResponse.message === 'string'
+              ? exceptionResponse.message
+              : exceptionResponse.message[0];
+        } else {
+          message = exceptionResponse;
+        }
       }
     }
 
     response.status(status).json({
-      statusCode: status,
+      code: status,
       timestamp: new Date().toISOString(),
-      path: request.url,
+      path: response.req.url,
       message,
-      error,
-      ...exceptionResponse,
+      // error,
+      // ...exceptionResponse,
     });
   }
 }
