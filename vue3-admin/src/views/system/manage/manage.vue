@@ -24,17 +24,18 @@
 
     <el-table v-loading="list.load" :data="list.data" border size="small">
       <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="username" label="用户名" align="center" />
-      <el-table-column prop="nickname" label="昵称" align="center" />
       <el-table-column prop="avatar" label="头像" align="center">
         <template #default="scope">
           <el-image :src="scope.row.avatar" style="width: 40px;" />
         </template>
       </el-table-column>
+      <el-table-column prop="username" label="用户名" align="center" />
+      <el-table-column prop="nickname" label="昵称" align="center" />
       <el-table-column prop="roleId" label="角色" align="center" />
       <el-table-column prop="ctime" label="创建时间" align="center" />
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="360px">
         <template #default="scope">
+          <el-button @click="openDialog(authData, '权限管理', scope.row)">权限管理</el-button>
           <el-button @click="openDialog(dialogData, '编辑管理员', scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete([scope.row.id], 'manage')">删除</el-button>
         </template>
@@ -54,7 +55,8 @@
       />
     </div>
 
-    <manage-dialog :dialog-data="dialogData" />
+    <manage-dialog v-if="dialogData.visible" :dialog-data="dialogData" />
+    <auth-dialog v-if="authData.visible" :dialog-data="authData" />
   </div>
 </template>
 
@@ -63,16 +65,23 @@ import { requestPages } from '@/api/manage';
 import { defineComponent, reactive, ref } from 'vue';
 import { openDialog, handleDelete } from '@/api/base';
 import ManageDialog from './components/manageDialog.vue';
+import AuthDialog from './components/authDialog.vue';
 import { emitter } from '@/utils/mitt';
 
 export default defineComponent({
   name: 'Manage',
   components: {
-    manageDialog: ManageDialog
+    ManageDialog,
+    AuthDialog
   },
   setup() {
     let form = ref();
     let dialogData = reactive<DialogData<Manage.ManageRow | {}>>({
+      visible: false,
+      title: '',
+      data: {}
+    });
+    let authData = reactive<DialogData<any>>({
       visible: false,
       title: '',
       data: {}
@@ -110,6 +119,7 @@ export default defineComponent({
       list,
       form,
       dialogData,
+      authData,
       getList,
       openDialog,
       handleDelete
