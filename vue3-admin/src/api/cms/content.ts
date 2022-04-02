@@ -9,3 +9,12 @@ export const requestPages = (data: TableListQuery) => {
     data
   });
 };
+
+// 获取文章详情
+export const requestRow = (id:number|string) => {
+  return request<Response>({
+    method: 'get',
+    url: `/api/v1/blog/content/${id}`,
+  });
+};
+

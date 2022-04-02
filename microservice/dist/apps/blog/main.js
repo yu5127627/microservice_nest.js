@@ -455,7 +455,9 @@ let ContentService = class ContentService {
         return await this[DEFAULT_MODEL].delete(ids);
     }
     async detail(id) {
-        return await this[DEFAULT_MODEL].findOne(id);
+        return await this[DEFAULT_MODEL].findOne(id, {
+            select: ['content', 'id', 'recom', 'status', 'title', 'top'],
+        });
     }
     async pages(query) {
         const { title, top, status, page, limit } = query;

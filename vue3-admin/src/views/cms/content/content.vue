@@ -2,7 +2,7 @@
   <div class="page-main">
     <div class="operate-box">
       <div class="operate-btns">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd()">新增</el-button>
       </div>
       <el-button type="primary" icon="Refresh" @click="() => { form.resetFields(); getList() }" />
     </div>
@@ -32,7 +32,7 @@
       <el-table-column prop="ctime" label="创建时间" align="center" />
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <el-button @click="openDialog(dialogData, '编辑内容', scope.row)">编辑</el-button>
+          <el-button @click="handleAdd(scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete([scope.row.id], 'blog/content')">删除</el-button>
         </template>
       </el-table-column>
@@ -99,10 +99,11 @@ export default defineComponent({
     };
     getList();
 
-    const handleAdd = () => {
+    const handleAdd = (row?: Content.ContentRow) => {
       tagStore.handleOpen({
         title: '文章',
         path: '/blog/content/add',
+        query: { id: row?.id },
         affix: true,
         active: true,
       });

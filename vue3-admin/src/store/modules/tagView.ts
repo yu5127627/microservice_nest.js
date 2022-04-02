@@ -32,9 +32,10 @@ export const useTagViewStore = defineStore('tagView', () => {
       }
     }
     if (!hasTag) {
+      tag.active = true;
       keepTags.push(tag);
     }
-    router.push({ path: tag.path });
+    router.push({ path: tag.path, query: tag.query });
   };
 
   const handleReload = () => {

@@ -27,7 +27,9 @@ export class ContentService {
   }
 
   async detail(id: number): Promise<Content> {
-    return await this[DEFAULT_MODEL].findOne(id);
+    return await this[DEFAULT_MODEL].findOne(id, {
+      select: ['content', 'id', 'recom', 'status', 'title', 'top'],
+    });
   }
 
   async pages(query): Promise<Pagination<Content>> {

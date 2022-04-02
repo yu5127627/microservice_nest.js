@@ -51,7 +51,7 @@ export const handleSubmit = async (dialogData: DialogData<RowData>, module: stri
     const { code, message, result } = await request<Response>({
       method: dialogData.data?.id ? 'PUT' : 'POST',
       url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
-      data: dialogData.data
+      data: dialogData.data || dialogData
     });
     toast(message);
     emitter.emit('list-reload', module);
@@ -64,5 +64,7 @@ export const handleSubmit = async (dialogData: DialogData<RowData>, module: stri
    } else {
       toast(error.message, 'error', 2000);
    }
+   throw new Error(error.message||error);
+
  }
 };

@@ -15,6 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
 
     let message = null;
+    let error = null;
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -23,9 +24,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (typeof exception === 'string') {
       message = exception;
     } else {
-      if (exception.message) {
-        message = exception.message;
-      } else if (util.isFunction(exception.getResponse)) {
+      if (util.isFunction(exception.getResponse)) {
         exceptionResponse = exception.getResponse();
         console.log(exceptionResponse);
         if (typeof exceptionResponse === 'object') {
@@ -33,9 +32,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
             typeof exceptionResponse.message === 'string'
               ? exceptionResponse.message
               : exceptionResponse.message[0];
+          error = exceptionResponse.error;
         } else {
           message = exceptionResponse;
         }
+      } else if (exception.message) {
+        message = exception.message;
       }
     }
 
@@ -44,7 +46,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: response.req.url,
       message,
-      // error,
+      error,
       // ...exceptionResponse,
     });
   }

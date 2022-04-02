@@ -144,6 +144,10 @@ class PureHttp {
             case 403:
               toast(error.message, 'error');
               break;
+            case 401:
+              sessionStorage.removeItem('token');
+              toast(error.message, 'error');
+              break;
           }
           reject(error);
         });
