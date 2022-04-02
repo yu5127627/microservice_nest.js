@@ -10,6 +10,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MenuCreateDto } from './dto/MenuCreate.dto';
@@ -70,8 +71,9 @@ export class MenuController {
   async list(
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<MenuListDto>,
+    @Req() req: Request,
   ): Promise<Result> {
-    const result = await this[DEFAULT_SERVICE].list(attrs);
+    const result = await this[DEFAULT_SERVICE].list(attrs, req.user);
     return {
       code: 200,
       message: '菜单查询成功',

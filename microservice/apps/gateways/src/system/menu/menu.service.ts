@@ -25,7 +25,9 @@ export class MenuService {
     return await this[DEFAULT_MODEL].delete(ids);
   }
 
-  async list(attrs): Promise<Array<Menu>> {
+  async list(attrs, user): Promise<Array<Menu>> {
+    console.log(user);
+
     if (attrs[0] === 'all') {
       return await this[DEFAULT_MODEL].find();
     }
