@@ -2473,6 +2473,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MenuService = void 0;
@@ -2499,7 +2506,25 @@ let MenuService = class MenuService {
         return await this[DEFAULT_MODEL].findOne(id);
     }
     async delete(ids) {
-        return await this[DEFAULT_MODEL].delete(ids);
+        var e_1, _a;
+        try {
+            for (var ids_1 = __asyncValues(ids), ids_1_1; ids_1_1 = await ids_1.next(), !ids_1_1.done;) {
+                const id = ids_1_1.value;
+                const count = await this[DEFAULT_MODEL].count({ where: { pid: id } });
+                if (count > 0) {
+                    throw new common_1.BadRequestException({ message: '请先移除当前节点下子节点' });
+                }
+                await this[DEFAULT_MODEL].delete(id);
+                await this.roleMenuModel.delete({ menuId: id });
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (ids_1_1 && !ids_1_1.done && (_a = ids_1.return)) await _a.call(ids_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
     }
     async list(attrs, user) {
         const role = await this.roleModel.findOne(user.roleId);

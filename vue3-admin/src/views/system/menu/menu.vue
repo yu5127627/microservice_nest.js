@@ -48,6 +48,7 @@
           <i :class="'iconfont ' + scope.row.icon" />
         </template>
       </el-table-column>
+      <el-table-column prop="id" label="ID" align="center" />
       <el-table-column prop="sort" label="排序" align="center" width="60" />
       <el-table-column prop="action" label="权限规则" align="center" />
       <el-table-column prop="path" label="组件路径" align="center" />

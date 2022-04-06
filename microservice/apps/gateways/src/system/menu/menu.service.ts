@@ -1,7 +1,7 @@
 import { Menu } from '@app/libs/db/entity/menu.entity';
 import { Role } from '@app/libs/db/entity/role.entity';
 import { RoleMenu } from '@app/libs/db/entity/roleMenu.entity';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { TokenPayload } from '../auth/interface/TokenPayload';
@@ -30,7 +30,15 @@ export class MenuService {
   }
 
   async delete(ids: number[]): Promise<any> {
-    return await this[DEFAULT_MODEL].delete(ids);
+    for await (const id of ids) {
+      const count = await this[DEFAULT_MODEL].count({ where: { pid: id } });
+      if (count > 0) {
+        throw new BadRequestException({ message: '请先移除当前节点下子节点' });
+      }
+      await this[DEFAULT_MODEL].delete(id);
+      // 同时移除角色关联菜单表中的数据
+      await this.roleMenuModel.delete({ menuId: id });
+    }
   }
 
   async list(attrs, user: TokenPayload): Promise<Array<Menu>> {

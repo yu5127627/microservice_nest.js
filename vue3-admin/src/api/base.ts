@@ -38,11 +38,13 @@ export const handleDelete = (ids: number[], module: string) => {
         toast(message, 'error');
       }
     })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '操作取消',
-      });
+    .catch((error) => {
+      if (!error.code) {
+        ElMessage({
+          type: 'info',
+          message: '操作取消',
+        });
+      }
     });
 };
 

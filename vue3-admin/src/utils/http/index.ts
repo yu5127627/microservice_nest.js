@@ -141,11 +141,12 @@ class PureHttp {
         })
         .catch((error) => {
           switch (error.code) {
-            case 403:
-              toast(error.message, 'error');
-              break;
             case 401:
               sessionStorage.removeItem('token');
+              toast(error.message, 'error');
+              break;
+            case 400:
+            case 403:
               toast(error.message, 'error');
               break;
           }

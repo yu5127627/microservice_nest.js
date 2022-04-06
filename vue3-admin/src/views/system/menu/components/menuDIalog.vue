@@ -18,8 +18,8 @@
       </el-form-item>
       <el-form-item v-if="formData.data.type != 3" label="菜单隐藏">
         <el-radio-group v-model="formData.data.hide">
-          <el-radio-button label="true">是</el-radio-button>
-          <el-radio-button label="false">否</el-radio-button>
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="名称" prop="title">
@@ -59,8 +59,8 @@
       </el-form-item>
       <el-form-item v-if="formData.data.type == 1" label="是否缓存">
         <el-radio-group v-model="formData.data.cache">
-          <el-radio-button label="true">是</el-radio-button>
-          <el-radio-button label="false">否</el-radio-button>
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="formData.data.type == 1" label="组件名称" prop="name">
