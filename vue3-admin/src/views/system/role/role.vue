@@ -29,6 +29,7 @@
       <el-table-column prop="level" label="级别" align="center" />
       <el-table-column label="操作" align="center">
         <template #default="scope">
+          <el-button type="primary" @click="openDialog(authData, '权限管理', scope.row)">权限管理</el-button>
           <el-button @click="openDialog(dialogData, '编辑角色', scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete([scope.row.id], 'role')">删除</el-button>
         </template>
@@ -49,6 +50,7 @@
     </div>
 
     <role-dialog :dialog-data="dialogData" />
+    <auth-dialog v-if="authData.visible" :dialog-data="authData" />
   </div>
 </template>
 
@@ -57,16 +59,23 @@ import { requestPages } from '@/api/role';
 import { defineComponent, reactive, ref } from 'vue';
 import { openDialog, handleDelete } from '@/api/base';
 import RoleDialog from './components/roleDialog.vue';
+import AuthDialog from './components/authDialog.vue';
 import { emitter } from '@/utils/mitt';
 
 export default defineComponent({
   name: 'Role',
   components: {
-    roleDialog: RoleDialog
+    RoleDialog,
+    AuthDialog
   },
   setup() {
     let form = ref();
     let dialogData = reactive<DialogData<Role.RoleRow | {}>>({
+      visible: false,
+      title: '',
+      data: {}
+    });
+    let authData = reactive<DialogData<any>>({
       visible: false,
       title: '',
       data: {}
@@ -104,6 +113,7 @@ export default defineComponent({
       list,
       form,
       dialogData,
+      authData,
       getList,
       openDialog,
       handleDelete

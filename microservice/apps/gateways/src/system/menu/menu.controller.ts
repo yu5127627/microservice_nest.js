@@ -71,12 +71,39 @@ export class MenuController {
   async list(
     @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
     attrs: Array<MenuListDto>,
-    @Req() req: Request,
+    @Req() req,
   ): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].list(attrs, req.user);
     return {
       code: 200,
       message: '菜单查询成功',
+      result,
+    };
+  }
+
+  @Get('list/:roleId')
+  @ApiOperation({ summary: '角色下菜单查询' })
+  @Auth(['menu:view', 'role:view'])
+  async getRoleMenu(@Param('roleId') roleId: number): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].getRoleMenu(roleId);
+    return {
+      code: 200,
+      message: '角色下菜单查询成功',
+      result,
+    };
+  }
+
+  @Put('list/:roleId')
+  @ApiOperation({ summary: '角色下菜单修改' })
+  @Auth(['menu:update', 'role:update'])
+  async setRoleMenu(
+    @Param('roleId') roleId: number,
+    @Body('menuIds') menuIds: number[],
+  ): Promise<Result> {
+    const result = await this[DEFAULT_SERVICE].setRoleMenu(roleId, menuIds);
+    return {
+      code: 200,
+      message: '角色下菜单修改成功',
       result,
     };
   }

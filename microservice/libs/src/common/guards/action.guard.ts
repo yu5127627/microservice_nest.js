@@ -23,10 +23,12 @@ export class ActionGuard implements CanActivate {
         const { user } = context.switchToHttp().getRequest();
         // 获取 gateway 数据库下的菜单权限
         const roleMenuModel = getRepository(RoleMenu, 'gateway');
+        // 角色关联的菜单列表
         const roleMenuList = await roleMenuModel.find({
           where: { roleId: user.roleId },
           select: ['menuId'],
         });
+        // 菜单ID列表
         const menuIds = roleMenuList.map((item) => item.menuId);
         // 获取 gateway 数据库下的菜单
         const menuModel = getRepository(Menu, 'gateway');
@@ -46,6 +48,7 @@ export class ActionGuard implements CanActivate {
             });
           }
         }
+        user.menuIds = menuIds;
         return true;
       } catch (error) {
         throw new ForbiddenException({

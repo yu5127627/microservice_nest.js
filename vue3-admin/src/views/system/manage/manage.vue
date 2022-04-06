@@ -35,7 +35,6 @@
       <el-table-column prop="ctime" label="创建时间" align="center" />
       <el-table-column label="操作" align="center" width="360px">
         <template #default="scope">
-          <el-button @click="openDialog(authData, '权限管理', scope.row)">权限管理</el-button>
           <el-button @click="openDialog(dialogData, '编辑管理员', scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete([scope.row.id], 'manage')">删除</el-button>
         </template>
@@ -56,7 +55,6 @@
     </div>
 
     <manage-dialog v-if="dialogData.visible" :dialog-data="dialogData" />
-    <auth-dialog v-if="authData.visible" :dialog-data="authData" />
   </div>
 </template>
 
@@ -65,14 +63,12 @@ import { requestPages } from '@/api/manage';
 import { defineComponent, reactive, ref } from 'vue';
 import { openDialog, handleDelete } from '@/api/base';
 import ManageDialog from './components/manageDialog.vue';
-import AuthDialog from './components/authDialog.vue';
 import { emitter } from '@/utils/mitt';
 
 export default defineComponent({
   name: 'Manage',
   components: {
     ManageDialog,
-    AuthDialog
   },
   setup() {
     let form = ref();
@@ -81,11 +77,7 @@ export default defineComponent({
       title: '',
       data: {}
     });
-    let authData = reactive<DialogData<any>>({
-      visible: false,
-      title: '',
-      data: {}
-    });
+
     let list = reactive<TableList<Manage.ManageRow>>({
       data: [],
       load: false,
@@ -119,7 +111,6 @@ export default defineComponent({
       list,
       form,
       dialogData,
-      authData,
       getList,
       openDialog,
       handleDelete
