@@ -42,6 +42,8 @@ export class MenuController {
     @Param('id') id: number,
     @Body() body: MenuUpdateDto,
   ): Promise<Result> {
+    console.log(body);
+
     const result = await this[DEFAULT_SERVICE].update(id, body);
     return {
       code: 200,

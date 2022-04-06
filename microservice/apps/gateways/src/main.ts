@@ -24,6 +24,8 @@ async function bootstrap() {
     new ValidationPipe({
       disableErrorMessages: false, // 关闭详细错误信息
       transform: true, // 类型转换
+      skipUndefinedProperties: true, // 过滤多余属性
+      stopAtFirstError: true,
     }),
   );
   // 全局注册响应拦截器

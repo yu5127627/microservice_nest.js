@@ -55,9 +55,13 @@ export const handleSubmit = async (dialogData: DialogData<RowData>, module: stri
       url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
       data: dialogData.data || dialogData
     });
-    toast(message);
-    emitter.emit('list-reload', module);
-    dialogData.visible = false;
+    if (code === 200) {
+      toast(message);
+      emitter.emit('list-reload', module);
+      dialogData.visible = false;
+    } else {
+      toast(message, 'error');
+    }
  } catch (error:any) {
    if (typeof error.message !== 'string') {
      for (const msg of error.message) {
@@ -67,6 +71,5 @@ export const handleSubmit = async (dialogData: DialogData<RowData>, module: stri
       toast(error.message, 'error', 2000);
    }
    throw new Error(error.message||error);
-
  }
 };

@@ -2305,6 +2305,7 @@ let MenuController = class MenuController {
         };
     }
     async update(id, body) {
+        console.log(body);
         const result = await this[DEFAULT_SERVICE].update(id, body);
         return {
             code: 200,
@@ -4543,6 +4544,8 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,
         transform: true,
+        skipUndefinedProperties: true,
+        stopAtFirstError: true,
     }));
     app.useGlobalInterceptors(new response_interceptor_1.ResponseInterceptors());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
