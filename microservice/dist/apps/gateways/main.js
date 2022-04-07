@@ -465,6 +465,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentCreateDto = void 0;
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
@@ -497,6 +498,16 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '内容状态' }),
     __metadata("design:type", String)
 ], ContentCreateDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: [1, 2, 3], description: '标签' }),
+    (0, class_validator_1.ArrayMinSize)(1, { message: '至少添加一个标签' }),
+    __metadata("design:type", typeof (_a = typeof Array !== "undefined" && Array) === "function" ? _a : Object)
+], ContentCreateDto.prototype, "tagIds", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: [1, 2, 3], description: '分类' }),
+    (0, class_validator_1.ArrayMinSize)(1, { message: '至少添加一个分类' }),
+    __metadata("design:type", typeof (_b = typeof Array !== "undefined" && Array) === "function" ? _b : Object)
+], ContentCreateDto.prototype, "cateIds", void 0);
 exports.ContentCreateDto = ContentCreateDto;
 
 
@@ -1093,6 +1104,7 @@ const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const loginLog_entity_1 = __webpack_require__(/*! @app/libs/db/entity/loginLog.entity */ "./libs/src/db/entity/loginLog.entity.ts");
 const libQqwry = __webpack_require__(/*! lib-qqwry-yyyj */ "lib-qqwry-yyyj");
+const ip_1 = __webpack_require__(/*! ip */ "ip");
 const ipInterface = libQqwry.init();
 ipInterface.speed();
 let LogService = class LogService {
@@ -1100,28 +1112,30 @@ let LogService = class LogService {
         this.loginLogModel = loginLogModel;
     }
     async loginLogCreate(body) {
-        let city;
         try {
             const ip = body.ip.includes('ffff') ? body.ip.slice(7) : body.ip;
             const { Country } = ipInterface.searchIP(ip);
-            city = Country || '';
+            const city = Country || '';
+            return await this.loginLogModel.save({
+                manageId: body.id,
+                username: body.username,
+                address: city,
+                ua: body.ua,
+                ip: ip === '127.0.0.1' ? (0, ip_1.address)() : ip,
+            });
         }
         catch (error) {
             console.log(error);
         }
-        return await this.loginLogModel.save({
-            manageId: body.id,
-            username: body.username,
-            address: city,
-            ua: body.ua,
-            ip: body.ip,
-        });
     }
     async loginLogPages(query) {
         const { username, page, limit, ua, address } = query;
         const filter = {
             skip: (page - 1) * limit,
             take: limit,
+            order: {
+                id: 'DESC',
+            },
         };
         if (username)
             filter.where.username = (0, typeorm_2.Like)(`%${username}%`);
@@ -3796,7 +3810,6 @@ const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
@@ -3813,7 +3826,6 @@ const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 let DbModule = class DbModule {

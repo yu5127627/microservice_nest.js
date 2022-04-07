@@ -42,6 +42,16 @@
       </el-table-column>
       <el-table-column prop="recom" label="推荐指数" align="center" />
       <el-table-column prop="scan" label="浏览量" align="center" />
+      <el-table-column prop="categorys" label="分类" align="center">
+        <template #default="scope">
+          <el-tag v-for="item in scope.row.catelist" :key="item.id" type="danger">{{ item.name }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="tags" label="标签" align="center">
+        <template #default="scope">
+          <el-tag v-for="item in scope.row.taglist" :key="item.id" type="warning">{{ item.name }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="top" label="置顶" align="center">
         <template #default="scope">
           <el-tag
@@ -50,7 +60,9 @@
           >{{ scope.row.top ? '是' : '否' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="ctime" label="创建时间" align="center" />
+      <el-table-column prop="ctime" label="创建时间" align="center">
+        <template #default="scope">{{ parseTime(scope.row.ctime) }}</template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button @click="handleAdd(scope.row)">编辑</el-button>
@@ -78,12 +90,15 @@
 
 <script lang='ts'>
 import { requestPages } from '@/api/cms/content';
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, ref, onMounted } from 'vue';
 import { openDialog, handleDelete } from '@/api/base';
 import ContentDialog from './components/contentDialog.vue';
 import { emitter } from '@/utils/mitt';
 import { useTagViewStore } from '@/store/modules/tagView';
 import { useSettingStore } from '@/store/modules/setting';
+import { requestList as requestTags } from '@/api/cms/tag';
+import { requestList as requestCates } from '@/api/cms/category';
+import { parseTime } from '@/utils/index';
 
 export default defineComponent({
   name: 'Content',
@@ -94,7 +109,8 @@ export default defineComponent({
     let form = ref();
     const tagStore = useTagViewStore();
     const settingStore = useSettingStore();
-
+    let tags = reactive<any[]>([]);
+    let cates = reactive<any[]>([]);
     let dialogData = reactive<DialogData<Content.ContentRow | {}>>({
       visible: false,
       title: '',
@@ -115,6 +131,14 @@ export default defineComponent({
       try {
         list.load = true;
         const { code, result } = await requestPages(list.query);
+        for (const row of result.rows) {
+          if (row.categorys.length) {
+            row.catelist = cates.filter(item => row.categorys.includes(item.id));
+          }
+          if (row.tags.length) {
+            row.taglist = tags.filter(item => row.tags.includes(item.id));
+          }
+        }
         list.data = result.rows;
         list.query.total = result.total;
         list.load = false;
@@ -122,7 +146,6 @@ export default defineComponent({
         list.load = false;
       }
     };
-    getList();
 
     const handleAdd = (row?: Content.ContentRow) => {
       tagStore.handleOpen({
@@ -138,20 +161,34 @@ export default defineComponent({
       if (module === 'blog/content') getList();
     });
 
+    onMounted(async () => {
+      const tagResult = await requestTags({ attrs: 'id,name' }, true);
+      tags.push(...tagResult.result);
+      const { result } = await requestCates({ attrs: 'id,name' }, true);
+      cates.push(...result);
+      await getList();
+    });
+
     return {
       list,
       form,
       dialogData,
       tagStore,
+      tags,
+      cates,
       settingStore,
       handleAdd,
       getList,
       openDialog,
-      handleDelete
+      handleDelete,
+      parseTime
     };
   }
 });
 </script>
 
 <style lang='less' scoped>
+.el-tag {
+  margin: 10px 10px 0 0;
+}
 </style>

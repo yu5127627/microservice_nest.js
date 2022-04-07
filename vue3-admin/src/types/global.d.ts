@@ -123,9 +123,9 @@ declare global {
   }
 
   interface TableListQuery {
-    page: number;
-    limit: number;
-    total: number;
+    page?: number;
+    limit?: number;
+    total?: number;
     [x :string]: any;
   }
 

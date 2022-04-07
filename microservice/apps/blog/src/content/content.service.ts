@@ -1,9 +1,11 @@
 import { Pagination } from '@app/libs/common/interface/pagination.interface';
+import { Category } from '@app/libs/db/cms/category.entity';
 import { Content } from '@app/libs/db/cms/content.entity';
+import { Tag } from '@app/libs/db/cms/tag.entity';
 import { getOrder } from '@app/libs/utils/db.utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { ContentPageWhere } from './interface/ContentPageWhere.interface';
 const DEFAULT_MODEL = 'contentModel';
 
@@ -12,10 +14,22 @@ export class ContentService {
   constructor(
     @InjectRepository(Content)
     private readonly contentModel: Repository<Content>,
+    @InjectRepository(Tag)
+    private readonly tagModel: Repository<Tag>,
+    @InjectRepository(Category)
+    private readonly categoryModel: Repository<Category>,
   ) {}
 
   async create(body): Promise<Content> {
-    return await this[DEFAULT_MODEL].save(body);
+    const { tagIds, cateIds, ...props } = body;
+    const taglist = await this.tagModel.find({ where: { id: In(tagIds) } });
+    const catelist = await this.categoryModel.find({
+      where: { id: In(cateIds) },
+    });
+    props.categorys = catelist;
+    props.tags = taglist;
+    const content = await this[DEFAULT_MODEL].save(props);
+    return content;
   }
 
   async update(id: number, body): Promise<Content> {
@@ -30,6 +44,7 @@ export class ContentService {
   async detail(id: number): Promise<Content> {
     return await this[DEFAULT_MODEL].findOne(id, {
       select: ['content', 'id', 'recom', 'status', 'title', 'top'],
+      loadRelationIds: true,
     });
   }
 
@@ -40,6 +55,7 @@ export class ContentService {
       take: limit,
       where: {},
       order: getOrder(orderBy),
+      loadRelationIds: true,
     };
 
     if (title) filter.where.title = Like(`%${title}%`);

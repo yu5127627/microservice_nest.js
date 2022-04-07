@@ -405,7 +405,12 @@ let ContentModule = class ContentModule {
 ContentModule = __decorate([
     (0, common_1.Module)({
         controllers: [content_controller_1.ContentController],
-        providers: [(0, utils_1.lazyLoadDB)('blog', 'Content'), content_service_1.ContentService],
+        providers: [
+            (0, utils_1.lazyLoadDB)('blog', 'Content'),
+            (0, utils_1.lazyLoadDB)('blog', 'Tag'),
+            (0, utils_1.lazyLoadDB)('blog', 'Category'),
+            content_service_1.ContentService,
+        ],
     })
 ], ContentModule);
 exports.ContentModule = ContentModule;
@@ -432,21 +437,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentService = void 0;
+const category_entity_1 = __webpack_require__(/*! @app/libs/db/cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const content_entity_1 = __webpack_require__(/*! @app/libs/db/cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const tag_entity_1 = __webpack_require__(/*! @app/libs/db/cms/tag.entity */ "./libs/src/db/cms/tag.entity.ts");
 const db_utils_1 = __webpack_require__(/*! @app/libs/utils/db.utils */ "./libs/src/utils/db.utils.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const DEFAULT_MODEL = 'contentModel';
 let ContentService = class ContentService {
-    constructor(contentModel) {
+    constructor(contentModel, tagModel, categoryModel) {
         this.contentModel = contentModel;
+        this.tagModel = tagModel;
+        this.categoryModel = categoryModel;
     }
     async create(body) {
-        return await this[DEFAULT_MODEL].save(body);
+        const { tagIds, cateIds } = body, props = __rest(body, ["tagIds", "cateIds"]);
+        const taglist = await this.tagModel.find({ where: { id: (0, typeorm_2.In)(tagIds) } });
+        const catelist = await this.categoryModel.find({
+            where: { id: (0, typeorm_2.In)(cateIds) },
+        });
+        props.categorys = catelist;
+        props.tags = taglist;
+        const content = await this[DEFAULT_MODEL].save(props);
+        return content;
     }
     async update(id, body) {
         await this[DEFAULT_MODEL].update(id, body);
@@ -458,6 +486,7 @@ let ContentService = class ContentService {
     async detail(id) {
         return await this[DEFAULT_MODEL].findOne(id, {
             select: ['content', 'id', 'recom', 'status', 'title', 'top'],
+            loadRelationIds: true,
         });
     }
     async pages(query) {
@@ -467,6 +496,7 @@ let ContentService = class ContentService {
             take: limit,
             where: {},
             order: (0, db_utils_1.getOrder)(orderBy),
+            loadRelationIds: true,
         };
         if (title)
             filter.where.title = (0, typeorm_2.Like)(`%${title}%`);
@@ -491,7 +521,9 @@ let ContentService = class ContentService {
 ContentService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(content_entity_1.Content)),
-    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
+    __param(1, (0, typeorm_1.InjectRepository)(tag_entity_1.Tag)),
+    __param(2, (0, typeorm_1.InjectRepository)(category_entity_1.Category)),
+    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object, typeof (_b = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _b : Object, typeof (_c = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _c : Object])
 ], ContentService);
 exports.ContentService = ContentService;
 
@@ -1076,7 +1108,6 @@ const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
@@ -1093,7 +1124,6 @@ const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 let DbModule = class DbModule {

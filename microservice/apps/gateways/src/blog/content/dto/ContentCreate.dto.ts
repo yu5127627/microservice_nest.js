@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, ArrayMinSize } from 'class-validator';
 
 export class ContentCreateDto {
   @ApiProperty({ required: true, default: '默认标题', description: '文章标题' })
@@ -22,4 +22,12 @@ export class ContentCreateDto {
 
   @ApiProperty({ required: false, default: 'up_rack', description: '内容状态' })
   readonly status: string;
+
+  @ApiProperty({ required: true, default: [1, 2, 3], description: '标签' })
+  @ArrayMinSize(1, { message: '至少添加一个标签' })
+  readonly tagIds: Array<number>;
+
+  @ApiProperty({ required: true, default: [1, 2, 3], description: '分类' })
+  @ArrayMinSize(1, { message: '至少添加一个分类' })
+  readonly cateIds: Array<number>;
 }

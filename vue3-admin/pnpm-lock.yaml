@@ -11,6 +11,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.14.0
   '@vitejs/plugin-vue': ^2.2.0
   axios: ^0.26.1
+  dayjs: ^1.11.0
   element-plus: 2.1.6
   eslint: ^8.10.0
   eslint-plugin-vue: ^8.5.0
@@ -41,6 +42,7 @@ specifiers:
 dependencies:
   '@element-plus/icons-vue': registry.npmmirror.com/@element-plus/icons-vue/1.1.4_vue@3.2.31
   axios: registry.npmmirror.com/axios/0.26.1
+  dayjs: registry.npmmirror.com/dayjs/1.11.0
   element-plus: registry.npmmirror.com/element-plus/2.1.6_1a412d14def5ff5ca1122000e4bee666
   lodash: registry.npmmirror.com/lodash/4.17.21
   md-editor-v3: registry.npmmirror.com/md-editor-v3/1.11.5

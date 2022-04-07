@@ -5,6 +5,11 @@ import { ContentService } from './content.service';
 
 @Module({
   controllers: [ContentController],
-  providers: [lazyLoadDB('blog', 'Content'), ContentService],
+  providers: [
+    lazyLoadDB('blog', 'Content'),
+    lazyLoadDB('blog', 'Tag'),
+    lazyLoadDB('blog', 'Category'),
+    ContentService,
+  ],
 })
 export class ContentModule {}
