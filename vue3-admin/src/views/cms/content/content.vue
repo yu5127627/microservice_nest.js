@@ -25,10 +25,31 @@
     <el-table v-loading="list.load" :data="list.data" border size="small">
       <el-table-column prop="id" label="ID" width="60" align="center" />
       <el-table-column prop="title" label="标题" align="center" />
-      <el-table-column prop="status" label="状态" align="center" />
+      <el-table-column prop="status" label="状态" align="center">
+        <template #default="scope">
+          <el-tag
+            v-if="scope.row.status === 'up_rack'"
+          >{{ settingStore.parseByOption(scope.row.status, 'content_state') }}</el-tag>
+          <el-tag
+            v-else-if="scope.row.status === 'down_rack'"
+            type="danger"
+          >{{ settingStore.parseByOption(scope.row.status, 'content_state') }}</el-tag>
+          <el-tag
+            v-else
+            type="warning"
+          >{{ settingStore.parseByOption(scope.row.status, 'content_state') }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="recom" label="推荐指数" align="center" />
       <el-table-column prop="scan" label="浏览量" align="center" />
-      <el-table-column prop="top" label="置顶" align="center" />
+      <el-table-column prop="top" label="置顶" align="center">
+        <template #default="scope">
+          <el-tag
+            effect="dark"
+            :type="scope.row.top ? 'success' : 'danger'"
+          >{{ scope.row.top ? '是' : '否' }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="ctime" label="创建时间" align="center" />
       <el-table-column label="操作" align="center">
         <template #default="scope">
@@ -62,6 +83,7 @@ import { openDialog, handleDelete } from '@/api/base';
 import ContentDialog from './components/contentDialog.vue';
 import { emitter } from '@/utils/mitt';
 import { useTagViewStore } from '@/store/modules/tagView';
+import { useSettingStore } from '@/store/modules/setting';
 
 export default defineComponent({
   name: 'Content',
@@ -71,6 +93,8 @@ export default defineComponent({
   setup() {
     let form = ref();
     const tagStore = useTagViewStore();
+    const settingStore = useSettingStore();
+
     let dialogData = reactive<DialogData<Content.ContentRow | {}>>({
       visible: false,
       title: '',
@@ -83,6 +107,7 @@ export default defineComponent({
         page: 1,
         limit: 15,
         total: 0,
+        orderBy: ['+ctime', '+id'],
       }
     });
 
@@ -118,6 +143,7 @@ export default defineComponent({
       form,
       dialogData,
       tagStore,
+      settingStore,
       handleAdd,
       getList,
       openDialog,

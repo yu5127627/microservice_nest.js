@@ -123,7 +123,7 @@ class PureHttp {
     if (process.env.NODE_ENV === 'development') {
       console.log(
         `method: ${method} / url: ${url} / body: ${JSON.stringify(
-          params
+          { ...params, ...data }
         )} / headers: ${JSON.stringify(headers)}`
       );
     }

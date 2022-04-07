@@ -536,6 +536,10 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '文章状态' }),
     __metadata("design:type", String)
 ], ContentPagesDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '+id', description: '排序方式' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "orderBy", void 0);
 exports.ContentPagesDto = ContentPagesDto;
 
 
@@ -1566,6 +1570,11 @@ exports["default"] = {
         { label: '成功', value: 'success' },
         { label: '失败', value: 'error' },
     ],
+    content_state: [
+        { label: '草稿', value: 'draft', type: 'info' },
+        { label: '上架', value: 'up_rack', type: 'success' },
+        { label: '下架', value: 'down_rack', type: 'error' },
+    ],
 };
 
 
@@ -2503,7 +2512,20 @@ let MenuService = class MenuService {
         return await this[DEFAULT_MODEL].save(body);
     }
     async update(id, body) {
-        await this[DEFAULT_MODEL].update(id, body);
+        const { action, cache, hide, icon, name, path, pid, sort, title, type, url, } = body;
+        await this[DEFAULT_MODEL].update(id, {
+            action,
+            cache,
+            hide,
+            icon,
+            name,
+            path,
+            pid,
+            sort,
+            title,
+            type,
+            url,
+        });
         return await this[DEFAULT_MODEL].findOne(id);
     }
     async delete(ids) {
@@ -4544,7 +4566,7 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,
         transform: true,
-        skipUndefinedProperties: true,
+        skipMissingProperties: true,
         stopAtFirstError: true,
     }));
     app.useGlobalInterceptors(new response_interceptor_1.ResponseInterceptors());

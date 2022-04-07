@@ -1,5 +1,6 @@
 import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { Content } from '@app/libs/db/cms/content.entity';
+import { getOrder } from '@app/libs/utils/db.utils';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
@@ -33,11 +34,12 @@ export class ContentService {
   }
 
   async pages(query): Promise<Pagination<Content>> {
-    const { title, top, status, page, limit } = query;
+    const { title, top, status, page, limit, orderBy } = query;
     const filter: ContentPageWhere = {
       skip: (page - 1) * limit,
       take: limit,
       where: {},
+      order: getOrder(orderBy),
     };
 
     if (title) filter.where.title = Like(`%${title}%`);

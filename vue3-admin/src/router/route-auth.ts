@@ -27,7 +27,7 @@ router.beforeEach(async (to, form, next) => {
     try {
       const [userInfo, menuResult, configResult] = await Promise.all([getUserInfo(), getMenu({ attrs: 'all' }), requestDefaultConfig()]);
       if (userInfo.code === 200 && menuResult.code === 200 && configResult.code === 200) {
-        settingStore.$state.defaultConfig = configResult.result;
+        Object.assign(settingStore.defaultConfig, configResult.result);
         userStore.$state.userInfo = userInfo.result;
         const { topMenu, subMenu, actions } = menuStore.filterMenu(menuResult.result);
         const asyncMenu = menuStore.setAsyncMenu(topMenu, subMenu);

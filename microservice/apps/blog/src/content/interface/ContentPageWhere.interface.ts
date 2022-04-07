@@ -7,4 +7,5 @@ export interface ContentPageWhere extends PageFilter {
     top?: boolean;
     status?: string;
   };
+  order?: any;
 }

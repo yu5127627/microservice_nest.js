@@ -25,7 +25,32 @@ export class MenuService {
   }
 
   async update(id: number, body: MenuUpdateDto): Promise<Menu> {
-    await this[DEFAULT_MODEL].update(id, body);
+    const {
+      action,
+      cache,
+      hide,
+      icon,
+      name,
+      path,
+      pid,
+      sort,
+      title,
+      type,
+      url,
+    } = body;
+    await this[DEFAULT_MODEL].update(id, {
+      action,
+      cache,
+      hide,
+      icon,
+      name,
+      path,
+      pid,
+      sort,
+      title,
+      type,
+      url,
+    });
     return await this[DEFAULT_MODEL].findOne(id);
   }
 

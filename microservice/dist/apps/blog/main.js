@@ -436,6 +436,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentService = void 0;
 const content_entity_1 = __webpack_require__(/*! @app/libs/db/cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const db_utils_1 = __webpack_require__(/*! @app/libs/utils/db.utils */ "./libs/src/utils/db.utils.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
@@ -460,11 +461,12 @@ let ContentService = class ContentService {
         });
     }
     async pages(query) {
-        const { title, top, status, page, limit } = query;
+        const { title, top, status, page, limit, orderBy } = query;
         const filter = {
             skip: (page - 1) * limit,
             take: limit,
             where: {},
+            order: (0, db_utils_1.getOrder)(orderBy),
         };
         if (title)
             filter.where.title = (0, typeorm_2.Like)(`%${title}%`);
@@ -742,6 +744,10 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '文章状态' }),
     __metadata("design:type", String)
 ], ContentPagesDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '+id', description: '排序方式' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "orderBy", void 0);
 exports.ContentPagesDto = ContentPagesDto;
 
 
@@ -1449,6 +1455,38 @@ Setting = __decorate([
     (0, typeorm_1.Entity)('setting')
 ], Setting);
 exports.Setting = Setting;
+
+
+/***/ }),
+
+/***/ "./libs/src/utils/db.utils.ts":
+/*!************************************!*\
+  !*** ./libs/src/utils/db.utils.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getOrder = void 0;
+const getOrder = (orderBy) => {
+    if (!orderBy)
+        return;
+    if (typeof orderBy === 'string')
+        orderBy = [orderBy];
+    const obj = {};
+    if (orderBy.length <= 0)
+        return {};
+    for (const order of orderBy) {
+        if (order.includes('+')) {
+            obj[order.slice(1)] = 'ASC';
+        }
+        else {
+            obj[order.slice(1)] = 'DESC';
+        }
+    }
+    return obj;
+};
+exports.getOrder = getOrder;
 
 
 /***/ }),
