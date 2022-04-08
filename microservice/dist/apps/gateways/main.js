@@ -917,6 +917,7 @@ const log_module_1 = __webpack_require__(/*! ./log/log.module */ "./apps/gateway
 const tag_module_1 = __webpack_require__(/*! ./blog/tag/tag.module */ "./apps/gateways/src/blog/tag/tag.module.ts");
 const content_module_1 = __webpack_require__(/*! ./blog/content/content.module */ "./apps/gateways/src/blog/content/content.module.ts");
 const category_module_1 = __webpack_require__(/*! ./blog/category/category.module */ "./apps/gateways/src/blog/category/category.module.ts");
+const cms_module_1 = __webpack_require__(/*! ./ssr/cms/cms.module */ "./apps/gateways/src/ssr/cms/cms.module.ts");
 let GatewaysModule = class GatewaysModule {
 };
 GatewaysModule = __decorate([
@@ -935,6 +936,7 @@ GatewaysModule = __decorate([
             tag_module_1.TagModule,
             content_module_1.ContentModule,
             category_module_1.CategoryModule,
+            cms_module_1.CmsModule,
         ],
     })
 ], GatewaysModule);
@@ -1163,6 +1165,150 @@ LogService = __decorate([
     __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
 ], LogService);
 exports.LogService = LogService;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/cms/cms.controller.ts":
+/*!*****************************************************!*\
+  !*** ./apps/gateways/src/ssr/cms/cms.controller.ts ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a, _b, _c, _d, _e;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CmsController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const express_1 = __webpack_require__(/*! express */ "express");
+let CmsController = class CmsController {
+    welcome(res) {
+        res.render('welcome', { title: 'welcome' });
+        return res.end();
+    }
+    home(res) {
+        res.render('home', { title: 'home' });
+        return res.end();
+    }
+    tag(res) {
+        res.render('tag', { title: 'tag' });
+        return res.end();
+    }
+    timeline(res) {
+        res.render('timeline', { title: 'timeline' });
+        return res.end();
+    }
+    article(res) {
+        res.render('article', { title: 'article' });
+        return res.end();
+    }
+};
+__decorate([
+    (0, common_1.Get)('welcome'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_a = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _a : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "welcome", null);
+__decorate([
+    (0, common_1.Get)('home'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _b : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "home", null);
+__decorate([
+    (0, common_1.Get)('tag'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _c : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "tag", null);
+__decorate([
+    (0, common_1.Get)('timeline'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_d = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _d : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "timeline", null);
+__decorate([
+    (0, common_1.Get)('article'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_e = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _e : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "article", null);
+CmsController = __decorate([
+    (0, common_1.Controller)('ssr/cms')
+], CmsController);
+exports.CmsController = CmsController;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/cms/cms.module.ts":
+/*!*************************************************!*\
+  !*** ./apps/gateways/src/ssr/cms/cms.module.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CmsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const cms_controller_1 = __webpack_require__(/*! ./cms.controller */ "./apps/gateways/src/ssr/cms/cms.controller.ts");
+let CmsModule = class CmsModule {
+};
+CmsModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [cms_controller_1.CmsController],
+    })
+], CmsModule);
+exports.CmsModule = CmsModule;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/whitelist.ts":
+/*!********************************************!*\
+  !*** ./apps/gateways/src/ssr/whitelist.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WhiteList = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+exports.WhiteList = [
+    { path: 'ssr/cms/welcome', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/home', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/tag', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/timeline', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/article', method: common_1.RequestMethod.GET },
+];
 
 
 /***/ }),
@@ -4442,6 +4588,26 @@ module.exports = require("class-validator");
 
 /***/ }),
 
+/***/ "express":
+/*!**************************!*\
+  !*** external "express" ***!
+  \**************************/
+/***/ ((module) => {
+
+module.exports = require("express");
+
+/***/ }),
+
+/***/ "express-art-template":
+/*!***************************************!*\
+  !*** external "express-art-template" ***!
+  \***************************************/
+/***/ ((module) => {
+
+module.exports = require("express-art-template");
+
+/***/ }),
+
 /***/ "ip":
 /*!*********************!*\
   !*** external "ip" ***!
@@ -4512,6 +4678,16 @@ module.exports = require("ua-parser-js");
 
 /***/ }),
 
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("path");
+
+/***/ }),
+
 /***/ "util":
 /*!***********************!*\
   !*** external "util" ***!
@@ -4566,10 +4742,19 @@ const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestj
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const gateways_module_1 = __webpack_require__(/*! ./gateways.module */ "./apps/gateways/src/gateways.module.ts");
 const ip_1 = __webpack_require__(/*! ip */ "ip");
+const path_1 = __webpack_require__(/*! path */ "path");
+const expressArtTemplate = __webpack_require__(/*! express-art-template */ "express-art-template");
+const whitelist_1 = __webpack_require__(/*! ./ssr/whitelist */ "./apps/gateways/src/ssr/whitelist.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(gateways_module_1.GatewaysModule, {
         logger: ['error', 'warn'],
     });
+    app.useStaticAssets((0, path_1.join)(__dirname, '../../../', 'public'), {
+        prefix: '/static/',
+    });
+    app.setBaseViewsDir((0, path_1.join)(__dirname, '../../../', 'views'));
+    app.setViewEngine('html');
+    app.engine('html', expressArtTemplate);
     app.connectMicroservice({
         transport: microservices_1.Transport.TCP,
         options: { retryAttempts: 5, retryDelay: 3000 },
@@ -4583,7 +4768,7 @@ async function bootstrap() {
     }));
     app.useGlobalInterceptors(new response_interceptor_1.ResponseInterceptors());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
-    app.setGlobalPrefix('api/v1');
+    app.setGlobalPrefix('api/v1', { exclude: whitelist_1.WhiteList });
     app.enableCors();
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Nestjs microservice!!!')

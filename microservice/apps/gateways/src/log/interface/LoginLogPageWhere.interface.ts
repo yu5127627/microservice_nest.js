@@ -7,4 +7,5 @@ export interface LoginLogPageWhere extends PageFilter {
     address?: FindOperator<string>;
     ua?: FindOperator<string>;
   };
+  order?: any;
 }
