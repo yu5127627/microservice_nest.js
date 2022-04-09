@@ -12,6 +12,7 @@ import { LogModule } from './log/log.module';
 import { TagModule } from './blog/tag/tag.module';
 import { ContentModule } from './blog/content/content.module';
 import { CategoryModule } from './blog/category/category.module';
+import { CmsModule } from './ssr/cms/cms.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CategoryModule } from './blog/category/category.module';
     TagModule,
     ContentModule,
     CategoryModule,
+    CmsModule,
   ],
 })
 export class GatewaysModule {}

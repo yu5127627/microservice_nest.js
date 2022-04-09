@@ -7,4 +7,8 @@ export interface ContentPageWhere extends PageFilter {
     top?: boolean;
     status?: string;
   };
+  order?: any;
+  loadRelationIds?: boolean; // 加载关联关系的 id
+  relations?: Array<string>;
+  join?: any;
 }

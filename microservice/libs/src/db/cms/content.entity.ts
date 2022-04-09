@@ -18,7 +18,7 @@ export class Content {
   @Column({ comment: '标题' })
   title: string;
 
-  @Column({ type: 'longtext', comment: '内容' })
+  @Column({ type: 'longtext', comment: '内容', select: false })
   content: string;
 
   @Column({ comment: '浏览数量', default: 0 })

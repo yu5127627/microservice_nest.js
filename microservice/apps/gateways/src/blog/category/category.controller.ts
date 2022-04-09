@@ -18,7 +18,7 @@ import { CategoryCreateDto } from './dto/CategoryCreate.dto';
 import { CategoryListDto } from './dto/CategoryList.dto';
 import { CategoryUpdateDto } from './dto/CategoryUpdate.dto';
 
-@Controller('category')
+@Controller('blog/category')
 @ApiTags('分类')
 export class CategoryController {
   constructor(@Inject('BLOG_SERVICE') private readonly client: ClientProxy) {}
@@ -27,8 +27,14 @@ export class CategoryController {
   @ApiOperation({ summary: '查询分类列表' })
   @Auth(['tag:view'])
   list(
-    @Query('attrs', new ParseArrayPipe({ items: String, separator: ',' }))
-    attrs: Array<CategoryListDto>,
+    @Query(
+      'attrs',
+      new ParseArrayPipe({
+        items: String,
+        separator: ',',
+      }),
+    )
+    attrs: string,
   ): Observable<any> {
     const pattern = { category: 'list' };
     return this.client.send(pattern, { attrs });

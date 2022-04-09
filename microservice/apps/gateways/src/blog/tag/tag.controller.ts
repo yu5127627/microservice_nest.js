@@ -18,7 +18,7 @@ import { TagCreate } from './dto/TagCreate.dto';
 import { TagListDto } from './dto/TagList.dto';
 import { TagUpdate } from './dto/TagUpdate.dto';
 
-@Controller('tag')
+@Controller('blog/tag')
 @ApiTags('标签')
 export class TagController {
   constructor(@Inject('BLOG_SERVICE') private readonly client: ClientProxy) {}

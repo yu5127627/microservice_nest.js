@@ -2,6 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class TagUpdate {
+  @ApiProperty({ required: true, default: '测试分组', description: '分组' })
+  @IsNotEmpty({ message: '分组名称必填' })
+  readonly group: string;
+
   @ApiProperty({ required: true, default: '测试标签', description: '名称' })
   @IsNotEmpty({ message: '标签名称必填' })
   readonly name: string;

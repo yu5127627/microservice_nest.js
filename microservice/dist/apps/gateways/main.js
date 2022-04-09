@@ -21,7 +21,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryController = void 0;
 const auth_decorator_1 = __webpack_require__(/*! @app/libs/common/decorator/auth.decorator */ "./libs/src/common/decorator/auth.decorator.ts");
@@ -60,10 +60,13 @@ __decorate([
     (0, common_1.Get)('/list'),
     (0, swagger_1.ApiOperation)({ summary: '查询分类列表' }),
     (0, auth_decorator_1.Auth)(['tag:view']),
-    __param(0, (0, common_1.Query)('attrs', new common_1.ParseArrayPipe({ items: String, separator: ',' }))),
+    __param(0, (0, common_1.Query)('attrs', new common_1.ParseArrayPipe({
+        items: String,
+        separator: ',',
+    }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof Array !== "undefined" && Array) === "function" ? _a : Object]),
-    __metadata("design:returntype", typeof (_b = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _b : Object)
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", typeof (_a = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _a : Object)
 ], CategoryController.prototype, "list", null);
 __decorate([
     (0, common_1.Post)(),
@@ -71,8 +74,8 @@ __decorate([
     (0, auth_decorator_1.Auth)(['tag:create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof CategoryCreate_dto_1.CategoryCreateDto !== "undefined" && CategoryCreate_dto_1.CategoryCreateDto) === "function" ? _c : Object]),
-    __metadata("design:returntype", typeof (_d = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _d : Object)
+    __metadata("design:paramtypes", [typeof (_b = typeof CategoryCreate_dto_1.CategoryCreateDto !== "undefined" && CategoryCreate_dto_1.CategoryCreateDto) === "function" ? _b : Object]),
+    __metadata("design:returntype", typeof (_c = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _c : Object)
 ], CategoryController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
@@ -81,8 +84,8 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, typeof (_e = typeof CategoryUpdate_dto_1.CategoryUpdateDto !== "undefined" && CategoryUpdate_dto_1.CategoryUpdateDto) === "function" ? _e : Object]),
-    __metadata("design:returntype", typeof (_f = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _f : Object)
+    __metadata("design:paramtypes", [Number, typeof (_d = typeof CategoryUpdate_dto_1.CategoryUpdateDto !== "undefined" && CategoryUpdate_dto_1.CategoryUpdateDto) === "function" ? _d : Object]),
+    __metadata("design:returntype", typeof (_e = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _e : Object)
 ], CategoryController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(),
@@ -90,8 +93,8 @@ __decorate([
     (0, auth_decorator_1.Auth)(['tag:delete']),
     __param(0, (0, common_1.Body)('ids')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_g = typeof Array !== "undefined" && Array) === "function" ? _g : Object]),
-    __metadata("design:returntype", typeof (_h = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _h : Object)
+    __metadata("design:paramtypes", [typeof (_f = typeof Array !== "undefined" && Array) === "function" ? _f : Object]),
+    __metadata("design:returntype", typeof (_g = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _g : Object)
 ], CategoryController.prototype, "delete", null);
 __decorate([
     (0, common_1.Get)(':id'),
@@ -100,13 +103,13 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
+    __metadata("design:returntype", typeof (_h = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _h : Object)
 ], CategoryController.prototype, "detail", null);
 CategoryController = __decorate([
-    (0, common_1.Controller)('category'),
+    (0, common_1.Controller)('blog/category'),
     (0, swagger_1.ApiTags)('分类'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
-    __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
+    __metadata("design:paramtypes", [typeof (_j = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _j : Object])
 ], CategoryController);
 exports.CategoryController = CategoryController;
 
@@ -307,6 +310,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentController = void 0;
+const auth_decorator_1 = __webpack_require__(/*! @app/libs/common/decorator/auth.decorator */ "./libs/src/common/decorator/auth.decorator.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
@@ -341,6 +345,7 @@ let ContentController = class ContentController {
 };
 __decorate([
     (0, common_1.Get)(),
+    (0, auth_decorator_1.Auth)(['content:view']),
     (0, swagger_1.ApiOperation)({ summary: '内容分页查询' }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -350,6 +355,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)(),
     (0, swagger_1.ApiOperation)({ summary: '创建内容' }),
+    (0, auth_decorator_1.Auth)(['content:create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_c = typeof ContentCreate_dto_1.ContentCreateDto !== "undefined" && ContentCreate_dto_1.ContentCreateDto) === "function" ? _c : Object]),
@@ -358,6 +364,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '编辑内容' }),
+    (0, auth_decorator_1.Auth)(['content:update']),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -367,6 +374,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(),
     (0, swagger_1.ApiOperation)({ summary: '删除内容' }),
+    (0, auth_decorator_1.Auth)(['content:delete']),
     __param(0, (0, common_1.Body)('ids')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_g = typeof Array !== "undefined" && Array) === "function" ? _g : Object]),
@@ -375,13 +383,14 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '内容详情' }),
+    (0, auth_decorator_1.Auth)(['content:view']),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
 ], ContentController.prototype, "detail", null);
 ContentController = __decorate([
-    (0, common_1.Controller)('content'),
+    (0, common_1.Controller)('blog/content'),
     (0, swagger_1.ApiTags)('内容'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
     __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
@@ -456,6 +465,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentCreateDto = void 0;
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
@@ -488,6 +498,16 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '内容状态' }),
     __metadata("design:type", String)
 ], ContentCreateDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: [1, 2, 3], description: '标签' }),
+    (0, class_validator_1.ArrayMinSize)(1, { message: '至少添加一个标签' }),
+    __metadata("design:type", typeof (_a = typeof Array !== "undefined" && Array) === "function" ? _a : Object)
+], ContentCreateDto.prototype, "tagIds", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: [1, 2, 3], description: '分类' }),
+    (0, class_validator_1.ArrayMinSize)(1, { message: '至少添加一个分类' }),
+    __metadata("design:type", typeof (_b = typeof Array !== "undefined" && Array) === "function" ? _b : Object)
+], ContentCreateDto.prototype, "cateIds", void 0);
 exports.ContentCreateDto = ContentCreateDto;
 
 
@@ -527,6 +547,10 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '文章状态' }),
     __metadata("design:type", String)
 ], ContentPagesDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '+id', description: '排序方式' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "orderBy", void 0);
 exports.ContentPagesDto = ContentPagesDto;
 
 
@@ -612,6 +636,11 @@ const class_validator_1 = __webpack_require__(/*! class-validator */ "class-vali
 class TagCreate {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分组名称必填' }),
+    __metadata("design:type", String)
+], TagCreate.prototype, "group", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ required: true, default: '测试标签', description: '名称' }),
     (0, class_validator_1.IsNotEmpty)({ message: '标签名称必填' }),
     __metadata("design:type", String)
@@ -663,6 +692,11 @@ const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
 class TagUpdate {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试分组', description: '分组' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '分组名称必填' }),
+    __metadata("design:type", String)
+], TagUpdate.prototype, "group", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: true, default: '测试标签', description: '名称' }),
     (0, class_validator_1.IsNotEmpty)({ message: '标签名称必填' }),
@@ -795,7 +829,7 @@ __decorate([
     __metadata("design:returntype", typeof (_j = typeof rxjs_1.Observable !== "undefined" && rxjs_1.Observable) === "function" ? _j : Object)
 ], TagController.prototype, "detail", null);
 TagController = __decorate([
-    (0, common_1.Controller)('tag'),
+    (0, common_1.Controller)('blog/tag'),
     (0, swagger_1.ApiTags)('标签'),
     __param(0, (0, common_1.Inject)('BLOG_SERVICE')),
     __metadata("design:paramtypes", [typeof (_k = typeof microservices_1.ClientProxy !== "undefined" && microservices_1.ClientProxy) === "function" ? _k : Object])
@@ -883,6 +917,7 @@ const log_module_1 = __webpack_require__(/*! ./log/log.module */ "./apps/gateway
 const tag_module_1 = __webpack_require__(/*! ./blog/tag/tag.module */ "./apps/gateways/src/blog/tag/tag.module.ts");
 const content_module_1 = __webpack_require__(/*! ./blog/content/content.module */ "./apps/gateways/src/blog/content/content.module.ts");
 const category_module_1 = __webpack_require__(/*! ./blog/category/category.module */ "./apps/gateways/src/blog/category/category.module.ts");
+const cms_module_1 = __webpack_require__(/*! ./ssr/cms/cms.module */ "./apps/gateways/src/ssr/cms/cms.module.ts");
 let GatewaysModule = class GatewaysModule {
 };
 GatewaysModule = __decorate([
@@ -901,6 +936,7 @@ GatewaysModule = __decorate([
             tag_module_1.TagModule,
             content_module_1.ContentModule,
             category_module_1.CategoryModule,
+            cms_module_1.CmsModule,
         ],
     })
 ], GatewaysModule);
@@ -1070,6 +1106,7 @@ const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const loginLog_entity_1 = __webpack_require__(/*! @app/libs/db/entity/loginLog.entity */ "./libs/src/db/entity/loginLog.entity.ts");
 const libQqwry = __webpack_require__(/*! lib-qqwry-yyyj */ "lib-qqwry-yyyj");
+const ip_1 = __webpack_require__(/*! ip */ "ip");
 const ipInterface = libQqwry.init();
 ipInterface.speed();
 let LogService = class LogService {
@@ -1077,28 +1114,30 @@ let LogService = class LogService {
         this.loginLogModel = loginLogModel;
     }
     async loginLogCreate(body) {
-        let city;
         try {
             const ip = body.ip.includes('ffff') ? body.ip.slice(7) : body.ip;
             const { Country } = ipInterface.searchIP(ip);
-            city = Country || '';
+            const city = Country || '';
+            return await this.loginLogModel.save({
+                manageId: body.id,
+                username: body.username,
+                address: city,
+                ua: body.ua,
+                ip: ip === '127.0.0.1' ? (0, ip_1.address)() : ip,
+            });
         }
         catch (error) {
             console.log(error);
         }
-        return await this.loginLogModel.save({
-            manageId: body.id,
-            username: body.username,
-            address: city,
-            ua: body.ua,
-            ip: body.ip,
-        });
     }
     async loginLogPages(query) {
         const { username, page, limit, ua, address } = query;
         const filter = {
             skip: (page - 1) * limit,
             take: limit,
+            order: {
+                id: 'DESC',
+            },
         };
         if (username)
             filter.where.username = (0, typeorm_2.Like)(`%${username}%`);
@@ -1126,6 +1165,150 @@ LogService = __decorate([
     __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
 ], LogService);
 exports.LogService = LogService;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/cms/cms.controller.ts":
+/*!*****************************************************!*\
+  !*** ./apps/gateways/src/ssr/cms/cms.controller.ts ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a, _b, _c, _d, _e;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CmsController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const express_1 = __webpack_require__(/*! express */ "express");
+let CmsController = class CmsController {
+    welcome(res) {
+        res.render('welcome', { title: 'welcome' });
+        return res.end();
+    }
+    home(res) {
+        res.render('home', { title: 'home' });
+        return res.end();
+    }
+    tag(res) {
+        res.render('tag', { title: 'tag' });
+        return res.end();
+    }
+    timeline(res) {
+        res.render('timeline', { title: 'timeline' });
+        return res.end();
+    }
+    article(res) {
+        res.render('article', { title: 'article' });
+        return res.end();
+    }
+};
+__decorate([
+    (0, common_1.Get)('welcome'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_a = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _a : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "welcome", null);
+__decorate([
+    (0, common_1.Get)('home'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _b : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "home", null);
+__decorate([
+    (0, common_1.Get)('tag'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _c : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "tag", null);
+__decorate([
+    (0, common_1.Get)('timeline'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_d = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _d : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "timeline", null);
+__decorate([
+    (0, common_1.Get)('article'),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_e = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _e : Object]),
+    __metadata("design:returntype", void 0)
+], CmsController.prototype, "article", null);
+CmsController = __decorate([
+    (0, common_1.Controller)('ssr/cms')
+], CmsController);
+exports.CmsController = CmsController;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/cms/cms.module.ts":
+/*!*************************************************!*\
+  !*** ./apps/gateways/src/ssr/cms/cms.module.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CmsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const cms_controller_1 = __webpack_require__(/*! ./cms.controller */ "./apps/gateways/src/ssr/cms/cms.controller.ts");
+let CmsModule = class CmsModule {
+};
+CmsModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [cms_controller_1.CmsController],
+    })
+], CmsModule);
+exports.CmsModule = CmsModule;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/whitelist.ts":
+/*!********************************************!*\
+  !*** ./apps/gateways/src/ssr/whitelist.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WhiteList = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+exports.WhiteList = [
+    { path: 'ssr/cms/welcome', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/home', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/tag', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/timeline', method: common_1.RequestMethod.GET },
+    { path: 'ssr/cms/article', method: common_1.RequestMethod.GET },
+];
 
 
 /***/ }),
@@ -1474,7 +1657,6 @@ let ConfigController = class ConfigController {
 __decorate([
     (0, common_1.Get)('/:mode'),
     (0, swagger_1.ApiOperation)({ summary: '获取配置列表' }),
-    (0, auth_decorator_1.Auth)(['setting:view']),
     __param(0, (0, common_1.Param)('mode')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -1483,7 +1665,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)('refresh'),
     (0, swagger_1.ApiOperation)({ summary: '刷新配置列表' }),
-    (0, auth_decorator_1.Auth)(['setting:view']),
+    (0, auth_decorator_1.Auth)(['setting:update']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
@@ -1548,6 +1730,11 @@ exports["default"] = {
         { label: '成功', value: 'success' },
         { label: '失败', value: 'error' },
     ],
+    content_state: [
+        { label: '草稿', value: 'draft', type: 'info' },
+        { label: '上架', value: 'up_rack', type: 'success' },
+        { label: '下架', value: 'down_rack', type: 'error' },
+    ],
 };
 
 
@@ -1593,11 +1780,13 @@ let ConfigService = class ConfigService {
         this.defaultSetting = JSON.parse(JSON.stringify(setting));
         this.defaultOption = JSON.parse(JSON.stringify(config_option_1.default));
     }
-    getConfig() {
+    getConfig(k) {
         const setting = {};
         for (const [key, val] of Object.entries(config_setting_1.default)) {
             if (key.charAt(0) != '_')
                 setting[key] = val;
+            if (k && k === key)
+                return val;
         }
         return setting;
     }
@@ -1672,6 +1861,7 @@ exports.ConfigService = ConfigService;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = {
     title: 'nestjs后台管理模版',
+    top_level: 0,
 };
 
 
@@ -2182,7 +2372,7 @@ class MenuUpdateDto {
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
-        required: false,
+        required: true,
         default: 1,
         description: '0:目录 1:菜单 2:外链',
     }),
@@ -2190,7 +2380,6 @@ __decorate([
 ], MenuUpdateDto.prototype, "type", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'icon', description: '图标' }),
-    (0, class_validator_1.IsNotEmpty)({ message: 'icon必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "icon", void 0);
 __decorate([
@@ -2202,13 +2391,12 @@ __decorate([
     __metadata("design:type", Boolean)
 ], MenuUpdateDto.prototype, "hide", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false, default: '测试', description: '菜单名称' }),
-    (0, class_validator_1.IsNotEmpty)({ message: '菜单名称必填' }),
+    (0, swagger_1.ApiProperty)({ required: true, default: '测试', description: '菜单名称' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '名称必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "title", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: '/', description: '路由地址' }),
-    (0, class_validator_1.IsNotEmpty)({ message: '路由地址必填' }),
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "url", void 0);
 __decorate([
@@ -2236,7 +2424,8 @@ __decorate([
     __metadata("design:type", String)
 ], MenuUpdateDto.prototype, "path", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false, default: 0, description: '父菜单ID 0:无' }),
+    (0, swagger_1.ApiProperty)({ required: true, default: 0, description: '父菜单ID 0:无' }),
+    (0, class_validator_1.IsNotEmpty)({ message: '父级ID必填' }),
     __metadata("design:type", Number)
 ], MenuUpdateDto.prototype, "pid", void 0);
 exports.MenuUpdateDto = MenuUpdateDto;
@@ -2263,7 +2452,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MenuController = void 0;
 const auth_decorator_1 = __webpack_require__(/*! @app/libs/common/decorator/auth.decorator */ "./libs/src/common/decorator/auth.decorator.ts");
@@ -2285,6 +2474,7 @@ let MenuController = class MenuController {
         };
     }
     async update(id, body) {
+        console.log(body);
         const result = await this[DEFAULT_SERVICE].update(id, body);
         return {
             code: 200,
@@ -2300,11 +2490,27 @@ let MenuController = class MenuController {
             result,
         };
     }
-    async list(attrs) {
-        const result = await this[DEFAULT_SERVICE].list(attrs);
+    async list(attrs, req) {
+        const result = await this[DEFAULT_SERVICE].list(attrs, req.user);
         return {
             code: 200,
             message: '菜单查询成功',
+            result,
+        };
+    }
+    async getRoleMenu(roleId) {
+        const result = await this[DEFAULT_SERVICE].getRoleMenu(roleId);
+        return {
+            code: 200,
+            message: '角色下菜单查询成功',
+            result,
+        };
+    }
+    async setRoleMenu(roleId, menuIds) {
+        const result = await this[DEFAULT_SERVICE].setRoleMenu(roleId, menuIds);
+        return {
+            code: 200,
+            message: '角色下菜单修改成功',
             result,
         };
     }
@@ -2342,14 +2548,34 @@ __decorate([
     (0, swagger_1.ApiOperation)({ summary: '列表查询' }),
     (0, auth_decorator_1.Auth)(['menu:view']),
     __param(0, (0, common_1.Query)('attrs', new common_1.ParseArrayPipe({ items: String, separator: ',' }))),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_f = typeof Array !== "undefined" && Array) === "function" ? _f : Object]),
+    __metadata("design:paramtypes", [typeof (_f = typeof Array !== "undefined" && Array) === "function" ? _f : Object, Object]),
     __metadata("design:returntype", typeof (_g = typeof Promise !== "undefined" && Promise) === "function" ? _g : Object)
 ], MenuController.prototype, "list", null);
+__decorate([
+    (0, common_1.Get)('list/:roleId'),
+    (0, swagger_1.ApiOperation)({ summary: '角色下菜单查询' }),
+    (0, auth_decorator_1.Auth)(['menu:view', 'role:view']),
+    __param(0, (0, common_1.Param)('roleId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", typeof (_h = typeof Promise !== "undefined" && Promise) === "function" ? _h : Object)
+], MenuController.prototype, "getRoleMenu", null);
+__decorate([
+    (0, common_1.Put)('list/:roleId'),
+    (0, swagger_1.ApiOperation)({ summary: '角色下菜单修改' }),
+    (0, auth_decorator_1.Auth)(['menu:update', 'role:update']),
+    __param(0, (0, common_1.Param)('roleId')),
+    __param(1, (0, common_1.Body)('menuIds')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Array]),
+    __metadata("design:returntype", typeof (_j = typeof Promise !== "undefined" && Promise) === "function" ? _j : Object)
+], MenuController.prototype, "setRoleMenu", null);
 MenuController = __decorate([
     (0, common_1.Controller)('menu'),
     (0, swagger_1.ApiTags)('菜单'),
-    __metadata("design:paramtypes", [typeof (_h = typeof menu_service_1.MenuService !== "undefined" && menu_service_1.MenuService) === "function" ? _h : Object])
+    __metadata("design:paramtypes", [typeof (_k = typeof menu_service_1.MenuService !== "undefined" && menu_service_1.MenuService) === "function" ? _k : Object])
 ], MenuController);
 exports.MenuController = MenuController;
 
@@ -2372,16 +2598,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MenuModule = void 0;
 const menu_entity_1 = __webpack_require__(/*! @app/libs/db/entity/menu.entity */ "./libs/src/db/entity/menu.entity.ts");
+const role_entity_1 = __webpack_require__(/*! @app/libs/db/entity/role.entity */ "./libs/src/db/entity/role.entity.ts");
+const roleMenu_entity_1 = __webpack_require__(/*! @app/libs/db/entity/roleMenu.entity */ "./libs/src/db/entity/roleMenu.entity.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const auth_module_1 = __webpack_require__(/*! ../auth/auth.module */ "./apps/gateways/src/system/auth/auth.module.ts");
+const config_module_1 = __webpack_require__(/*! ../config/config.module */ "./apps/gateways/src/system/config/config.module.ts");
 const menu_controller_1 = __webpack_require__(/*! ./menu.controller */ "./apps/gateways/src/system/menu/menu.controller.ts");
 const menu_service_1 = __webpack_require__(/*! ./menu.service */ "./apps/gateways/src/system/menu/menu.service.ts");
 let MenuModule = class MenuModule {
 };
 MenuModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([menu_entity_1.Menu]), auth_module_1.AuthModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([menu_entity_1.Menu, role_entity_1.Role, roleMenu_entity_1.RoleMenu]),
+            auth_module_1.AuthModule,
+            config_module_1.ConfigModule,
+        ],
         controllers: [menu_controller_1.MenuController],
         providers: [menu_service_1.MenuService],
     })
@@ -2410,39 +2643,111 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MenuService = void 0;
 const menu_entity_1 = __webpack_require__(/*! @app/libs/db/entity/menu.entity */ "./libs/src/db/entity/menu.entity.ts");
+const role_entity_1 = __webpack_require__(/*! @app/libs/db/entity/role.entity */ "./libs/src/db/entity/role.entity.ts");
+const roleMenu_entity_1 = __webpack_require__(/*! @app/libs/db/entity/roleMenu.entity */ "./libs/src/db/entity/roleMenu.entity.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
+const config_service_1 = __webpack_require__(/*! ../config/config.service */ "./apps/gateways/src/system/config/config.service.ts");
 const DEFAULT_MODEL = 'menuModel';
 let MenuService = class MenuService {
-    constructor(menuModel) {
+    constructor(menuModel, roleModel, roleMenuModel, configService) {
         this.menuModel = menuModel;
+        this.roleModel = roleModel;
+        this.roleMenuModel = roleMenuModel;
+        this.configService = configService;
     }
     async create(body) {
         return await this[DEFAULT_MODEL].save(body);
     }
     async update(id, body) {
-        await this[DEFAULT_MODEL].update(id, body);
+        const { action, cache, hide, icon, name, path, pid, sort, title, type, url, } = body;
+        await this[DEFAULT_MODEL].update(id, {
+            action,
+            cache,
+            hide,
+            icon,
+            name,
+            path,
+            pid,
+            sort,
+            title,
+            type,
+            url,
+        });
         return await this[DEFAULT_MODEL].findOne(id);
     }
     async delete(ids) {
-        return await this[DEFAULT_MODEL].delete(ids);
-    }
-    async list(attrs) {
-        if (attrs[0] === 'all') {
-            return await this[DEFAULT_MODEL].find();
+        var e_1, _a;
+        try {
+            for (var ids_1 = __asyncValues(ids), ids_1_1; ids_1_1 = await ids_1.next(), !ids_1_1.done;) {
+                const id = ids_1_1.value;
+                const count = await this[DEFAULT_MODEL].count({ where: { pid: id } });
+                if (count > 0) {
+                    throw new common_1.BadRequestException({ message: '请先移除当前节点下子节点' });
+                }
+                await this[DEFAULT_MODEL].delete(id);
+                await this.roleMenuModel.delete({ menuId: id });
+            }
         }
-        return await this[DEFAULT_MODEL].find({ select: attrs });
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (ids_1_1 && !ids_1_1.done && (_a = ids_1.return)) await _a.call(ids_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    }
+    async list(attrs, user) {
+        const role = await this.roleModel.findOne(user.roleId);
+        const topLevel = this.configService.getConfig('top_level');
+        const where = {};
+        if (role.level !== topLevel)
+            where.id = (0, typeorm_2.In)(user.menuIds);
+        if (attrs[0] === 'all') {
+            return await this[DEFAULT_MODEL].find(where);
+        }
+        return await this[DEFAULT_MODEL].find({ where, select: attrs });
+    }
+    async getRoleMenu(roleId) {
+        const roleMenuList = await this.roleMenuModel.find({
+            where: { roleId },
+            select: ['menuId'],
+        });
+        const menuIds = roleMenuList.map((item) => item.menuId);
+        const menulist = await this.menuModel.find({
+            where: { id: (0, typeorm_2.In)(menuIds) },
+        });
+        return menulist.map((item) => item.id);
+    }
+    async setRoleMenu(roleId, menuIds) {
+        await this.roleMenuModel.delete({ roleId });
+        const arr = menuIds.map((item) => {
+            return {
+                roleId,
+                menuId: item,
+            };
+        });
+        await this.roleMenuModel.save(arr);
     }
 };
 MenuService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(menu_entity_1.Menu)),
-    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
+    __param(1, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
+    __param(2, (0, typeorm_1.InjectRepository)(roleMenu_entity_1.RoleMenu)),
+    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object, typeof (_b = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _b : Object, typeof (_c = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _c : Object, typeof (_d = typeof config_service_1.ConfigService !== "undefined" && config_service_1.ConfigService) === "function" ? _d : Object])
 ], MenuService);
 exports.MenuService = MenuService;
 
@@ -3171,31 +3476,46 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HttpExceptionFilter = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const util_1 = __webpack_require__(/*! util */ "util");
+const util = __webpack_require__(/*! util */ "util");
 let HttpExceptionFilter = class HttpExceptionFilter {
     catch(exception, host) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-        const request = ctx.getRequest();
-        const error = exception.message;
+        let message = null;
+        let error = null;
         const status = exception instanceof common_1.HttpException
             ? exception.getStatus()
-            : common_1.HttpStatus.NOT_FOUND;
+            : common_1.HttpStatus.BAD_REQUEST;
         let exceptionResponse = null;
-        let message = null;
-        if ((0, util_1.isFunction)(exception.getResponse)) {
-            exceptionResponse = exception.getResponse();
-            console.log(exceptionResponse);
-            message = exceptionResponse;
-            if (typeof exceptionResponse === 'object') {
-                message =
-                    typeof exceptionResponse.message === 'string'
-                        ? exceptionResponse.message
-                        : exceptionResponse.message[0];
+        if (typeof exception === 'string') {
+            message = exception;
+        }
+        else {
+            if (util.isFunction(exception.getResponse)) {
+                exceptionResponse = exception.getResponse();
+                console.log(exceptionResponse);
+                if (typeof exceptionResponse === 'object') {
+                    message =
+                        typeof exceptionResponse.message === 'string'
+                            ? exceptionResponse.message
+                            : exceptionResponse.message[0];
+                    error = exceptionResponse.error;
+                }
+                else {
+                    message = exceptionResponse;
+                }
+            }
+            else if (exception.message) {
+                message = exception.message;
             }
         }
-        response.status(status).json(Object.assign({ statusCode: status, timestamp: new Date().toISOString(), path: request.url, message,
-            error }, exceptionResponse));
+        response.status(status).json({
+            code: status,
+            timestamp: new Date().toISOString(),
+            path: response.req.url,
+            message,
+            error,
+        });
     }
 };
 HttpExceptionFilter = __decorate([
@@ -3253,15 +3573,20 @@ let ActionGuard = class ActionGuard {
                 const actionList = menulist.map((item) => item.action);
                 for (const rule of rules) {
                     if (!actionList.includes(rule)) {
-                        throw new common_1.UnauthorizedException({
-                            error: '401',
+                        throw new common_1.ForbiddenException({
+                            statusCode: '403',
                             message: '权限不足',
                         });
                     }
                 }
+                user.menuIds = menuIds;
                 return true;
             }
             catch (error) {
+                throw new common_1.ForbiddenException({
+                    error: error.status,
+                    message: error.message,
+                });
             }
         }
         else {
@@ -3485,7 +3810,7 @@ __decorate([
     __metadata("design:type", String)
 ], Content.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容' }),
+    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容', select: false }),
     __metadata("design:type", String)
 ], Content.prototype, "content", void 0);
 __decorate([
@@ -3557,6 +3882,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Tag.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '分组' }),
+    __metadata("design:type", String)
+], Tag.prototype, "group", void 0);
+__decorate([
     (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
     __metadata("design:type", String)
 ], Tag.prototype, "name", void 0);
@@ -3627,7 +3956,6 @@ const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
@@ -3644,7 +3972,6 @@ const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 let DbModule = class DbModule {
@@ -4127,7 +4454,6 @@ let CronService = CronService_1 = class CronService {
         await this.configService.syncConfig();
     }
     handleCron() {
-        console.log('11111');
         this.logger.debug('Called when the current second is 45');
     }
 };
@@ -4262,6 +4588,26 @@ module.exports = require("class-validator");
 
 /***/ }),
 
+/***/ "express":
+/*!**************************!*\
+  !*** external "express" ***!
+  \**************************/
+/***/ ((module) => {
+
+module.exports = require("express");
+
+/***/ }),
+
+/***/ "express-art-template":
+/*!***************************************!*\
+  !*** external "express-art-template" ***!
+  \***************************************/
+/***/ ((module) => {
+
+module.exports = require("express-art-template");
+
+/***/ }),
+
 /***/ "ip":
 /*!*********************!*\
   !*** external "ip" ***!
@@ -4332,6 +4678,16 @@ module.exports = require("ua-parser-js");
 
 /***/ }),
 
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("path");
+
+/***/ }),
+
 /***/ "util":
 /*!***********************!*\
   !*** external "util" ***!
@@ -4386,10 +4742,19 @@ const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestj
 const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
 const gateways_module_1 = __webpack_require__(/*! ./gateways.module */ "./apps/gateways/src/gateways.module.ts");
 const ip_1 = __webpack_require__(/*! ip */ "ip");
+const path_1 = __webpack_require__(/*! path */ "path");
+const expressArtTemplate = __webpack_require__(/*! express-art-template */ "express-art-template");
+const whitelist_1 = __webpack_require__(/*! ./ssr/whitelist */ "./apps/gateways/src/ssr/whitelist.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(gateways_module_1.GatewaysModule, {
         logger: ['error', 'warn'],
     });
+    app.useStaticAssets((0, path_1.join)(__dirname, '../../../', 'public'), {
+        prefix: '/static/',
+    });
+    app.setBaseViewsDir((0, path_1.join)(__dirname, '../../../', 'views'));
+    app.setViewEngine('html');
+    app.engine('html', expressArtTemplate);
     app.connectMicroservice({
         transport: microservices_1.Transport.TCP,
         options: { retryAttempts: 5, retryDelay: 3000 },
@@ -4398,10 +4763,12 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({
         disableErrorMessages: false,
         transform: true,
+        skipMissingProperties: true,
+        stopAtFirstError: true,
     }));
     app.useGlobalInterceptors(new response_interceptor_1.ResponseInterceptors());
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
-    app.setGlobalPrefix('api/v1');
+    app.setGlobalPrefix('api/v1', { exclude: whitelist_1.WhiteList });
     app.enableCors();
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Nestjs microservice!!!')

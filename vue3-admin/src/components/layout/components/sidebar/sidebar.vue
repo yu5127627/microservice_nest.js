@@ -5,8 +5,8 @@
       :width="settingStore.isCollapse ? '64px' : '200px'"
       class="horizontal-collapse-transition sidebar-header"
     >
-      <el-image class="sidebar-logo" src="http://egg.yls.red/static/img/logo.21bf62ca.png" />
-      <h1 v-if="!settingStore.isCollapse" class="sidebar-title">nestjs 微服务</h1>
+      <el-image class="sidebar-logo" src="http://egg.yls.red/static/img/logo.21bf62ca.png" lazy />
+      <h1 v-if="!settingStore.isCollapse" class="sidebar-title">{{ sidebarTitle }}</h1>
     </div>
 
     <el-menu
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useSettingStore } from '@/store/modules/setting';
 import menuItem from './menuItem.vue';
 import { useMenuStore } from '@/store/modules/menu';
@@ -40,7 +40,10 @@ export default defineComponent({
     const settingStore = useSettingStore();
     const route = useRoute();
 
+    const sidebarTitle = computed(() => settingStore.defaultConfig.title || settingStore.title);
+
     return {
+      sidebarTitle,
       menu,
       route,
       settingStore,

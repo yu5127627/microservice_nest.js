@@ -18,9 +18,11 @@
     <el-table v-loading="list.load" :data="list.data" border size="small">
       <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="username" label="用户名" align="center" />
-      <el-table-column prop="login_time" label="登陆时间" align="center" />
+      <el-table-column prop="manageId" label="管理员" align="center" />
       <el-table-column prop="ip" label="IP" align="center" />
       <el-table-column prop="address" label="地址" align="center" />
+      <el-table-column prop="ua" label="UA" align="center" width="360" />
+      <el-table-column prop="login_time" label="登陆时间" align="center" />
       <!-- <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button @click="openDialog(dialogData, '编辑角色', scope.row)">编辑</el-button>

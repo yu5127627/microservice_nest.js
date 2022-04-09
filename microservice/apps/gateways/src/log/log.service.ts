@@ -6,6 +6,7 @@ import { Pagination } from '@app/libs/common/interface/pagination.interface';
 import { LoginLogPagesDto } from './dto/LoginLogPages.dto';
 import { LoginLogPageWhere } from './interface/LoginLogPageWhere.interface';
 import * as libQqwry from 'lib-qqwry-yyyj';
+import { address } from 'ip';
 const ipInterface = libQqwry.init();
 ipInterface.speed();
 
@@ -17,21 +18,20 @@ export class LogService {
   ) {}
 
   async loginLogCreate(body): Promise<LoginLog> {
-    let city;
     try {
       const ip = body.ip.includes('ffff') ? body.ip.slice(7) : body.ip;
       const { Country } = ipInterface.searchIP(ip);
-      city = Country || '';
+      const city = Country || '';
+      return await this.loginLogModel.save({
+        manageId: body.id,
+        username: body.username,
+        address: city,
+        ua: body.ua,
+        ip: ip === '127.0.0.1' ? address() : ip,
+      });
     } catch (error) {
       console.log(error);
     }
-    return await this.loginLogModel.save({
-      manageId: body.id,
-      username: body.username,
-      address: city,
-      ua: body.ua,
-      ip: body.ip,
-    });
   }
 
   async loginLogPages(query: LoginLogPagesDto): Promise<Pagination<LoginLog>> {
@@ -39,6 +39,9 @@ export class LogService {
     const filter: LoginLogPageWhere = {
       skip: (page - 1) * limit,
       take: limit,
+      order: {
+        id: 'DESC',
+      },
     };
 
     if (username) filter.where.username = Like(`%${username}%`);

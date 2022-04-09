@@ -1,0 +1,76 @@
+{{extend './layout.html'}}
+
+{{block 'head'}}
+<title>{{title}}</title>
+<style>
+  .content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bg-img {
+    position: fixed;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center center;
+    object-position: center center;
+    user-select: none;
+  }
+
+  .tip-box {
+    z-index: 1;
+    width: 300px;
+    color: #fff;
+  }
+
+  .tip-text {
+    font-size: 30px;
+    letter-spacing: .1rem;
+    user-select: none;
+  }
+
+  .tip-author {
+    font-size: 1.82rem;
+    letter-spacing: .1rem;
+    text-align: right;
+    margin-top: 20px;
+    user-select: none;
+  }
+
+  .down-icon {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    border: 1px solid #fff;
+    padding: 8px;
+  }
+
+  .iconfont {
+    font-size: 20px;
+    color: #fff;
+  }
+</style>
+{{/block}}
+
+{{block 'content'}}
+
+<div class="content">
+  <img src="http://blog.yls.red/_nuxt/img/81db516.jpg" alt="" class="bg-img">
+  <div class="tip-box">
+    <div class="tip-text">热爱终将战胜折磨，最差不过大器晚成。</div>
+    <div class="tip-author">—— 张一山</div>
+  </div>
+</div>
+<a href="/ssr/cms/home" class="down-icon">
+  <i aria-hidden="true" class="iconfont icon-quanping_o"></i>
+</a>
+
+{{/block}}

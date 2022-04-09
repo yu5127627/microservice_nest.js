@@ -12,7 +12,6 @@ export class ConfigController {
 
   @Get('/:mode')
   @ApiOperation({ summary: '获取配置列表' })
-  @Auth(['setting:view'])
   list(@Param('mode') mode: string): Result {
     const result = this[DEFAULT_SERVICE].list(mode);
     return { result };
@@ -20,7 +19,7 @@ export class ConfigController {
 
   @Put('refresh')
   @ApiOperation({ summary: '刷新配置列表' })
-  @Auth(['setting:view'])
+  @Auth(['setting:update'])
   async refresh(): Promise<Result> {
     const result = await this[DEFAULT_SERVICE].syncConfig();
     return { result };

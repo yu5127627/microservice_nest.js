@@ -25,7 +25,6 @@ const gatewayDB = TypeOrmModule.forRootAsync({
     synchronize: true,
     logger: 'file',
     logging: true,
-    timezone: 'Z',
   }),
 });
 
@@ -43,7 +42,6 @@ const blogDB = TypeOrmModule.forRootAsync({
     synchronize: true,
     logger: 'file',
     logging: true,
-    timezone: 'Z',
   }),
 });
 

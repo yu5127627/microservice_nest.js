@@ -3,12 +3,13 @@
     <!-- 操作栏 -->
     <div class="main-operate">
       <div>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="openDialog">新增</el-button>
         <el-button
-          type="primary"
-          icon="el-icon-circle-plus-outline"
-          @click="openDialog"
-        >新增</el-button>
-        <el-button v-rule="'menu:delete'" type="danger" icon="el-icon-delete" @click="handleRemove">删除</el-button>
+          v-rule="'menu:delete'"
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleRemove"
+        >删除</el-button>
       </div>
       <div>
         <el-button type="primary" icon="el-icon-refresh" @click="fetchData">刷新</el-button>
@@ -24,8 +25,8 @@
         :default-expand-all="true"
         lazy
         style="width: 100%"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-        @selection-change="(selection)=>{selectList = selection.map(item=>item.id)}"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+        @selection-change="(selection) => { selectList = selection.map(item => item.id) }"
       >
         <el-table-column type="selection" />
         <el-table-column prop="title" label="名称" align="center" />
@@ -38,27 +39,35 @@
         <el-table-column prop="action" label="权限规则" align="center" />
         <el-table-column prop="path" label="组件路径" align="center" />
         <el-table-column prop="cache" label="缓存" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.cache==true?'是':'否' }}
-          </template>
+          <template slot-scope="scope">{{ scope.row.cache == true ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column prop="show" label="菜单显示" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.hide ? '否' : '是' }}
-          </template>
+          <template slot-scope="scope">{{ scope.row.hide ? '否' : '是' }}</template>
         </el-table-column>
         <el-table-column prop="type" label="类型" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.type===0" type="success" effect="plain">目录</el-tag>
-            <el-tag v-if="scope.row.type===1" effect="plain">菜单</el-tag>
-            <el-tag v-if="scope.row.type===2" effect="plain">外链</el-tag>
-            <el-tag v-if="scope.row.type===3" type="info" effect="plain">规则</el-tag>
+            <el-tag v-if="scope.row.type === 0" type="success" effect="plain">目录</el-tag>
+            <el-tag v-if="scope.row.type === 1" effect="plain">菜单</el-tag>
+            <el-tag v-if="scope.row.type === 2" effect="plain">外链</el-tag>
+            <el-tag v-if="scope.row.type === 3" type="info" effect="plain">规则</el-tag>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button v-rule="'menu:update'" type="primary" size="mini" icon="el-icon-edit" @click="openDialog(scope.row)" />
-            <el-button v-rule="'menu:delete'" type="danger" size="mini" icon="el-icon-delete" @click="handleRemove(scope.row)" />
+            <el-button
+              v-rule="'menu:update'"
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="openDialog(scope.row)"
+            />
+            <el-button
+              v-rule="'menu:delete'"
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              @click="handleRemove(scope.row)"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -74,7 +83,7 @@
             <el-radio-button label="2">规则</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="dialogForm.type!=2" label="菜单图标" prop="icon">
+        <el-form-item v-if="dialogForm.type != 2" label="菜单图标" prop="icon">
           <el-popover
             placement="bottom-start"
             width="450"
@@ -82,46 +91,57 @@
             @show="$refs['iconSelect'].reset()"
           >
             <icon-select ref="iconSelect" @selected="selected" />
-            <el-input slot="reference" v-model="dialogForm.icon" placeholder="点击选择图标" style="width:450px;">
-              <svg-icon v-if="dialogForm.icon" slot="prefix" :icon-class="dialogForm.icon" class="el-input__icon" style="height: 32px;width: 16px;" />
+            <el-input
+              slot="reference"
+              v-model="dialogForm.icon"
+              placeholder="点击选择图标"
+              style="width:450px;"
+            >
+              <svg-icon
+                v-if="dialogForm.icon"
+                slot="prefix"
+                :icon-class="dialogForm.icon"
+                class="el-input__icon"
+                style="height: 32px;width: 16px;"
+              />
               <i v-else slot="prefix" class="el-icon-search el-input__icon" />
             </el-input>
           </el-popover>
         </el-form-item>
-        <el-form-item v-if="dialogForm.type!=2" label="外链菜单">
+        <el-form-item v-if="dialogForm.type != 2" label="外链菜单">
           <el-radio-group v-model="dialogForm.islink" size="mini">
             <el-radio-button label="true">是</el-radio-button>
             <el-radio-button label="false">否</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="dialogForm.type!=2&&dialogForm.type==1" label="缓存菜单">
+        <el-form-item v-if="dialogForm.type != 2 && dialogForm.type == 1" label="缓存菜单">
           <el-radio-group v-model="dialogForm.cache" size="mini">
             <el-radio-button label="true">是</el-radio-button>
             <el-radio-button label="false">否</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="dialogForm.type!=2" label="菜单可见">
+        <el-form-item v-if="dialogForm.type != 2" label="菜单可见">
           <el-radio-group v-model="dialogForm.show" size="mini">
             <el-radio-button label="true">是</el-radio-button>
             <el-radio-button label="false">否</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="dialogForm.type==2?'规则名称':'菜单名称'" prop="title">
+        <el-form-item :label="dialogForm.type == 2 ? '规则名称' : '菜单名称'" prop="title">
           <el-input v-model="dialogForm.title" />
         </el-form-item>
         <el-form-item label="权限规则" prop="rule">
           <el-input v-model="dialogForm.rule" />
         </el-form-item>
-        <el-form-item v-if="dialogForm.type!=2" label="路由地址" prop="url">
+        <el-form-item v-if="dialogForm.type != 2" label="路由地址" prop="url">
           <el-input v-model="dialogForm.url" />
         </el-form-item>
         <el-form-item label="菜单排序">
           <el-input-number v-model="dialogForm.sort" :min="1" label="描述文字" />
         </el-form-item>
-        <el-form-item v-if="dialogForm.type==1" label="组件名称" prop="name">
+        <el-form-item v-if="dialogForm.type == 1" label="组件名称" prop="name">
           <el-input v-model="dialogForm.name" placeholder="组件内的name" />
         </el-form-item>
-        <el-form-item v-if="dialogForm.type==1" label="组件路径" prop="path">
+        <el-form-item v-if="dialogForm.type == 1" label="组件路径" prop="path">
           <el-input v-model="dialogForm.path" placeholder="组件的文件路径" />
         </el-form-item>
         <el-form-item label="所属目录">
@@ -172,7 +192,7 @@ export default {
       },
       loading: true,
       limits: [10, 20, 50, 100],
-      listQuery: { },
+      listQuery: {},
       rules: {},
       list: [],
       selectList: []
@@ -246,7 +266,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(async(res) => {
+      }).then(async (res) => {
         await remove({ ids });
         await this.fetchData();
         this.$message({
@@ -264,5 +284,4 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
 </style>

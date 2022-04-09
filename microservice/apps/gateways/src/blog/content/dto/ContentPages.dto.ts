@@ -10,4 +10,7 @@ export class ContentPagesDto extends PaginationDto {
 
   @ApiProperty({ required: false, default: 'up_rack', description: '文章状态' })
   readonly status?: string;
+
+  @ApiProperty({ required: false, default: '+id', description: '排序方式' })
+  readonly orderBy?: string;
 }

@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync } from 'bcryptjs';
 import { Repository } from 'typeorm';
+import { TokenPayload } from './interface/TokenPayload';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
   }
 
   // 生成 token
-  createToken(payload) {
+  createToken(payload: TokenPayload) {
     return this.jwtService.sign(payload);
   }
 

@@ -16,13 +16,13 @@ import { Observable } from 'rxjs';
 import { ContentCreateDto } from './dto/ContentCreate.dto';
 import { ContentPagesDto } from './dto/ContentPages.dto';
 import { ContentUpdateDto } from './dto/ContentUpdate.dto';
-@Controller('content')
+@Controller('blog/content')
 @ApiTags('内容')
 export class ContentController {
   constructor(@Inject('BLOG_SERVICE') private readonly client: ClientProxy) {}
 
   @Get()
-  // @Auth(['login_log:view'])
+  @Auth(['content:view'])
   @ApiOperation({ summary: '内容分页查询' })
   contentPages(@Query() query: ContentPagesDto): Observable<any> {
     const pattern = { content: 'pages' };
@@ -31,7 +31,7 @@ export class ContentController {
 
   @Post()
   @ApiOperation({ summary: '创建内容' })
-  // @Auth(['content:create'])
+  @Auth(['content:create'])
   create(@Body() body: ContentCreateDto): Observable<any> {
     const pattern = { content: 'create' };
     return this.client.send(pattern, body);
@@ -39,7 +39,7 @@ export class ContentController {
 
   @Put(':id')
   @ApiOperation({ summary: '编辑内容' })
-  // @Auth(['content:update'])
+  @Auth(['content:update'])
   update(
     @Param('id') id: number,
     @Body() body: ContentUpdateDto,
@@ -50,7 +50,7 @@ export class ContentController {
 
   @Delete()
   @ApiOperation({ summary: '删除内容' })
-  // @Auth(['content:delete'])
+  @Auth(['content:delete'])
   delete(@Body('ids') ids: Array<number>): Observable<any> {
     const pattern = { content: 'delete' };
     return this.client.send(pattern, { ids });
@@ -58,7 +58,7 @@ export class ContentController {
 
   @Get(':id')
   @ApiOperation({ summary: '内容详情' })
-  // @Auth(['content:view'])
+  @Auth(['content:view'])
   detail(@Param('id') id: number): Observable<any> {
     const pattern = { content: 'detail' };
     return this.client.send(pattern, { id });

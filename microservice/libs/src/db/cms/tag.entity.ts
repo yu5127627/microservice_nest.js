@@ -12,6 +12,9 @@ export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ length: 32, comment: '分组' })
+  group: string;
+
   @Column({ length: 32, comment: '名称' })
   name: string;
 

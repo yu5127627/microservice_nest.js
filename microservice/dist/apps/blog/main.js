@@ -71,6 +71,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryController = void 0;
+const rpc_exception_filter_1 = __webpack_require__(/*! @app/libs/common/filters/rpc-exception.filter */ "./libs/src/common/filters/rpc-exception.filter.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const category_service_1 = __webpack_require__(/*! ./category.service */ "./apps/blog/src/category/category.service.ts");
@@ -122,6 +123,7 @@ let CategoryController = class CategoryController {
     }
 };
 __decorate([
+    (0, common_1.UseFilters)(new rpc_exception_filter_1.ExceptionFilter()),
     (0, microservices_1.MessagePattern)({ category: 'list' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -216,6 +218,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CategoryService = void 0;
 const category_entity_1 = __webpack_require__(/*! @app/libs/db/cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const DEFAULT_MODEL = 'categoryModel';
@@ -224,10 +227,15 @@ let CategoryService = class CategoryService {
         this.categoryModel = categoryModel;
     }
     async list(attrs) {
-        if (attrs[0] === 'all') {
-            return await this[DEFAULT_MODEL].find();
+        try {
+            if (attrs[0] === 'all') {
+                return await this[DEFAULT_MODEL].find();
+            }
+            return await this[DEFAULT_MODEL].find({ select: attrs });
         }
-        return await this[DEFAULT_MODEL].find({ select: attrs });
+        catch (error) {
+            throw new microservices_1.RpcException(error);
+        }
     }
     async create(body) {
         return await this[DEFAULT_MODEL].save(body);
@@ -397,7 +405,12 @@ let ContentModule = class ContentModule {
 ContentModule = __decorate([
     (0, common_1.Module)({
         controllers: [content_controller_1.ContentController],
-        providers: [(0, utils_1.lazyLoadDB)('blog', 'Content'), content_service_1.ContentService],
+        providers: [
+            (0, utils_1.lazyLoadDB)('blog', 'Content'),
+            (0, utils_1.lazyLoadDB)('blog', 'Tag'),
+            (0, utils_1.lazyLoadDB)('blog', 'Category'),
+            content_service_1.ContentService,
+        ],
     })
 ], ContentModule);
 exports.ContentModule = ContentModule;
@@ -424,20 +437,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContentService = void 0;
+const category_entity_1 = __webpack_require__(/*! @app/libs/db/cms/category.entity */ "./libs/src/db/cms/category.entity.ts");
 const content_entity_1 = __webpack_require__(/*! @app/libs/db/cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const tag_entity_1 = __webpack_require__(/*! @app/libs/db/cms/tag.entity */ "./libs/src/db/cms/tag.entity.ts");
+const db_utils_1 = __webpack_require__(/*! @app/libs/utils/db.utils */ "./libs/src/utils/db.utils.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const DEFAULT_MODEL = 'contentModel';
 let ContentService = class ContentService {
-    constructor(contentModel) {
+    constructor(contentModel, tagModel, categoryModel) {
         this.contentModel = contentModel;
+        this.tagModel = tagModel;
+        this.categoryModel = categoryModel;
     }
     async create(body) {
-        return await this[DEFAULT_MODEL].save(body);
+        const { tagIds, cateIds } = body, props = __rest(body, ["tagIds", "cateIds"]);
+        const taglist = await this.tagModel.find({ where: { id: (0, typeorm_2.In)(tagIds) } });
+        const catelist = await this.categoryModel.find({
+            where: { id: (0, typeorm_2.In)(cateIds) },
+        });
+        props.categorys = catelist;
+        props.tags = taglist;
+        const content = await this[DEFAULT_MODEL].save(props);
+        return content;
     }
     async update(id, body) {
         await this[DEFAULT_MODEL].update(id, body);
@@ -447,14 +484,19 @@ let ContentService = class ContentService {
         return await this[DEFAULT_MODEL].delete(ids);
     }
     async detail(id) {
-        return await this[DEFAULT_MODEL].findOne(id);
+        return await this[DEFAULT_MODEL].findOne(id, {
+            select: ['content', 'id', 'recom', 'status', 'title', 'top'],
+            loadRelationIds: true,
+        });
     }
     async pages(query) {
-        const { title, top, status, page, limit } = query;
+        const { title, top, status, page, limit, orderBy } = query;
         const filter = {
             skip: (page - 1) * limit,
             take: limit,
             where: {},
+            order: (0, db_utils_1.getOrder)(orderBy),
+            loadRelationIds: true,
         };
         if (title)
             filter.where.title = (0, typeorm_2.Like)(`%${title}%`);
@@ -479,7 +521,9 @@ let ContentService = class ContentService {
 ContentService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(content_entity_1.Content)),
-    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
+    __param(1, (0, typeorm_1.InjectRepository)(tag_entity_1.Tag)),
+    __param(2, (0, typeorm_1.InjectRepository)(category_entity_1.Category)),
+    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object, typeof (_b = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _b : Object, typeof (_c = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _c : Object])
 ], ContentService);
 exports.ContentService = ContentService;
 
@@ -732,6 +776,10 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false, default: 'up_rack', description: '文章状态' }),
     __metadata("design:type", String)
 ], ContentPagesDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '+id', description: '排序方式' }),
+    __metadata("design:type", String)
+], ContentPagesDto.prototype, "orderBy", void 0);
 exports.ContentPagesDto = ContentPagesDto;
 
 
@@ -781,6 +829,37 @@ __decorate([
     __metadata("design:type", Number)
 ], PaginationDto.prototype, "limit", void 0);
 exports.PaginationDto = PaginationDto;
+
+
+/***/ }),
+
+/***/ "./libs/src/common/filters/rpc-exception.filter.ts":
+/*!*********************************************************!*\
+  !*** ./libs/src/common/filters/rpc-exception.filter.ts ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ExceptionFilter = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const rxjs_1 = __webpack_require__(/*! rxjs */ "rxjs");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+let ExceptionFilter = class ExceptionFilter {
+    catch(exception, host) {
+        return (0, rxjs_1.throwError)(exception.getError().toString());
+    }
+};
+ExceptionFilter = __decorate([
+    (0, common_1.Catch)(microservices_1.RpcException)
+], ExceptionFilter);
+exports.ExceptionFilter = ExceptionFilter;
 
 
 /***/ }),
@@ -883,7 +962,7 @@ __decorate([
     __metadata("design:type", String)
 ], Content.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容' }),
+    (0, typeorm_1.Column)({ type: 'longtext', comment: '内容', select: false }),
     __metadata("design:type", String)
 ], Content.prototype, "content", void 0);
 __decorate([
@@ -955,6 +1034,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Tag.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ length: 32, comment: '分组' }),
+    __metadata("design:type", String)
+], Tag.prototype, "group", void 0);
+__decorate([
     (0, typeorm_1.Column)({ length: 32, comment: '名称' }),
     __metadata("design:type", String)
 ], Tag.prototype, "name", void 0);
@@ -1025,7 +1108,6 @@ const gatewayDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
@@ -1042,7 +1124,6 @@ const blogDB = typeorm_1.TypeOrmModule.forRootAsync({
         synchronize: true,
         logger: 'file',
         logging: true,
-        timezone: 'Z',
     }),
 });
 let DbModule = class DbModule {
@@ -1408,6 +1489,38 @@ exports.Setting = Setting;
 
 /***/ }),
 
+/***/ "./libs/src/utils/db.utils.ts":
+/*!************************************!*\
+  !*** ./libs/src/utils/db.utils.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getOrder = void 0;
+const getOrder = (orderBy) => {
+    if (!orderBy)
+        return;
+    if (typeof orderBy === 'string')
+        orderBy = [orderBy];
+    const obj = {};
+    if (orderBy.length <= 0)
+        return {};
+    for (const order of orderBy) {
+        if (order.includes('+')) {
+            obj[order.slice(1)] = 'ASC';
+        }
+        else {
+            obj[order.slice(1)] = 'DESC';
+        }
+    }
+    return obj;
+};
+exports.getOrder = getOrder;
+
+
+/***/ }),
+
 /***/ "./libs/src/utils/utils.ts":
 /*!*********************************!*\
   !*** ./libs/src/utils/utils.ts ***!
@@ -1502,6 +1615,16 @@ module.exports = require("@nestjs/swagger");
 /***/ ((module) => {
 
 module.exports = require("@nestjs/typeorm");
+
+/***/ }),
+
+/***/ "rxjs":
+/*!***********************!*\
+  !*** external "rxjs" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("rxjs");
 
 /***/ }),
 

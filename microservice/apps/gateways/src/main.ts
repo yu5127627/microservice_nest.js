@@ -6,11 +6,23 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { GatewaysModule } from './gateways.module';
 import { address } from 'ip';
+import { join } from 'path';
+import * as expressArtTemplate from 'express-art-template';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { WhiteList } from './ssr/whitelist';
 
 async function bootstrap() {
-  const app = await NestFactory.create(GatewaysModule, {
+  const app = await NestFactory.create<NestExpressApplication>(GatewaysModule, {
     logger: ['error', 'warn'],
   });
+
+  // app.useStaticAssets('public');
+  app.useStaticAssets(join(__dirname, '../../../', 'public'), {
+    prefix: '/static/',
+  });
+  app.setBaseViewsDir(join(__dirname, '../../../', 'views'));
+  app.setViewEngine('html');
+  app.engine('html', expressArtTemplate);
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
@@ -24,6 +36,8 @@ async function bootstrap() {
     new ValidationPipe({
       disableErrorMessages: false, // 关闭详细错误信息
       transform: true, // 类型转换
+      skipMissingProperties: true, // 过滤多余属性
+      stopAtFirstError: true,
     }),
   );
   // 全局注册响应拦截器
@@ -31,7 +45,7 @@ async function bootstrap() {
   // 全局异常过滤
   app.useGlobalFilters(new HttpExceptionFilter());
   // 全局路径前缀;
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api/v1', { exclude: WhiteList });
   // 处理跨域
   app.enableCors();
 

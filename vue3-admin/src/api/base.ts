@@ -9,8 +9,8 @@ type RowData = Manage.ManageRow | Menu.MenuRow;
 export const openDialog = (dialogData: DialogData<any>, title: string, row?: RowData) => {
   dialogData.visible = true;
   dialogData.title = title;
-  dialogData.data = row || dialogData.data;
-  return;
+  dialogData.type = row? 'update':'create' ;
+  dialogData.data = row;
 };
 
 /**
@@ -38,22 +38,38 @@ export const handleDelete = (ids: number[], module: string) => {
         toast(message, 'error');
       }
     })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '操作取消',
-      });
+    .catch((error) => {
+      if (!error.code) {
+        ElMessage({
+          type: 'info',
+          message: '操作取消',
+        });
+      }
     });
 };
 
 export const handleSubmit = async (dialogData: DialogData<RowData>, module: string) => {
-  console.log(JSON.stringify(dialogData.data));
-
-  // dialogData.visible = false;
-  // const { code, message, result } = await request<Response>({
-  //   method: dialogData.data?.id ? 'PUT' : 'POST',
-  //   url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
-  //   data: dialogData.data
-  // });
-  // emitter.emit('list-reload', module);
+ try {
+    const { code, message, result } = await request<Response>({
+      method: dialogData.data?.id ? 'PUT' : 'POST',
+      url: dialogData.data?.id ? `${baseUrl}${module}/${dialogData.data.id}` : `${baseUrl}${module}`,
+      data: dialogData.data || dialogData
+    });
+    if (code === 200) {
+      toast(message);
+      emitter.emit('list-reload', module);
+      dialogData.visible = false;
+    } else {
+      toast(message, 'error');
+    }
+ } catch (error:any) {
+   if (typeof error.message !== 'string') {
+     for (const msg of error.message) {
+       toast(msg, 'error', 2000);
+     }
+   } else {
+      toast(error.message, 'error', 2000);
+   }
+   throw new Error(error.message||error);
+ }
 };

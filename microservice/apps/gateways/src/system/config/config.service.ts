@@ -28,10 +28,11 @@ export class ConfigService implements OnApplicationBootstrap {
   }
 
   // 过滤不可更新的数据
-  private getConfig() {
+  getConfig(k?: string) {
     const setting = {};
     for (const [key, val] of Object.entries(DEFAULT_SETTING)) {
       if (key.charAt(0) != '_') setting[key] = val;
+      if (k && k === key) return val;
     }
     return setting;
   }

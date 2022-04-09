@@ -4,7 +4,7 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { getRepository, In } from 'typeorm';
@@ -23,10 +23,12 @@ export class ActionGuard implements CanActivate {
         const { user } = context.switchToHttp().getRequest();
         // 获取 gateway 数据库下的菜单权限
         const roleMenuModel = getRepository(RoleMenu, 'gateway');
+        // 角色关联的菜单列表
         const roleMenuList = await roleMenuModel.find({
           where: { roleId: user.roleId },
           select: ['menuId'],
         });
+        // 菜单ID列表
         const menuIds = roleMenuList.map((item) => item.menuId);
         // 获取 gateway 数据库下的菜单
         const menuModel = getRepository(Menu, 'gateway');
@@ -40,19 +42,19 @@ export class ActionGuard implements CanActivate {
         // 判断权限  不符合退出
         for (const rule of rules) {
           if (!actionList.includes(rule)) {
-            throw new UnauthorizedException({
-              error: '401',
+            throw new ForbiddenException({
+              statusCode: '403',
               message: '权限不足',
             });
           }
         }
+        user.menuIds = menuIds;
         return true;
       } catch (error) {
-        // console.log(error);
-        // throw new UnauthorizedException({
-        //   error: error,
-        //   message: error.message || error,
-        // });
+        throw new ForbiddenException({
+          error: error.status,
+          message: error.message,
+        });
       }
     } else {
       return true;

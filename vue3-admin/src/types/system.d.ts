@@ -68,6 +68,7 @@ namespace TagView {
     path: string;
     affix: boolean;
     active?: boolean;
+    query?: RouteLocationRaw;
   }
 
   export interface DownMenu {

@@ -3,6 +3,7 @@ import { PureHttpError, PureHttpResoponse, PureHttpRequestConfig, Request, Respo
 import md5 from 'md5';
 import qs from 'qs';
 import { loadEnv } from '@/build';
+import { toast } from '../message';
 
 // 加载环境变量 VITE_PROXY_DOMAIN（开发环境）  VITE_PROXY_DOMAIN_REAL（打包后的线上环境）
 const { VITE_PROXY_DOMAIN, VITE_PROXY_DOMAIN_REAL } = loadEnv();
@@ -122,7 +123,7 @@ class PureHttp {
     if (process.env.NODE_ENV === 'development') {
       console.log(
         `method: ${method} / url: ${url} / body: ${JSON.stringify(
-          params
+          { ...params, ...data }
         )} / headers: ${JSON.stringify(headers)}`
       );
     }
@@ -139,6 +140,16 @@ class PureHttp {
           resolve(response);
         })
         .catch((error) => {
+          switch (error.code) {
+            case 401:
+              sessionStorage.removeItem('token');
+              toast(error.message, 'error');
+              break;
+            case 400:
+            case 403:
+              toast(error.message, 'error');
+              break;
+          }
           reject(error);
         });
     });
