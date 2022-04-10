@@ -888,6 +888,67 @@ exports.TagModule = TagModule;
 
 /***/ }),
 
+/***/ "./apps/gateways/src/gateways.controller.ts":
+/*!**************************************************!*\
+  !*** ./apps/gateways/src/gateways.controller.ts ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GatewaysController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const config_service_1 = __webpack_require__(/*! ./system/config/config.service */ "./apps/gateways/src/system/config/config.service.ts");
+let GatewaysController = class GatewaysController {
+    constructor(configService) {
+        this.configService = configService;
+    }
+    loginLogPages(res) {
+        const host = res.req.headers.host;
+        const hostRedirect = this.configService.getConfig('host_redirect');
+        const item = hostRedirect.find((item) => item.host === host);
+        if (!item) {
+            return res.end('<h1>502 访问失败</h1>');
+        }
+        else {
+            res.redirect(item.path);
+            return res.end();
+        }
+    }
+};
+__decorate([
+    (0, common_1.Get)(),
+    (0, common_1.Header)('Content-Type', 'text/html; charset=utf-8'),
+    (0, swagger_1.ApiOperation)({ summary: '访问重定向' }),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], GatewaysController.prototype, "loginLogPages", null);
+GatewaysController = __decorate([
+    (0, common_1.Controller)('/'),
+    (0, swagger_1.ApiTags)('日志'),
+    __metadata("design:paramtypes", [typeof (_a = typeof config_service_1.ConfigService !== "undefined" && config_service_1.ConfigService) === "function" ? _a : Object])
+], GatewaysController);
+exports.GatewaysController = GatewaysController;
+
+
+/***/ }),
+
 /***/ "./apps/gateways/src/gateways.module.ts":
 /*!**********************************************!*\
   !*** ./apps/gateways/src/gateways.module.ts ***!
@@ -918,6 +979,7 @@ const tag_module_1 = __webpack_require__(/*! ./blog/tag/tag.module */ "./apps/ga
 const content_module_1 = __webpack_require__(/*! ./blog/content/content.module */ "./apps/gateways/src/blog/content/content.module.ts");
 const category_module_1 = __webpack_require__(/*! ./blog/category/category.module */ "./apps/gateways/src/blog/category/category.module.ts");
 const cms_module_1 = __webpack_require__(/*! ./ssr/cms/cms.module */ "./apps/gateways/src/ssr/cms/cms.module.ts");
+const gateways_controller_1 = __webpack_require__(/*! ./gateways.controller */ "./apps/gateways/src/gateways.controller.ts");
 let GatewaysModule = class GatewaysModule {
 };
 GatewaysModule = __decorate([
@@ -938,6 +1000,7 @@ GatewaysModule = __decorate([
             category_module_1.CategoryModule,
             cms_module_1.CmsModule,
         ],
+        controllers: [gateways_controller_1.GatewaysController],
     })
 ], GatewaysModule);
 exports.GatewaysModule = GatewaysModule;
@@ -1303,6 +1366,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WhiteList = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 exports.WhiteList = [
+    { path: '', method: common_1.RequestMethod.GET },
     { path: 'ssr/cms/welcome', method: common_1.RequestMethod.GET },
     { path: 'ssr/cms/home', method: common_1.RequestMethod.GET },
     { path: 'ssr/cms/tag', method: common_1.RequestMethod.GET },
@@ -1759,7 +1823,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
+var ConfigService_1, _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConfigService = void 0;
 const setting_entity_1 = __webpack_require__(/*! @app/libs/db/entity/setting.entity */ "./libs/src/db/entity/setting.entity.ts");
@@ -1769,20 +1833,30 @@ const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const config_setting_1 = __webpack_require__(/*! ./config.setting */ "./apps/gateways/src/system/config/config.setting.ts");
 const config_option_1 = __webpack_require__(/*! ./config.option */ "./apps/gateways/src/system/config/config.option.ts");
 const DEFAULT_MODEL = 'settingModel';
-let ConfigService = class ConfigService {
+let ConfigService = ConfigService_1 = class ConfigService {
     constructor(settingModel) {
         this.settingModel = settingModel;
         this.defaultSetting = null;
         this.defaultOption = null;
     }
     async onApplicationBootstrap() {
-        const setting = this.getConfig();
+        const setting = ConfigService_1.getConfigFile();
         this.defaultSetting = JSON.parse(JSON.stringify(setting));
         this.defaultOption = JSON.parse(JSON.stringify(config_option_1.default));
     }
-    getConfig(k) {
+    static getConfigFile(k) {
         const setting = {};
         for (const [key, val] of Object.entries(config_setting_1.default)) {
+            if (key.charAt(0) != '_')
+                setting[key] = val;
+            if (k && k === key)
+                return val;
+        }
+        return setting;
+    }
+    getConfig(k) {
+        const setting = {};
+        for (const [key, val] of Object.entries(this.defaultSetting)) {
             if (key.charAt(0) != '_')
                 setting[key] = val;
             if (k && k === key)
@@ -1802,7 +1876,7 @@ let ConfigService = class ConfigService {
     }
     async syncConfig() {
         const rows = await this[DEFAULT_MODEL].find({ order: { sort: 1 } });
-        const sourceSetting = this.getConfig();
+        const sourceSetting = ConfigService_1.getConfigFile();
         const setting = Object.assign({}, this.defaultSetting, sourceSetting);
         for (const row of rows) {
             const valuetype = (row.valuetype || 'string').toLowerCase();
@@ -1841,7 +1915,7 @@ let ConfigService = class ConfigService {
         return setting;
     }
 };
-ConfigService = __decorate([
+ConfigService = ConfigService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(setting_entity_1.Setting)),
     __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
@@ -1862,6 +1936,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = {
     title: 'nestjs后台管理模版',
     top_level: 0,
+    host_redirect: [{ host: 'localhost:8001', path: '/ssr/cms/welcome' }],
 };
 
 
@@ -4326,7 +4401,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Setting.prototype, "sort", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', comment: '备注' }),
+    (0, typeorm_1.Column)({ type: 'text', nullable: true, comment: '备注' }),
     __metadata("design:type", String)
 ], Setting.prototype, "common", void 0);
 Setting = __decorate([

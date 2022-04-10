@@ -21,16 +21,27 @@ export class ConfigService implements OnApplicationBootstrap {
 
   // 初始化所有模块后调用，加载环境变量
   async onApplicationBootstrap() {
-    const setting = this.getConfig();
+    const setting = ConfigService.getConfigFile();
     // 做复制使用，保留初始化数据
     this.defaultSetting = JSON.parse(JSON.stringify(setting));
     this.defaultOption = JSON.parse(JSON.stringify(DEFAULT_OPTION));
   }
 
-  // 过滤不可更新的数据
-  getConfig(k?: string) {
+  // 加载基础数据
+  static getConfigFile(k?: string) {
     const setting = {};
     for (const [key, val] of Object.entries(DEFAULT_SETTING)) {
+      // 过滤不可更新的数据
+      if (key.charAt(0) != '_') setting[key] = val;
+      if (k && k === key) return val;
+    }
+    return setting;
+  }
+
+  // 获取数据
+  getConfig(k?: string) {
+    const setting = {};
+    for (const [key, val] of Object.entries(this.defaultSetting)) {
       if (key.charAt(0) != '_') setting[key] = val;
       if (k && k === key) return val;
     }
@@ -50,7 +61,7 @@ export class ConfigService implements OnApplicationBootstrap {
   // 刷新环境变量
   async syncConfig() {
     const rows = await this[DEFAULT_MODEL].find({ order: { sort: 1 } });
-    const sourceSetting = this.getConfig();
+    const sourceSetting = ConfigService.getConfigFile();
     const setting = Object.assign({}, this.defaultSetting, sourceSetting);
     for (const row of rows) {
       const valuetype = (row.valuetype || 'string').toLowerCase();

@@ -1478,7 +1478,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Setting.prototype, "sort", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', comment: '备注' }),
+    (0, typeorm_1.Column)({ type: 'text', nullable: true, comment: '备注' }),
     __metadata("design:type", String)
 ], Setting.prototype, "common", void 0);
 Setting = __decorate([

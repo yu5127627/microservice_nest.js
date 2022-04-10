@@ -27,6 +27,6 @@ export class Setting {
   @Column({ comment: '排序', nullable: false, default: 10 })
   sort: number;
 
-  @Column({ type: 'text', comment: '备注' })
+  @Column({ type: 'text', nullable: true, comment: '备注' })
   common: string;
 }

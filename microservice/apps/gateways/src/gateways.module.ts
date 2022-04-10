@@ -13,6 +13,7 @@ import { TagModule } from './blog/tag/tag.module';
 import { ContentModule } from './blog/content/content.module';
 import { CategoryModule } from './blog/category/category.module';
 import { CmsModule } from './ssr/cms/cms.module';
+import { GatewaysController } from './gateways.controller';
 
 @Module({
   imports: [
@@ -31,5 +32,6 @@ import { CmsModule } from './ssr/cms/cms.module';
     CategoryModule,
     CmsModule,
   ],
+  controllers: [GatewaysController],
 })
 export class GatewaysModule {}
