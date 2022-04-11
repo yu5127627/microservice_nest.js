@@ -1188,18 +1188,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CmsController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const express_1 = __webpack_require__(/*! express */ "express");
+const cms_service_1 = __webpack_require__(/*! ./cms.service */ "./apps/gateways/src/ssr/cms/cms.service.ts");
+const menuList = [
+    { title: '主页', path: '/' },
+    { title: '归档', path: '/ssr/cms/timeline' },
+    { title: '标签', path: '/ssr/cms/tag' },
+    { title: '友链', path: '/ssr/cms/friends' },
+    { title: '关于我', path: '/ssr/cms/about' },
+    { title: '随笔', path: '/ssr/cms/note' },
+    { title: '播放器', path: '/ssr/cms/player' },
+];
 let CmsController = class CmsController {
+    constructor(cmsService) {
+        this.cmsService = cmsService;
+    }
     welcome(res) {
         res.render('welcome', { title: 'welcome' });
         return res.end();
     }
-    home(res) {
-        res.render('home', { title: 'home' });
+    async home(res) {
+        const { articleList } = await this.cmsService.home();
+        res.render('home', { title: '首页', menuList, articleList });
         return res.end();
     }
     tag(res) {
@@ -1229,7 +1243,7 @@ __decorate([
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_b = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _b : Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CmsController.prototype, "home", null);
 __decorate([
     (0, common_1.Get)('tag'),
@@ -1256,7 +1270,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CmsController.prototype, "article", null);
 CmsController = __decorate([
-    (0, common_1.Controller)('ssr/cms')
+    (0, common_1.Controller)('ssr/cms'),
+    __metadata("design:paramtypes", [typeof (_f = typeof cms_service_1.CmsService !== "undefined" && cms_service_1.CmsService) === "function" ? _f : Object])
 ], CmsController);
 exports.CmsController = CmsController;
 
@@ -1278,16 +1293,72 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CmsModule = void 0;
+const utils_1 = __webpack_require__(/*! @app/libs/utils/utils */ "./libs/src/utils/utils.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const cms_controller_1 = __webpack_require__(/*! ./cms.controller */ "./apps/gateways/src/ssr/cms/cms.controller.ts");
+const cms_service_1 = __webpack_require__(/*! ./cms.service */ "./apps/gateways/src/ssr/cms/cms.service.ts");
 let CmsModule = class CmsModule {
 };
 CmsModule = __decorate([
     (0, common_1.Module)({
         controllers: [cms_controller_1.CmsController],
+        providers: [(0, utils_1.lazyLoadDB)('blog', 'Content'), cms_service_1.CmsService],
     })
 ], CmsModule);
 exports.CmsModule = CmsModule;
+
+
+/***/ }),
+
+/***/ "./apps/gateways/src/ssr/cms/cms.service.ts":
+/*!**************************************************!*\
+  !*** ./apps/gateways/src/ssr/cms/cms.service.ts ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CmsService = void 0;
+const content_entity_1 = __webpack_require__(/*! @app/libs/db/cms/content.entity */ "./libs/src/db/cms/content.entity.ts");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
+const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
+let CmsService = class CmsService {
+    constructor(contentModel) {
+        this.contentModel = contentModel;
+    }
+    async home() {
+        const articleList = await this.contentModel.find({
+            where: { status: 'up_rack' },
+            order: {
+                top: 'DESC',
+                recom: 'DESC',
+                ctime: 'DESC',
+            },
+            relations: ['tags', 'categorys'],
+        });
+        return { articleList };
+    }
+};
+CmsService = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_1.InjectRepository)(content_entity_1.Content)),
+    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
+], CmsService);
+exports.CmsService = CmsService;
 
 
 /***/ }),
@@ -4474,6 +4545,43 @@ CronService = CronService_1 = __decorate([
     __metadata("design:paramtypes", [typeof (_a = typeof config_service_1.ConfigService !== "undefined" && config_service_1.ConfigService) === "function" ? _a : Object])
 ], CronService);
 exports.CronService = CronService;
+
+
+/***/ }),
+
+/***/ "./libs/src/utils/utils.ts":
+/*!*********************************!*\
+  !*** ./libs/src/utils/utils.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.lazyLoadDB = exports.sleep = void 0;
+const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
+const sleep = (wait = 300) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(null);
+        }, wait);
+    });
+};
+exports.sleep = sleep;
+const lazyLoadDB = (database = 'default', tableName, wait = 1000) => {
+    return {
+        provide: tableName + 'Repository',
+        useFactory: async () => {
+            try {
+                await (0, exports.sleep)(wait);
+                return await (0, typeorm_1.getRepository)(tableName, database);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+    };
+};
+exports.lazyLoadDB = lazyLoadDB;
 
 
 /***/ }),

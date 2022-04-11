@@ -2,8 +2,71 @@
 
 {{block 'head'}}
 <title>{{title}}</title>
+<link rel="stylesheet" href="/static/css/home.css">
 {{/block}}
 
 {{block 'content'}}
-<p>This is just an awesome page.</p>
+<div id="home_page">
+  <div class="top-box">
+    <img class="cover" src="/static/images/cover1.jpg" alt="cover">
+    <!-- <div class="tip-box">
+      <div class="tip-text">热爱终将战胜折磨，最差不过大器晚成。</div>
+      <div class="tip-author">—— 张一山</div>
+    </div> -->
+    <div class="btn scroll-btn">
+      <i aria-hidden="true" class="iconfont icon-quanping_o"></i>
+    </div>
+  </div>
+
+  <section class="main-body">
+    <div class="left-body">
+      <div class="notice">
+        <i class="iconfont icon-quanping_o"></i>
+        <div class="notice-content" id="broad">成年人的世界没有容易二字。</div>
+      </div>
+      <!-- 文章列表 -->
+      <div class="article-list">
+        {{ each articleList }}
+        <article class="article-item">
+          <header class="article-header">
+            <h2 itemprop="name">
+              <a class="article-title" href="/2020/chartjs/">
+                {{ $value.title }}
+                {{ if $value.top }}
+                <i class="article-topping">置顶</i>
+                {{ /if }}
+              </a>
+            </h2>
+          </header>
+          <div class="article-meta">
+            <a href="/2020/chartjs/" class="article-date">
+              <time datetime="2020-08-06T14:58:13.000Z" itemprop="datePublished">{{ $value.ctime }}</time>
+            </a>
+            <div class="article-category">
+              {{ each $value.categorys }}
+              <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF/">{{ $value.name }}</a>
+              {{ /each }}
+            </div>
+          </div>
+          <footer class="article-footer">
+            <ul class="article-tag-list" itemprop="keywords">
+              {{ each $value.tags }}
+              <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF/"
+                  rel="tag">{{ $value.name }}</a>
+              </li>
+              {{ /each }}
+            </ul>
+          </footer>
+        </article>
+        {{ /each }}
+      </div>
+    </div>
+    <div class="ad-body">
+      <a href="https://curl.qcloud.com/kvO7hb43">
+        <img src="https://pic.imgdb.cn/item/62174b452ab3f51d912a5ccc.jpg" width="300" alt="云服务器限时秒杀">
+      </a>
+    </div>
+  </section>
+</div>
+
 {{/block}}
