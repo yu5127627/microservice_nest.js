@@ -7,5 +7,5 @@ export const WhiteList = [
   { path: 'ssr/cms/home', method: RequestMethod.GET },
   { path: 'ssr/cms/tag', method: RequestMethod.GET },
   { path: 'ssr/cms/timeline', method: RequestMethod.GET },
-  { path: 'ssr/cms/article', method: RequestMethod.GET },
+  { path: 'ssr/cms/article/:id', method: RequestMethod.GET },
 ];

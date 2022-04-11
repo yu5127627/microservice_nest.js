@@ -6,16 +6,442 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
     content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-  <meta data-n-head="ssr" name="description" content="博客。将梦拉到现实的博客，余某人的博客。时时总结，时时学习，时时记录。从前端到全栈，希望一路有你相伴。">
-  <meta data-n-head="ssr" name="keywords"
+  <meta name="description" content="博客。将梦拉到现实的博客，余某人的博客。时时总结，时时学习，时时记录。从前端到全栈，希望一路有你相伴。">
+  <meta name="keywords"
     content="博客、web、前端、web前端、nodejs、css、css3、vuejs、es6、git、js、JavaScript、linux、mongodb、mysql、npm、shell、设计模式、Nginx、express、nestjs、nuxtjs、mongoose">
   <link rel="stylesheet" href="/static/css/normalize4.2.0.min.css">
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_3281776_liqbmtuevoo.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_3281776_sfxsuqi30m.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <script src="/static/js/jquery.min.js"></script>
   {{block 'head'}}{{/block}}
+  <style>
+    .btn {
+      cursor: pointer;
+    }
+
+    .sidebar.anim {
+      transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar .navbar-toggle {
+      position: absolute;
+      top: 1rem;
+      left: 6rem;
+      border: none;
+      height: 2.4rem;
+      width: 2.4rem;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      transition: all 0.3s ease-in-out;
+      opacity: 0.5;
+      z-index: 1;
+      text-align: center;
+      line-height: 2.4rem;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      z-index: 9;
+      left: -5rem;
+      bottom: 0;
+      width: 5rem;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .sidebar.on {
+      left: 0;
+    }
+
+    .sidebar .navbar {
+      position: relative;
+      padding-top: 3rem;
+      text-align: center;
+    }
+
+    .sidebar .navbar .nav {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+
+    .sidebar .navbar .nav .nav-item-link {
+      display: block;
+      padding: 0.8rem;
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .sidebar .navbar .nav .nav-item-link:hover {
+      opacity: 0.8;
+      background-color: #403e3e;
+    }
+
+    .sidebar .navbar .nav.nav-main {
+      height: 60vh;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .sidebar .navbar .nav.nav-main::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .sidebar .navbar .nav .nav-item-link i {
+      font-size: 1.6rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .sidebar .navbar-bottom {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      font-size: 2rem;
+    }
+
+    .sidebar .logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar .logo img {
+      width: 2.7rem;
+    }
+
+    .search-form-wrap.on {
+      top: 0;
+      opacity: 1;
+    }
+
+    .search-form-wrap {
+      width: 100%;
+      position: fixed;
+      top: -100%;
+      right: 8rem;
+      left: 0;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    @media (min-width: 768px) {
+      .local-search {
+        width: 40rem;
+      }
+    }
+
+    .local-search {
+      position: relative;
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem;
+      background-color: rgba(64, 62, 62, 0.9);
+      box-shadow: 0 1rem 3rem rgb(30 62 63 / 5%);
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+
+    [type='search'] {
+      -webkit-appearance: textfield;
+      outline-offset: -2px;
+    }
+
+    .local-search-result {
+      text-align: left;
+    }
+
+    .local-search-input {
+      font-size: 120%;
+      border: 0;
+      border-radius: 0.4rem;
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      outline: none;
+    }
+
+    .float-btns {
+      position: fixed;
+      bottom: 3rem;
+      right: 2rem;
+      z-index: 66;
+      text-align: center;
+      transform: scale(1.2);
+      width: 2rem;
+      float: right;
+    }
+
+    .theme-btn,
+    .top-btn {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background-color: #efefef;
+      line-height: 2rem;
+      opacity: 0.6;
+      text-align: center;
+      transition: opacity 1s ease;
+      color: #000;
+      margin-bottom: 0.6rem;
+    }
+
+    .main-body {
+      display: flex;
+      width: 1050px;
+      margin-left: 20rem;
+      margin-top: 50px;
+    }
+
+    .main-body .left-body {
+      width: 700px;
+    }
+
+    .main-body .left-body .notice {
+      border: 1px dashed #e6e6e6;
+      color: #969696;
+      position: relative;
+      display: inline-block;
+      width: calc(100% - 2rem);
+      background: #fbfbfb50;
+      border-radius: 10px;
+      height: 4rem;
+      line-height: 4rem;
+      padding-left: 2rem;
+    }
+
+    .main-body .left-body .notice i {
+      float: left;
+      color: red;
+      font-size: 16px;
+      padding-right: 6px;
+      vertical-align: middle;
+      height: 4rem;
+      line-height: 4rem;
+      margin-top: 2px;
+    }
+
+    .main-body .left-body .notice .notice-content {
+      display: initial;
+      vertical-align: middle;
+    }
+
+    .main-body .ad-body {
+      width: 300px;
+      margin: 0 0 10px 50px;
+    }
+
+    .article-list .article-item:not(:last-child) {
+      border-bottom: 0.1rem solid #ddd;
+    }
+
+    .article-list .article-item {
+      padding: 3rem 0;
+    }
+
+    .article-list .article-header {
+      position: relative;
+    }
+
+    .article-list .article-header h2 {
+      font-size: 28px;
+    }
+
+    .article-header .article-author,
+    .article-header .article-title {
+      display: block;
+      margin-bottom: 3rem;
+      text-decoration: none;
+      color: #403e3e;
+      padding-left: 2rem;
+    }
+
+    .article-header .article-title {
+      font-size: 34px;
+      font-weight: 700;
+      border-left: 4px solid #403e3e;
+    }
+
+    .article-topping {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 0 10px;
+      border-radius: 4px;
+      font-style: normal;
+      font-size: 12px;
+      background-color: #ea434a;
+      color: #fff;
+      height: 22px;
+      line-height: 24px;
+      transform: translateY(-8px);
+    }
+
+    .archive-article-date,
+    .archive-year-wrap .archive-year,
+    .article-category .article-category-link,
+    .article-date {
+      text-decoration: none;
+      color: #5c6b72;
+    }
+
+    .article-category {
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+
+    .article-list .article-footer {
+      margin-top: 1rem;
+    }
+
+    .article-tag-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .article-tag-list>i {
+      padding-right: 4px;
+    }
+
+    .article-tag-list .article-tag-list-item {
+      display: inline-block;
+      padding-right: 1rem;
+    }
+
+    .article-tag-list .article-tag-list-link {
+      font-size: .8rem;
+      text-decoration: none;
+      display: block;
+      color: #fff;
+      float: left;
+      height: 1.2rem;
+      line-height: 1.2rem;
+      padding: 0 8px;
+      position: relative;
+      border-radius: 9px;
+      background-color: #5d5a5a;
+    }
+
+    .article-list .article-item .article-entry {
+      margin-top: 1rem;
+      padding: 0 2rem 2rem;
+      border: 1px dashed #dfdede;
+      overflow: hidden;
+    }
+
+    .article-entry>p {
+      margin: 1.5rem 0;
+      height: 6rem;
+      line-height: 1.5rem;
+      overflow: hidden;
+    }
+
+    .article-list .article-item .article-entry .article-more-link {
+      display: inline-block;
+      float: right;
+      background-color: #403e3e;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      color: #fff !important;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body id="app">
+  <aside class="sidebar anim on">
+    <div class="navbar-toggle iconfont icon-shouqicaidan">
+    </div>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/"><img src="http://qapp-lm.oss-cn-hangzhou.aliyuncs.com/kyy/icon/dgmlogo_in.png" alt="岛"></a>
+      </div>
+      <ul class="nav nav-main">
+        {{ each menuList }}
+        <li class="nav-item">
+          <a class="nav-item-link" href="{{$value.path}}">{{$value.title}}</a>
+        </li>
+        {{ /each }}
+      </ul>
+    </nav>
+    <nav class="navbar navbar-bottom">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-item-link nav-item-search" title="搜索">
+            <i class="iconfont icon-sousuoleimu"></i>
+          </a>
+          <a class="nav-item-link" target="_blank" href="/atom.xml" title="站点地图">
+            <i class="iconfont icon-zhandianditu"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="search-form-wrap">
+      <div class="local-search local-search-plugin">
+        <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+        <div id="local-search-result" class="local-search-result"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 浮动按钮组 -->
+  <div class="float-btns">
+    <div class="btn top-btn">
+      <i aria-hidden="true" class="iconfont icon-huidaodingbu"></i>
+    </div>
+    <div class="btn theme-btn" mode="light">
+      <i aria-hidden="true" class="iconfont icon-yueduye-yejianmoshi"></i>
+    </div>
+  </div>
   {{block 'content'}}{{/block}}
+  <script>
+    (function () {
+      // 召唤搜索
+      $('.nav-item-search').on('click', function () {
+        var hasOn = $('.search-form-wrap').hasClass('on');
+        if (hasOn) {
+          $('.search-form-wrap').removeClass('on');
+        } else {
+          $('.search-form-wrap').addClass('on');
+        }
+      })
+
+      // 切换导航
+      $('.navbar-toggle').on('click', function () {
+        var hasOn = $('.sidebar').hasClass('on');
+        if (hasOn) {
+          $('.sidebar').removeClass('on');
+          $(this).removeClass('icon-shouqicaidan').addClass('icon-zhankaicaidan');
+        } else {
+          $('.sidebar').addClass('on');
+          $(this).removeClass('icon-zhankaicaidan').addClass('icon-shouqicaidan');
+        }
+      })
+
+      // 切换主题
+      $('.theme-btn').on('click', function () {
+        var mode = $(this).attr('mode');
+        if (mode === 'light') {
+          $(this).attr('mode', 'dark');
+          $(this).children('.iconfont').removeClass('icon-yueduye-yejianmoshi').addClass('icon-a-qingtianbaitian');
+        } else {
+          $(this).attr('mode', 'light');
+          $(this).children('.iconfont').addClass('icon-yueduye-yejianmoshi').removeClass('icon-a-qingtianbaitian');
+        }
+      })
+
+    })()
+  </script>
 </body>
 
 </html>

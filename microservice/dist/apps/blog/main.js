@@ -951,7 +951,14 @@ exports.Content = void 0;
 const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
 const category_entity_1 = __webpack_require__(/*! ./category.entity */ "./libs/src/db/cms/category.entity.ts");
 const tag_entity_1 = __webpack_require__(/*! ./tag.entity */ "./libs/src/db/cms/tag.entity.ts");
+const utils_1 = __webpack_require__(/*! @app/libs/utils/utils */ "./libs/src/utils/utils.ts");
 let Content = class Content {
+    updateCounters() {
+        if (this.ctime)
+            this.ctime = (0, utils_1.parseTime)(this.ctime);
+        if (this.utime)
+            this.ctime = (0, utils_1.parseTime)(this.utime);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -985,6 +992,12 @@ __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: 'datetime', comment: '创建时间' }),
     __metadata("design:type", String)
 ], Content.prototype, "ctime", void 0);
+__decorate([
+    (0, typeorm_1.AfterLoad)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Content.prototype, "updateCounters", null);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ type: 'datetime', comment: '更新时间' }),
     __metadata("design:type", String)
@@ -1529,8 +1542,13 @@ exports.getOrder = getOrder;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.lazyLoadDB = exports.sleep = void 0;
+exports.lazyLoadDB = exports.sleep = exports.parseTime = void 0;
 const typeorm_1 = __webpack_require__(/*! typeorm */ "typeorm");
+const moment = __webpack_require__(/*! moment */ "moment");
+const parseTime = (time, format = 'YYYY-MM-DD HH:mm:ss') => {
+    return moment(time).format(format);
+};
+exports.parseTime = parseTime;
 const sleep = (wait = 300) => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -1615,6 +1633,16 @@ module.exports = require("@nestjs/swagger");
 /***/ ((module) => {
 
 module.exports = require("@nestjs/typeorm");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = require("moment");
 
 /***/ }),
 

@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   CreateDateColumn,
   Entity,
@@ -9,6 +10,7 @@ import {
 } from 'typeorm';
 import { Category } from './category.entity';
 import { Tag } from './tag.entity';
+import { parseTime } from '@app/libs/utils/utils';
 
 @Entity('content')
 export class Content {
@@ -35,6 +37,12 @@ export class Content {
 
   @CreateDateColumn({ type: 'datetime', comment: '创建时间' })
   ctime: string;
+
+  @AfterLoad()
+  updateCounters() {
+    if (this.ctime) this.ctime = parseTime(this.ctime);
+    if (this.utime) this.ctime = parseTime(this.utime);
+  }
 
   @UpdateDateColumn({ type: 'datetime', comment: '更新时间' })
   utime: string;

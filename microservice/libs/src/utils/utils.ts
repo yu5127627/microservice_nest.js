@@ -1,4 +1,9 @@
 import { getRepository } from 'typeorm';
+import * as moment from 'moment';
+
+export const parseTime = (time: string, format = 'YYYY-MM-DD HH:mm:ss') => {
+  return moment(time).format(format);
+};
 
 /**
  * 等待某段时间后向后执行
